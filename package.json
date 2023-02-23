@@ -1,0 +1,25 @@
+{
+  "name": "intro2software-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon back-end/src/index.js",
+    "client": "npm run start --prefix front-end",
+    "dev": "concurrently --raw \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ndphong812/intro2software-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ndphong812/intro2software-project/issues"
+  },
+  "homepage": "https://github.com/ndphong812/intro2software-project#readme",
+  "dependencies": {
+    "concurrently": "^7.6.0"
+  }
+}
