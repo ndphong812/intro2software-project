@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React, { useEffect } from 'react';
-import "./App.scss";
 import { useAppDispatch, useAppSelector } from './app/hook';
+import Footer from './components/footer';
 import { counterState, decrement, increment } from './redux/counterSlice';
-
+import "./scss/global.scss";
 const App = () => {
   const [data, setData] = React.useState();
 
@@ -23,12 +23,12 @@ const App = () => {
     getApi();
   }, [])
   return (
-    <div className="App">
-      <h1>Welcome to Software Engineer</h1>
+    <div>
       <h2>Response from Server:{data}</h2>
       <button onClick={() => dispatch(increment())}>Increase</button>
       <h3>Value:{selector.value}</h3>
       <button onClick={() => dispatch(decrement())}>Decrease</button>
+      <Footer />
     </div>
   );
 }
