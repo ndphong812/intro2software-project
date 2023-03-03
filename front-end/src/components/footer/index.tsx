@@ -1,4 +1,4 @@
-import { faCoffee, faCreditCard, faCreditCardAlt, faEnvelope, faLocation, faLocationDot, faMailBulk, faMailForward, faMap, faPhone, faVoicemail } from "@fortawesome/free-solid-svg-icons";
+import {  faCreditCard, faEnvelope, faLocationDot, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./style.scss";
 const Footer = () => {
@@ -35,19 +35,19 @@ const Footer = () => {
                             <h3 className="footer-upper-main-child-title">Categories</h3>
                             <ul className="footer-upper-main-child-portfolio-list">
                                 <li className="footer-upper-main-child-portfolio-list-item">
-                                    <a href="#">Hot deals</a>
+                                    <a href="/">Hot deals</a>
                                 </li>
                                 <li className="footer-upper-main-child-portfolio-list-item">
-                                    <a href="#">Laptops</a>
+                                    <a href="/">Laptops</a>
                                 </li>
                                 <li className="footer-upper-main-child-portfolio-list-item">
-                                    <a href="#">Smartphones</a>
+                                    <a href="/">Smartphones</a>
                                 </li>
                                 <li className="footer-upper-main-child-portfolio-list-item">
-                                    <a href="#">Cameras</a>
+                                    <a href="/">Cameras</a>
                                 </li>
                                 <li className="footer-upper-main-child-portfolio-list-item">
-                                    <a href="#">Accessories</a>
+                                    <a href="/">Accessories</a>
                                 </li>
                             </ul>
                         </div>
@@ -55,19 +55,19 @@ const Footer = () => {
                             <h3 className="footer-upper-main-child-title">Information</h3>
                             <ul className="footer-upper-main-child-portfolio-list">
                                 <li className="footer-upper-main-child-portfolio-list-item">
-                                    <a href="#">About Us</a>
+                                    <a href="/">About Us</a>
                                 </li>
                                 <li className="footer-upper-main-child-portfolio-list-item">
-                                    <a href="#">Contact Us</a>
+                                    <a href="/">Contact Us</a>
                                 </li>
                                 <li className="footer-upper-main-child-portfolio-list-item">
-                                    <a href="#">Privacy Policy</a>
+                                    <a href="/">Privacy Policy</a>
                                 </li>
                                 <li className="footer-upper-main-child-portfolio-list-item">
-                                    <a href="#">Orders and Returns</a>
+                                    <a href="/">Orders and Returns</a>
                                 </li>
                                 <li className="footer-upper-main-child-portfolio-list-item">
-                                    <a href="#">Terms & Conditions</a>
+                                    <a href="/">Terms & Conditions</a>
                                 </li>
                             </ul>
                         </div>
@@ -75,19 +75,19 @@ const Footer = () => {
                             <h3 className="footer-upper-main-child-title">Service</h3>
                             <ul className="footer-upper-main-child-portfolio-list">
                                 <li className="footer-upper-main-child-portfolio-list-item">
-                                    <a href="#">My Account</a>
+                                    <a href="/">My Account</a>
                                 </li>
                                 <li className="footer-upper-main-child-portfolio-list-item">
-                                    <a href="#">View Cart</a>
+                                    <a href="/">View Cart</a>
                                 </li>
                                 <li className="footer-upper-main-child-portfolio-list-item">
-                                    <a href="#">Wishlist</a>
+                                    <a href="/">Wishlist</a>
                                 </li>
                                 <li className="footer-upper-main-child-portfolio-list-item">
-                                    <a href="#">Track My Order</a>
+                                    <a href="/">Track My Order</a>
                                 </li>
                                 <li className="footer-upper-main-child-portfolio-list-item">
-                                    <a href="#">Help</a>
+                                    <a href="/">Help</a>
                                 </li>
                             </ul>
                         </div>
