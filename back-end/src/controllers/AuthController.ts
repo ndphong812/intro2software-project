@@ -8,6 +8,36 @@ import { User } from "../entities/User";
 import config from "../config/config";
 
 class AuthController {
+
+    static register = async (req: Request, res: Response) => {
+
+        //Check if username and password is not null
+        let { email, password } = req.body;
+        if (!(email && password)) {
+            res.status(400).send();
+        }
+
+        //Get user from database
+        const userRepository = getRepository(User);
+        let user: User = {} as User;
+        try {
+            user = await userRepository.findOneOrFail({ where: { email } });
+            if (user.email) {
+                res.status(200).send();
+            }
+            else {
+                user.email = email;
+                user.password = password;
+                const hashedPassword = user.hashPassword();
+                const results = await userRepository.save(user);
+                return res.send(results)
+            }
+        } catch (error) {
+            res.status(401).send();
+        }
+
+    };
+
     static login = async (req: Request, res: Response) => {
 
         //Check if username and password is not null

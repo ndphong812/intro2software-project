@@ -15,16 +15,16 @@ console.log("Before connecting...")
 
 
 createConnection({
-        "type": "postgres",
-        "host": "localhost",
-        "port": 5432,
-        "username": "postgres",
-        "password": "08122002",
-        "database": "test",
-        "entities": [
-            User
-        ],
-        "synchronize": true
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "username": "postgres",
+    "password": "08122002",
+    "database": "test",
+    "entities": [
+        User
+    ],
+    "synchronize": true
 })
     .then(async connection => {
         // Create a new express application instance
@@ -36,7 +36,7 @@ createConnection({
         app.use(bodyParser.json());
 
         //Set all routes from routes folder
-        // app.use("/", routes); don't remove it
+        app.use("/", routes);
         app.get('/', (req, res) => {
             res.send('hello from server!')
         })
