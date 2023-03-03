@@ -3,43 +3,48 @@ import {
     PrimaryGeneratedColumn,
     Column,
     Unique,
-    CreateDateColumn,
-    UpdateDateColumn
+    ManyToOne
 } from "typeorm";
 import { Length, IsNotEmpty } from "class-validator";
-import * as bcrypt from "bcryptjs";
+
 
 @Entity()
-@Unique(["id"])
+@Unique(["user_id", "email"])
 export class User {
     @PrimaryGeneratedColumn()
-    id!: number;
+    @Length(1, 20)
+    user_id!: string;
 
-    @Column()
-    @Length(6, 100)
+    @PrimaryGeneratedColumn()
+    @Length(6, 50)
     email!: string;
 
     @Column()
-    @Length(6, 24)
-    password!: string;
+    @Length(0, 200)
+    address!: string;
+
+    @Column()
+    @Length(0, 10)
+    phone!: string;
+
+    @Column()
+    @Length(0, 200)
+    avatar_link!: string;
+
+    @Column()
+    @Length(0, 50)
+    fullname!: string;
+
+    @Column()
+    @Length(1, 100)
+    @IsNotEmpty()
+    hasspass!: string;
 
     @Column()
     @IsNotEmpty()
+    @Length(0, 10)
     role!: string;
 
-    @Column()
-    @CreateDateColumn()
-    createdAt!: Date;
 
-    @Column()
-    @UpdateDateColumn()
-    updatedAt!: Date;
 
-    hashPassword() {
-        this.password = bcrypt.hashSync(this.password, 8);
-    }
-
-    checkIfUnencryptedPasswordIsValid(unencryptedPassword: string) {
-        return bcrypt.compareSync(unencryptedPassword, this.password);
-    }
 }
