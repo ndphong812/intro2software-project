@@ -6,23 +6,34 @@ import helmet from "helmet";
 import cors from "cors";
 import routes from "./routes/index";
 import { User } from "./entities/User";
+import { Cart } from "./entities/Cart";
+import { Comment } from "./entities/Comment";
+import { Notification } from "./entities/Notification";
+import { Ordered } from "./entities/Ordered";
+import { Product } from "./entities/Product";
+import { Chat } from "./entities/Chat";
 import dotenv from 'dotenv'
+
 dotenv.config()
+
+
 
 //Connects to the Database -> then starts the express
 const app = express();
+
 console.log("Before connecting...")
 
 
 createConnection({
         "type": "postgres",
         "host": "localhost",
-        "port": 5432,
+        "port": 5321,
         "username": "postgres",
-        "password": "08122002",
-        "database": "test",
+        "password": "123321ok",
+        "database": "Web_Ban_Hang",
         "entities": [
-            User
+            User, Cart, Comment, Notification, Ordered, Product, Chat
+
         ],
         "synchronize": true
 })
@@ -31,7 +42,7 @@ createConnection({
         const app = express();
 
         // Call midlewares
-        app.use(cors());
+        app.use(cors());    
         app.use(helmet());
         app.use(bodyParser.json());
 

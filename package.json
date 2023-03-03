@@ -20,6 +20,10 @@
   },
   "homepage": "https://github.com/ndphong812/intro2software-project#readme",
   "dependencies": {
-    "concurrently": "^7.6.0"
+    "concurrently": "^7.6.0",
+    "typeorm": "^0.3.12"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1"
   }
 }
