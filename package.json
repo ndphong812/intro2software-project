@@ -2,10 +2,10 @@
   "name": "intro2software-project",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon back-end/src/index.js",
+    "server": "nodemon back-end/src/index.ts",
     "client": "npm run start --prefix front-end",
     "dev": "concurrently --raw \"npm run server\" \"npm run client\""
   },
