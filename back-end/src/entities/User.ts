@@ -3,19 +3,22 @@ import {
     PrimaryGeneratedColumn,
     Column,
     Unique,
-    ManyToOne
+    ManyToOne,
+    PrimaryColumn
 } from "typeorm";
 import { Length, IsNotEmpty } from "class-validator";
-
+import * as bcrypt from "bcryptjs";
 
 @Entity()
 @Unique(["user_id", "email"])
 export class User {
-    @PrimaryGeneratedColumn()
+
+
+    @PrimaryColumn()
     @Length(1, 20)
     user_id!: string;
 
-    @PrimaryGeneratedColumn()
+    @Column()
     @Length(6, 50)
     email!: string;
 
@@ -45,6 +48,12 @@ export class User {
     @Length(0, 10)
     role!: string;
 
+    hashPassword() {
+        this.hasspass = bcrypt.hashSync(this.hasspass, 8);
+    }
 
+    checkIfUnencryptedPasswordIsValid(unencryptedPassword: string) {
+        return bcrypt.compareSync(unencryptedPassword, this.hasspass);
+    }
 
 }

@@ -25,31 +25,34 @@ console.log("Before connecting...")
 
 
 createConnection({
-        "type": "postgres",
-        "host": "localhost",
-        "port": 5321,
-        "username": "postgres",
-        "password": "123321ok",
-        "database": "Web_Ban_Hang",
-        "entities": [
-            User, Cart, Comment, Notification, Ordered, Product, Chat
-
-        ],
-        "synchronize": true
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "username": "postgres",
+    "password": "08122002",
+    "database": "Web_Ban_Hang",
+    "entities": [
+        User, Cart, Comment, Notification, Ordered, Product, Chat
+    ],
+    "synchronize": true
 })
     .then(async connection => {
         // Create a new express application instance
         const app = express();
 
         // Call midlewares
-        app.use(cors());    
+        app.use(cors());
         app.use(helmet());
         app.use(bodyParser.json());
+        app.use(bodyParser.urlencoded({ extended: true }));
 
         //Set all routes from routes folder
         app.use("/", routes);
         app.get('/', (req, res) => {
             res.send('hello from server!')
+        })
+        app.get('/cart', (req, res) => {
+            res.send('hello from server 2!')
         })
         app.listen(5000, () => {
             console.log("Server started on port 5000!");
