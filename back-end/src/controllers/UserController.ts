@@ -9,7 +9,7 @@ class UserController {
     static listAll = async (req: Request, res: Response) => {
         const userRepository = getRepository (User);
         const users = await userRepository.find({
-            select: ["id", "email", "role"] // don't send password in response
+            select: ["user_id", "email", "role"] // don't send password in response
         });
 
         res.send(users);
@@ -37,7 +37,7 @@ class UserController {
         let { email, password, role } = req.body;
         let user = new User();
         user.email = email;
-        user.password = password;
+        user.hasspass = password;
         user.role = role;
 
         //Validade if the parameters are ok
