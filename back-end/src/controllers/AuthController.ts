@@ -31,25 +31,6 @@ class AuthController {
                 });
             }
         } catch (error) {
-            // let testAccount = await nodemailer.createTestAccount();
-            // let transporter = nodemailer.createTransport({
-            //     host: "smtp.ethereal.email",
-            //     port: 587,
-            //     secure: false, // true for 465, false for other ports
-            //     auth: {
-            //         user: testAccount.user, // generated ethereal user
-            //         pass: testAccount.pass, // generated ethereal password
-            //     },
-            // });
-            // let info = await transporter.sendMail({
-            //     from: '"Nguyễn Đình Phong" <ndphong812@gmail.com>', // sender address
-            //     to: `${email}, ${email}`, // list of receivers
-            //     subject: "Verity your account", // Subject line
-            //     text: `Hello, I'm verifying system, this is your email verifying your account. Please type this code in your register. Your code is: ${Math.floor(Math.random() * 10000)}`,
-            //     html: "<b>Hello world?</b>", // html body
-            // });
-            // console.log("Message sent: %s", info.messageId);
-            // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
 
             user.user_id = uniqid();
             user.email = email;
