@@ -7,9 +7,13 @@ import uniqid from 'uniqid';
 import { User } from "../entities/User";
 import config from "../config/config";
 import nodemailer from "nodemailer";
+import dotenv from 'dotenv'
+dotenv.config({ path: './back-end/.env' });
+
 class AuthController {
 
     static register = async (req: Request, res: Response) => {
+
         //Check if username and password is not null
         let { email, password } = req.body;
         if (!(email && password)) {
@@ -31,25 +35,40 @@ class AuthController {
                 });
             }
         } catch (error) {
-            // let testAccount = await nodemailer.createTestAccount();
-            // let transporter = nodemailer.createTransport({
-            //     host: "smtp.ethereal.email",
-            //     port: 587,
-            //     secure: false, // true for 465, false for other ports
-            //     auth: {
-            //         user: testAccount.user, // generated ethereal user
-            //         pass: testAccount.pass, // generated ethereal password
-            //     },
-            // });
-            // let info = await transporter.sendMail({
-            //     from: '"Nguyễn Đình Phong" <ndphong812@gmail.com>', // sender address
-            //     to: `${email}, ${email}`, // list of receivers
-            //     subject: "Verity your account", // Subject line
-            //     text: `Hello, I'm verifying system, this is your email verifying your account. Please type this code in your register. Your code is: ${Math.floor(Math.random() * 10000)}`,
-            //     html: "<b>Hello world?</b>", // html body
-            // });
-            // console.log("Message sent: %s", info.messageId);
-            // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+            const transporter = nodemailer.createTransport({
+                host: 'smtp.gmail.com',
+                port: 465,
+                secure: true,
+                service: 'gmail',
+                auth: {
+                    user: process.env.EMAIL_ADDRESS,
+                    pass: process.env.EMAIL_PASSWORD
+                }
+            });
+
+            const token = jwt.sign({
+                data: 'Token Data'
+            }, 'ourSecretKey', { expiresIn: '10m' }
+            );
+
+            const mailConfigurations = {
+                from: process.env.EMAIL_ADDRESS,
+                to: email,
+                subject: 'Email Verification - Localhost Website',
+                text: `Hi! There, You have recently visited 
+               our website and entered your email.
+               Please follow the given link to verify your email
+               http://localhost:3000/verify/${token} 
+               Thanks`
+            };
+
+            transporter.sendMail(mailConfigurations, function (error, info) {
+                if (error) {
+                    console.log(error);
+                }
+                console.log('Email Sent Successfully');
+            });
+
 
             user.user_id = uniqid();
             user.email = email;
