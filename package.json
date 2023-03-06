@@ -24,6 +24,7 @@
     "typeorm": "^0.3.12"
   },
   "devDependencies": {
+    "react-router-dom": "^6.8.2",
     "ts-node": "^10.9.1"
   }
 }
