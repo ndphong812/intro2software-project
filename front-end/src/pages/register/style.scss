@@ -1,0 +1,119 @@
+@import "../../scss/variable.scss";
+@import "../../scss/breakpoint.scss";
+
+.register {
+    margin: 20px 0px;
+
+    .container {}
+
+    &-main {
+        &-form {
+            width: 50%;
+            max-width: 560px;
+            margin: 0px auto;
+
+            @include tablet {
+                width: 100%;
+            }
+
+            &-group {
+                margin-bottom: 20px;
+
+                &-infor {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: start;
+                    margin-bottom: 4px;
+
+                    @include tablet {
+                        flex-direction: column;
+                        gap: 6px;
+                    }
+
+                    &-title {
+                        width: 160px;
+                        text-align: left;
+                    }
+
+                    &-input {
+                        flex: 1;
+                        padding: 6px 6px;
+
+                        @include tablet {
+                            width: 100%;
+                        }
+                    }
+
+                    &-link {
+                        color: $red-primary;
+                        text-decoration: none;
+                    }
+                }
+
+                &-error {
+                    color: $red-primary;
+                    font-size: 14px;
+                }
+            }
+
+            &-provision {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 20px;
+
+                &-check {
+                    &-box {
+                        align-self: center;
+
+                        &-hightlight {
+                            outline: 1px solid $red-primary;
+                            border: 1px solid $red-primary;
+                        }
+                    }
+
+
+                    &-title {
+                        flex: 1;
+                        margin-left: 10px;
+                        font-size: 16px;
+                    }
+                }
+            }
+
+            &-submit {
+
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 20px;
+                align-items: start;
+
+                @include tablet {
+                    flex-direction: column-reverse;
+                    gap: 6px;
+                }
+
+                &-login {
+                    text-align: left;
+                }
+
+                &-link {
+                    color: $red-primary;
+                    text-decoration: none;
+                }
+
+                &-button {
+                    background-color: $red-primary;
+                    color: $white;
+                    border: 0;
+                    padding: 10px 32px;
+                    cursor: pointer;
+                    border-radius: 20px;
+
+                    @include tablet {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+}

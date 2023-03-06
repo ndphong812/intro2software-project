@@ -101,9 +101,9 @@ class AuthController {
 
         //Sing JWT, valid for 1 hour
         const token = jwt.sign(
-            { userId: user.user_id, username: user.email },
+            { user_id: user.user_id, email: user.email },
             config.jwtSecret,
-            { expiresIn: "1h" }
+            { expiresIn: 60 }
         );
 
         const { hasspass, ...result } = user;
@@ -111,7 +111,7 @@ class AuthController {
         //Send the jwt in the response
         res.status(200).send({
             status: "success",
-            data: result,
+            user: result,
             access_token: token
         });
     };
