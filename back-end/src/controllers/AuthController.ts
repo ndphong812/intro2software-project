@@ -52,17 +52,18 @@ class AuthController {
                 data: result
             });
         } catch (err) {
-            return res.status(401).send("Email verification failed, possibly the link is invalid or expired");
+            return res.status(401).send({
+                status: "failed",
+                message: "Email verification failed, possibly the link is invalid or expired"
+            });
         }
     }
 
     static verifyLoginToken = async (req: Request, res: Response) => {
         const { token } = req.body;
-        console.log("token", token);
         try {
             const decoded = jwt.verify(token, config.jwtSecret) as JwtPayload;
 
-            console.log('decoded', decoded);
             let user: User = new User();
             const userRepository = getRepository(User);
 
@@ -161,7 +162,6 @@ class AuthController {
                 message: "Email is not correct"
             });
         }
-
         //Check if encrypted password match
         if (!user.checkIfUnencryptedPasswordIsValid(password)) {
             return res.status(401).send({
@@ -188,7 +188,6 @@ class AuthController {
     static fotgotPassword = async (req: Request, res: Response) => {
         let { email } = req.body;
 
-        console.log("email", email);
         if (!(email)) {
             return res.status(400).send({
                 status: "failed",
@@ -202,7 +201,7 @@ class AuthController {
         try {
             user = await userRepository.findOneOrFail({ where: { email } });
         } catch (error) {
-            return res.status(401).send({
+            return res.status(400).send({
                 status: "failed",
                 message: "Email is not correct"
             });
@@ -211,11 +210,12 @@ class AuthController {
         const newPassword = uniqid();
         user.hashpass = newPassword;
         user.hashPassword();
+        userRepository.save(user);
         const mailConfigurations = {
             from: process.env.EMAIL_ADDRESS,
             to: email,
             subject: 'Provide new password',
-            text: `Hi, your new password is: ${newPassword}}`
+            text: `Hi, your new password is: ${newPassword}`
         };
 
         transporter.sendMail(mailConfigurations, function (error, info) {
