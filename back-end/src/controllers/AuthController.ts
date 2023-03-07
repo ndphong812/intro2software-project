@@ -21,8 +21,8 @@ export const transporter = nodemailer.createTransport({
     secure: true,
     service: 'gmail',
     auth: {
-        user: process.env.EMAIL_ADDRESS,
-        pass: process.env.EMAIL_PASSWORD
+        user: process.env.EMAIL_ADDRESS || "nonamegroup.software@gmail.com",
+        pass: process.env.EMAIL_PASSWORD || "fdrhftckacntdjtb"
     }
 });
 
@@ -114,7 +114,7 @@ class AuthController {
             );
 
             const mailConfigurations = {
-                from: process.env.EMAIL_ADDRESS,
+                from: process.env.EMAIL_ADDRESS || "nonamegroup.software@gmail.com",
                 to: email,
                 subject: 'Email Verification - Localhost Website',
                 text: `Hi! There, You have recently visited 
@@ -212,7 +212,7 @@ class AuthController {
         user.hashPassword();
         userRepository.save(user);
         const mailConfigurations = {
-            from: process.env.EMAIL_ADDRESS,
+            from: process.env.EMAIL_ADDRESS || "nonamegroup.software@gmail.com",
             to: email,
             subject: 'Provide new password',
             text: `Hi, your new password is: ${newPassword}`
