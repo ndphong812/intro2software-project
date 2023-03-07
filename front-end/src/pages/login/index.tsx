@@ -7,7 +7,7 @@ import "./style.scss";
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginUser } from 'redux/auth/authThunk';
-import { LoginRequest } from 'redux/auth/type';
+import { AuthRequest } from 'redux/auth/type';
 import { useAppDispatch, useAppSelector } from 'app/hook';
 import { authState } from 'redux/auth/authSlice';
 type RegisterValue = {
@@ -45,7 +45,7 @@ const Login = () => {
             resolver: yupResolver(schema)
         });
     const onSubmit = handleSubmit(async (data) => {
-        const request: LoginRequest = {
+        const request: AuthRequest = {
             email: data.email,
             password: data.password
         }

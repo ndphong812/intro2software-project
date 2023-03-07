@@ -1,3 +1,4 @@
 export default {
-    jwtSecret: "@QEGTUI"
+    jwtSecret: "@QEGTUI",
+    ourSecretKey: "ourSecretKey"
 };

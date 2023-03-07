@@ -1,4 +1,4 @@
-export type LoginRequest = {
+export type AuthRequest = {
     email: String;
     password: String;
 }
@@ -13,6 +13,7 @@ export type User = {
 }
 
 export type UserResponse = {
+    isLoading: Boolean;
     status: String;
     access_token: String;
     user: User;

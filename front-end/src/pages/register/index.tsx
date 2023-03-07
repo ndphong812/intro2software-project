@@ -5,6 +5,14 @@ import axios from 'axios';
 import Footer from "../../components/footer";
 import "./style.scss";
 import { Link } from 'react-router-dom';
+import { SwalAlert } from 'utils/sweet-alter';
+import { useAppDispatch, useAppSelector } from 'app/hook';
+import { registerUser } from 'redux/auth/authThunk';
+import { authState } from 'redux/auth/authSlice';
+import { ClipLoader } from 'react-spinners';
+import BeatLoader from 'react-spinners/BeatLoader';
+import { loadingOveride } from 'utils/loading';
+
 type RegisterValue = {
     email: String;
     password: String;
@@ -29,17 +37,25 @@ const schema = yup.object().shape({
 
 const Register = () => {
 
+    const dispatch = useAppDispatch();
+    const selector = useAppSelector(authState);
     const { register, handleSubmit, formState: { errors } } =
         useForm<RegisterValue>({
             mode: 'onChange',
             resolver: yupResolver(schema)
         });
-    const onSubmit = handleSubmit((data) => {
+    const onSubmit = handleSubmit(async (data) => {
         const request = {
             email: data.email,
             password: data.password
         }
-        axios.post('http://localhost:5000/auth/register', request);
+        const response = await dispatch(registerUser(request));
+        if (response.payload.status === 'success') {
+            SwalAlert('Success', response.payload.message, 'success');
+        }
+        else {
+            SwalAlert('Failed', response.payload.message, 'error');
+        }
     });
 
     return (
@@ -88,6 +104,16 @@ const Register = () => {
                     </div>
                 </div>
             </div>
+            {
+                <BeatLoader
+                    color={"#D10024"}
+                    loading={Boolean(selector.isLoading)}
+                    cssOverride={loadingOveride}
+                    size={20}
+                    margin={2}
+                    speedMultiplier={1}
+                />
+            }
             <Footer />
         </>
     )

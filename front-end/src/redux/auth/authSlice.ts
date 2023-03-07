@@ -2,9 +2,11 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../../app/store';
 import { User, UserResponse } from './type';
-import { loginUser } from './authThunk';
-
+import { loginUser, registerUser, verifyEmail } from './authThunk';
+import { SwalAlert } from 'utils/sweet-alter';
+    
 const initialState: UserResponse = {
+    isLoading: false,
     status: '',
     access_token: '',
     user: {
@@ -34,6 +36,27 @@ export const authSlice = createSlice({
                 state.access_token = response.access_token;
                 state.status = response.status;
                 state.user = response.user;
+            })
+        builder
+            .addCase(registerUser.fulfilled, (state, action) => {
+                state.isLoading = false;
+            })
+            .addCase(registerUser.pending, (state, action) => {
+                state.isLoading = true;
+            })
+            .addCase(registerUser.rejected, (state, action) => {
+                state.isLoading = false;
+            })
+        builder
+            .addCase(verifyEmail.fulfilled, (state, action) => {
+                state.isLoading = false;
+            })
+            .addCase(verifyEmail.pending, (state, action) => {
+                state.isLoading = true;
+            })
+            .addCase(verifyEmail.rejected, (state, action) => {
+                state.isLoading = false;
+                SwalAlert('Fail', 'Server is error now.', 'error');
             })
     }
 })

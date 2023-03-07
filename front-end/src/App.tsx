@@ -5,6 +5,7 @@ import { Routes, Route } from 'react-router-dom';
 import Login from 'pages/login';
 import HomePage from 'pages/home-page';
 import "./scss/global.scss";
+import VerifyEmail from 'pages/verify-email';
 
 const App = () => {
   const [data, setData] = React.useState();
@@ -12,7 +13,7 @@ const App = () => {
   const dispatch = useAppDispatch();
   const getApi = async () => {
     try {
-
+      
     } catch (error) {
       console.log("error", error)
     }
@@ -25,6 +26,7 @@ const App = () => {
       <Route path='/' element={<HomePage />} />
       <Route path='/auth/register' element={<Register />} />
       <Route path='/auth/login' element={<Login />} />
+      <Route path='/verify/:token' element={<VerifyEmail />} />
     </Routes>
   );
 }
