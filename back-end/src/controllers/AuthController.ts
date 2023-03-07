@@ -10,8 +10,41 @@ import nodemailer from "nodemailer";
 import dotenv from 'dotenv'
 dotenv.config({ path: './back-end/.env' });
 
+interface JwtPayload {
+    email: string,
+    password: string
+}
+
+
 class AuthController {
 
+    static verify = async (req: Request, res: Response) => {
+        const { token } = req.params;
+        try {
+            const decoded = jwt.verify(token, config.ourSecretKey) as JwtPayload;
+            let user: User = new User();
+            user.user_id = uniqid();
+            user.email = decoded.email;
+            user.hasspass = decoded.password;
+            user.address = "";
+            user.phone = "";
+            user.avatar_link = "";
+            user.fullname = "";
+            user.role = "normal_user";
+            user.hashPassword();
+
+            const userRepository = getRepository(User);
+            const newUser = await userRepository.save(user);
+            const { hasspass, user_id, ...result } = newUser;
+            return res.send({
+                status: "success",
+                message: "Email verifified successfully",
+                data: result
+            });
+        } catch (err) {
+            return res.status(401).send("Email verification failed, possibly the link is invalid or expired");
+        }
+    }
     static register = async (req: Request, res: Response) => {
 
         //Check if username and password is not null
@@ -25,8 +58,8 @@ class AuthController {
 
         //Get user from database
         const userRepository = getRepository(User);
-        let user: User = new User();
         try {
+            let user: User = new User();
             user = await userRepository.findOneOrFail({ where: { email } });
             if (user.email) {
                 return res.send({
@@ -46,9 +79,10 @@ class AuthController {
                 }
             });
 
-            const token = jwt.sign({
-                data: 'Token Data'
-            }, 'ourSecretKey', { expiresIn: '10m' }
+            const token = jwt.sign(
+                { email, password },
+                config.ourSecretKey,
+                { expiresIn: "10m" }
             );
 
             const mailConfigurations = {
@@ -64,26 +98,17 @@ class AuthController {
 
             transporter.sendMail(mailConfigurations, function (error, info) {
                 if (error) {
-                    console.log(error);
+                    return res.status(400).send({
+                        status: "failed",
+                        message: "Server is error now."
+                    });
                 }
-                console.log('Email Sent Successfully');
-            });
-
-
-            user.user_id = uniqid();
-            user.email = email;
-            user.hasspass = password;
-            user.address = "";
-            user.phone = "";
-            user.avatar_link = "";
-            user.fullname = "";
-            user.role = "normal_user";
-            user.hashPassword();
-            const newUser = await userRepository.save(user);
-            const { hasspass, ...result } = newUser;
-            return res.send({
-                status: "success",
-                data: result
+                else {
+                    return res.status(200).send({
+                        status: "success",
+                        message: "Check verify code in your email."
+                    });
+                }
             });
         }
     };
@@ -106,7 +131,7 @@ class AuthController {
         } catch (error) {
             return res.status(401).send({
                 status: "failed",
-                message: "Server is errored now"
+                message: "Server is error now"
             });
         }
 
@@ -122,7 +147,7 @@ class AuthController {
         const token = jwt.sign(
             { user_id: user.user_id, email: user.email },
             config.jwtSecret,
-            { expiresIn: 60 }
+            { expiresIn: "1h" }
         );
 
         const { hasspass, ...result } = user;
