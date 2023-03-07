@@ -2,13 +2,14 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../../app/store';
 import { User, UserResponse } from './type';
-import { loginUser, registerUser, verifyEmail } from './authThunk';
+import { loginUser, registerUser, verifyEmail, verifyLoginToken } from './authThunk';
 import { SwalAlert } from 'utils/sweet-alter';
-    
+
 const initialState: UserResponse = {
     isLoading: false,
     status: '',
     access_token: '',
+    allowAccess: false,
     user: {
         id: "",
         email: "",
@@ -31,11 +32,14 @@ export const authSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(loginUser.fulfilled, (state, action) => {
-                const response = action.payload.data;
+                const response = action.payload?.data;
                 localStorage.setItem('access_token', response.access_token);
                 state.access_token = response.access_token;
                 state.status = response.status;
                 state.user = response.user;
+            })
+            .addCase(loginUser.rejected, (state, action) => {
+
             })
         builder
             .addCase(registerUser.fulfilled, (state, action) => {
@@ -56,7 +60,18 @@ export const authSlice = createSlice({
             })
             .addCase(verifyEmail.rejected, (state, action) => {
                 state.isLoading = false;
-                SwalAlert('Fail', 'Server is error now.', 'error');
+            })
+        builder
+            .addCase(verifyLoginToken.fulfilled, (state, action) => {
+                state.allowAccess = true;
+                state.isLoading = false;
+            })
+            .addCase(verifyLoginToken.pending, (state, action) => {
+                state.isLoading = true;
+            })
+            .addCase(verifyLoginToken.rejected, (state, action) => {
+                state.isLoading = false;
+                state.allowAccess = false;
             })
     }
 })

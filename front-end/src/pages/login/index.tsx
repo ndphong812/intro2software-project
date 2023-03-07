@@ -6,10 +6,12 @@ import Footer from "../../components/footer";
 import "./style.scss";
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { loginUser } from 'redux/auth/authThunk';
+import { loginUser, verifyLoginToken } from 'redux/auth/authThunk';
 import { AuthRequest } from 'redux/auth/type';
 import { useAppDispatch, useAppSelector } from 'app/hook';
 import { authState } from 'redux/auth/authSlice';
+import { SwalAlert } from 'utils/sweet-alter';
+import Header from 'components/header';
 type RegisterValue = {
     email: string;
     password: string;
@@ -30,39 +32,34 @@ const Login = () => {
     const dispatch = useAppDispatch();
     const selector = useAppSelector(authState);
     const navigate = useNavigate();
-
-    const parseJwt = (token: String) => {
-        try {
-            return JSON.parse(atob(token.split(".")[1]));
-        } catch (e) {
-            return null;
-        }
-    };
-
     const { register, handleSubmit, formState: { errors } } =
         useForm<RegisterValue>({
             mode: 'onChange',
             resolver: yupResolver(schema)
         });
     const onSubmit = handleSubmit(async (data) => {
+
         const request: AuthRequest = {
             email: data.email,
             password: data.password
         }
         const response = await dispatch(loginUser(request));
-        if (selector.status === 'success') {
-            const decodedJwt = parseJwt(selector.access_token);
-            if (decodedJwt.exp * 1000 < Date.now()) {
-                console.log("Logout");
+        if (response.payload && (response.payload as any).status === 200) {
+
+            const token = localStorage.getItem("access_token");
+            const response = await dispatch(verifyLoginToken(token as String));
+            if (response.payload && (response.payload as any).status === 200) {
+                navigate('/');
             }
-            else {
-                navigate('/cart');
-            }
+        }
+        else {
+            SwalAlert("Failed", (response as any).error.message, "error");
         }
     });
 
     return (
         <>
+            <Header />
             <div className="login">
                 <div className="container">
                     <div className="login-main">
@@ -90,7 +87,9 @@ const Login = () => {
                                     <p>Chưa có tài khoản?
                                         <Link to="/auth/register" replace={false} className="login-main-form-submit-link">Đăng ký</Link>
                                     </p>
-                                    <p><a href="/" className="login-main-form-submit-link">Quên mật khẩu</a></p>
+                                    <p>
+                                        <Link to="/auth/forgot-password" replace={false} className="login-main-form-submit-link">Quên mật khẩu</Link>
+                                    </p>
                                 </div>
                                 <button className="login-main-form-submit-button" type="submit">Đăng nhập</button>
                             </div>

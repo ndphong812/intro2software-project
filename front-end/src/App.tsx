@@ -1,32 +1,90 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from './app/hook';
 import Register from './pages/register';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from 'pages/login';
 import HomePage from 'pages/home-page';
 import "./scss/global.scss";
 import VerifyEmail from 'pages/verify-email';
+import Cart from 'pages/cart';
+import { authState } from 'redux/auth/authSlice';
+import { verifyLoginToken } from 'redux/auth/authThunk';
+import BeatLoader from 'react-spinners/BeatLoader';
+import { loadingOveride } from 'utils/loading';
+import ForgotPassword from 'pages/forgot-password';
 
-const App = () => {
-  const [data, setData] = React.useState();
+function PrivateRoute({ children, redirectTo, authRequired }: any) {
 
+  const [isChecking, setIsChecking] = useState<Boolean>(true);
+  const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
+  const access_token = localStorage.getItem('access_token');
   const dispatch = useAppDispatch();
-  const getApi = async () => {
-    try {
-      
-    } catch (error) {
-      console.log("error", error)
+  const verifyAccess = async () => {
+    const response = await dispatch(verifyLoginToken(access_token as String));
+    if (response && response.payload && (response.payload as any).data.status === 'success') {
+      setIsChecking(false);
+      setIsLoggedIn(true);
+    }
+    else {
+      setIsChecking(false);
+      setIsLoggedIn(false);
     }
   }
   useEffect(() => {
-    getApi();
+    verifyAccess();
   }, [])
+
+  if (isChecking) return <BeatLoader
+    color={"#D10024"}
+    loading={Boolean(isChecking)}
+    cssOverride={loadingOveride}
+    size={20}
+    margin={2}
+    speedMultiplier={1}
+  />;
+
+  console.log("isLoggedIn", isLoggedIn);
+  console.log("isChecking", isChecking);
+  return (!isChecking && isLoggedIn) ? (authRequired ? children : <Navigate to="/" />) : <Navigate to="/auth/login" />;
+}
+
+const App = () => {
   return (
     <Routes>
       <Route path='/' element={<HomePage />} />
-      <Route path='/auth/register' element={<Register />} />
+      <Route
+        path="/cart"
+        element={
+          <PrivateRoute redirectTo="/auth/login" authRequired>
+            <Cart />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/auth/register"
+        element={
+          <PrivateRoute redirectTo="/">
+            <Register />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/auth/forgot-password"
+        element={
+          <PrivateRoute redirectTo="/">
+            <ForgotPassword />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/verify/:token"
+        element={
+          <PrivateRoute redirectTo="/">
+            <VerifyEmail />
+          </PrivateRoute>
+        }
+      />
       <Route path='/auth/login' element={<Login />} />
-      <Route path='/verify/:token' element={<VerifyEmail />} />
     </Routes>
   );
 }
