@@ -16,5 +16,6 @@ export type UserResponse = {
     isLoading: Boolean;
     status: String;
     access_token: String;
+    allowAccess: Boolean;
     user: User;
 }

@@ -1,7 +1,11 @@
-const Header = ()=>{
-    return(
+const Header = () => {
+    return (
         <>
-            Big Banner Component
+            <div className="header">
+                <div className="container">
+                    Header Component
+                </div>
+            </div>
         </>
     )
 }

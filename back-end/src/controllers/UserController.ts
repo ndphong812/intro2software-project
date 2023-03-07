@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getRepository  } from "typeorm"; 
+import { getRepository } from "typeorm";
 import { validate } from "class-validator";
 
 import { User } from "../entities/User";
@@ -7,17 +7,13 @@ import { User } from "../entities/User";
 class UserController {
 
     static listAll = async (req: Request, res: Response) => {
-        const userRepository = getRepository (User);
+        const userRepository = getRepository(User);
         const users = await userRepository.find({
             select: ["user_id", "email", "role"] // don't send password in response
         });
 
         res.send(users);
     };
-    // static listAll =  (req: Request, res: Response) => {
-    //     console.log("hi.");
-    //     res.send ("hello!");
-    // }
 
     static getOneById = async (req: Request, res: Response) => {
         const id: any = req.params.id;
@@ -37,7 +33,7 @@ class UserController {
         let { email, password, role } = req.body;
         let user = new User();
         user.email = email;
-        user.hasspass = password;
+        user.hashpass = password;
         user.role = role;
 
         //Validade if the parameters are ok

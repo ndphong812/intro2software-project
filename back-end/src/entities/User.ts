@@ -41,7 +41,7 @@ export class User {
     @Column()
     @Length(1, 100)
     @IsNotEmpty()
-    hasspass!: string;
+    hashpass!: string;
 
     @Column()
     @IsNotEmpty()
@@ -49,11 +49,11 @@ export class User {
     role!: string;
 
     hashPassword() {
-        this.hasspass = bcrypt.hashSync(this.hasspass, 8);
+        this.hashpass = bcrypt.hashSync(this.hashpass, 8);
     }
 
     checkIfUnencryptedPasswordIsValid(unencryptedPassword: string) {
-        return bcrypt.compareSync(unencryptedPassword, this.hasspass);
+        return bcrypt.compareSync(unencryptedPassword, this.hashpass);
     }
 
 }
