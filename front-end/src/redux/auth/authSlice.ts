@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../../app/store';
 import { User, UserResponse } from './type';
-import { loginUser, registerUser, verifyEmail, verifyLoginToken } from './authThunk';
+import { forgotPassword, loginUser, registerUser, verifyEmail, verifyLoginToken } from './authThunk';
 import { SwalAlert } from 'utils/sweet-alter';
 
 const initialState: UserResponse = {
@@ -34,12 +34,16 @@ export const authSlice = createSlice({
             .addCase(loginUser.fulfilled, (state, action) => {
                 const response = action.payload?.data;
                 localStorage.setItem('access_token', response.access_token);
+                state.isLoading = false;
                 state.access_token = response.access_token;
                 state.status = response.status;
                 state.user = response.user;
             })
+            .addCase(loginUser.pending, (state, action) => {
+                state.isLoading = true;
+            })
             .addCase(loginUser.rejected, (state, action) => {
-
+                state.isLoading = false;
             })
         builder
             .addCase(registerUser.fulfilled, (state, action) => {
@@ -72,6 +76,17 @@ export const authSlice = createSlice({
             .addCase(verifyLoginToken.rejected, (state, action) => {
                 state.isLoading = false;
                 state.allowAccess = false;
+            })
+
+        builder
+            .addCase(forgotPassword.fulfilled, (state, action) => {
+                state.isLoading = false;
+            })
+            .addCase(forgotPassword.pending, (state, action) => {
+                state.isLoading = true;
+            })
+            .addCase(forgotPassword.rejected, (state, action) => {
+                state.isLoading = false;
             })
     }
 })

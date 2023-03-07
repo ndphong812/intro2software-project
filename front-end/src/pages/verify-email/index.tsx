@@ -16,13 +16,14 @@ const VerifyEmail = () => {
    const navigate = useNavigate();
    const verify = async (token: String) => {
       const response = await dispatch(verifyEmail(token));
-      if ((response.payload as any).data.status === 'success') {
-         SwalAlert('Success', `${(response.payload as any).data.message}. Go to Login Page.`, 'success').then(result=>{
+      console.log('alo', response);
+      if (response.payload && (response.payload as any).status === 200) {
+         SwalAlert('Success', `${(response.payload as any).data.message}. Go to Login Page.`, 'success').then(result => {
             navigate('/auth/login');
          });
       }
       else {
-         SwalAlert('Fail', (response.payload as any).data.message, 'error');
+         SwalAlert("Failed", (response as any).error.message, "error");
       }
    }
 

@@ -50,11 +50,11 @@ const Register = () => {
             password: data.password
         }
         const response = await dispatch(registerUser(request));
-        if (response.payload.status === 'success') {
+        if (response.payload && (response.payload as any).status === 'success') {
             SwalAlert('Success', response.payload.message, 'success');
         }
         else {
-            SwalAlert('Failed', response.payload.message, 'error');
+            SwalAlert("Failed", (response as any).error.message, "error");
         }
     });
 

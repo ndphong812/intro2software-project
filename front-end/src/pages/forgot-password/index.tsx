@@ -1,9 +1,15 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useAppDispatch, useAppSelector } from "app/hook";
 import axios from "axios";
 import Footer from "components/footer";
 import Header from "components/header";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import BeatLoader from "react-spinners/BeatLoader";
+import { authState } from "redux/auth/authSlice";
+import { forgotPassword } from "redux/auth/authThunk";
+import { loadingOveride } from "utils/loading";
+import { SwalAlert } from "utils/sweet-alter";
 import * as yup from 'yup'
 import "./style.scss";
 
@@ -21,17 +27,22 @@ const schema = yup.object().shape({
 
 const ForgotPassword = () => {
 
+    const selector = useAppSelector(authState);
+    const dispatch = useAppDispatch();
     const { register, handleSubmit, formState: { errors } } =
         useForm<ForgotPasswordValue>({
             mode: 'onChange',
             resolver: yupResolver(schema)
         });
     const onSubmit = handleSubmit(async (data) => {
-        console.log('data', data.email);
-        const response = await axios.post('http://localhost:5000/auth/forgot-password', {
-            email: data.email
-        });
-        console.log('response', response);
+        const response = await dispatch(forgotPassword(data.email));
+        console.log(response);
+        if (response.payload && (response.payload as any).status === 200) {
+            SwalAlert('Success', (response.payload as any).data.message, 'success');
+        }
+        else {
+            SwalAlert("Failed", (response as any).error.message, "error");
+        }
     });
 
     return (
@@ -61,6 +72,16 @@ const ForgotPassword = () => {
                     </div>
                 </div>
             </div>
+            {
+                <BeatLoader
+                    color={"#D10024"}
+                    loading={Boolean(selector.isLoading)}
+                    cssOverride={loadingOveride}
+                    size={20}
+                    margin={2}
+                    speedMultiplier={1}
+                />
+            }
             <Footer />
         </>
     )

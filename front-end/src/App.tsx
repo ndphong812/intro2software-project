@@ -32,7 +32,7 @@ function PrivateRoute({ children, redirectTo, authRequired }: any) {
   }
   useEffect(() => {
     verifyAccess();
-  }, [])
+  }, [access_token])
 
   if (isChecking) return <BeatLoader
     color={"#D10024"}
@@ -43,9 +43,8 @@ function PrivateRoute({ children, redirectTo, authRequired }: any) {
     speedMultiplier={1}
   />;
 
-  console.log("isLoggedIn", isLoggedIn);
-  console.log("isChecking", isChecking);
-  return (!isChecking && isLoggedIn) ? (authRequired ? children : <Navigate to="/" />) : <Navigate to="/auth/login" />;
+  return (!isChecking && isLoggedIn) ? (authRequired ? children : <Navigate to="/" />) :
+    (authRequired ? <Navigate to='/auth/login' /> : children);
 }
 
 const App = () => {
@@ -63,8 +62,16 @@ const App = () => {
       <Route
         path="/auth/register"
         element={
-          <PrivateRoute redirectTo="/">
+          <PrivateRoute>
             <Register />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/auth/login"
+        element={
+          <PrivateRoute>
+            <Login />
           </PrivateRoute>
         }
       />
@@ -84,7 +91,6 @@ const App = () => {
           </PrivateRoute>
         }
       />
-      <Route path='/auth/login' element={<Login />} />
     </Routes>
   );
 }

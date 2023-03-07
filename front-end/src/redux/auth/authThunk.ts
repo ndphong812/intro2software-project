@@ -38,21 +38,48 @@ export const loginUser = createAsyncThunk(
 export const verifyEmail = createAsyncThunk(
     "auth/verify-email",
     async (token: String) => {
-        const response = await axios.get(
-            `${REACT_APP_ROOT_API}/auth/verify-email/${token}`
-        );
-        return response;
+        try {
+            const response = await axios.get(
+                `${REACT_APP_ROOT_API}/auth/verify-email/${token}`
+            );
+            return response;
+        }
+        catch (error: any) {
+            throw error.response.data;
+        }
     }
 );
 
 export const verifyLoginToken = createAsyncThunk(
-    "auth/verify-login-email",
+    "auth/verify-login-token",
     async (token: String) => {
-        const response = await axios.post(
-            `${REACT_APP_ROOT_API}/auth/verify-login-token`, {
-            token: token
+        try {
+            const response = await axios.post(
+                `${REACT_APP_ROOT_API}/auth/verify-login-token`, {
+                token: token
+            }
+            );
+            return response;
         }
-        );
-        return response;
+        catch (error: any) {
+            throw error.response.data;
+        }
+    }
+);
+
+export const forgotPassword = createAsyncThunk(
+    "auth/forgot-password",
+    async (email: String) => {
+        try {
+            const response = await axios.post(
+                `${REACT_APP_ROOT_API}/auth/forgot-password`, {
+                email: email
+            }
+            );
+            return response;
+        }
+        catch (error: any) {
+            throw error.response.data;
+        }
     }
 );

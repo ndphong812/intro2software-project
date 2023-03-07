@@ -12,6 +12,8 @@ import { useAppDispatch, useAppSelector } from 'app/hook';
 import { authState } from 'redux/auth/authSlice';
 import { SwalAlert } from 'utils/sweet-alter';
 import Header from 'components/header';
+import BeatLoader from 'react-spinners/BeatLoader';
+import { loadingOveride } from 'utils/loading';
 type RegisterValue = {
     email: string;
     password: string;
@@ -44,12 +46,15 @@ const Login = () => {
             password: data.password
         }
         const response = await dispatch(loginUser(request));
+        console.log('response', response);
         if (response.payload && (response.payload as any).status === 200) {
-
             const token = localStorage.getItem("access_token");
             const response = await dispatch(verifyLoginToken(token as String));
             if (response.payload && (response.payload as any).status === 200) {
                 navigate('/');
+            }
+            else {
+                SwalAlert("Failed", (response as any).error.message, "error");
             }
         }
         else {
@@ -97,6 +102,16 @@ const Login = () => {
                     </div>
                 </div>
             </div>
+            {
+                <BeatLoader
+                    color={"#D10024"}
+                    loading={Boolean(selector.isLoading)}
+                    cssOverride={loadingOveride}
+                    size={20}
+                    margin={2}
+                    speedMultiplier={1}
+                />
+            }
             <Footer />
         </>
     )
