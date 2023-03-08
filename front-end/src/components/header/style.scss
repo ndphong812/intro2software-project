@@ -1,0 +1,27 @@
+@import "../../scss/variable.scss";
+@import "../../scss/breakpoint.scss";
+
+.header {
+    background-color: $black-primary;
+    color: $white;
+
+    &-main {
+        display: flex;
+        justify-content: space-between;
+
+        &-logo {
+            width: 25%;
+            background-color: red;
+        }
+
+        &-search {
+            flex: 1;
+            background-color: yellow;
+        }
+
+        &-user {
+            width: 25%;
+            background-color: red;
+        }
+    }
+}
