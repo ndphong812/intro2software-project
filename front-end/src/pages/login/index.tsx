@@ -1,11 +1,9 @@
-import { useForm, Resolver } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup';
-import axios from 'axios';
 import Footer from "../../components/footer";
 import "./style.scss";
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { loginUser, verifyLoginToken } from 'redux/auth/authThunk';
 import { AuthRequest } from 'redux/auth/type';
 import { useAppDispatch, useAppSelector } from 'app/hook';
@@ -18,6 +16,7 @@ type RegisterValue = {
     email: string;
     password: string;
     verifyPassword: string;
+    acceptProvision: boolean;
 };
 
 const schema = yup.object().shape({
@@ -27,6 +26,9 @@ const schema = yup.object().shape({
     password: yup
         .string()
         .required('Mật khẩu không được để trống'),
+    acceptProvision: yup.boolean()
+        .required()
+        .oneOf([true])
 })
 
 const Login = () => {
@@ -69,6 +71,7 @@ const Login = () => {
                 <div className="container">
                     <div className="login-main">
                         <form className="login-main-form" onSubmit={onSubmit}>
+                            <h3 className="login-main-form-title">Đăng nhập</h3>
                             <div className="login-main-form-group">
                                 <div className="login-main-form-group-infor">
                                     <label className="login-main-form-group-infor-title" htmlFor="email">Email:</label>
@@ -87,10 +90,17 @@ const Login = () => {
                                     </p>
                                 }
                             </div>
+                            <div className="login-main-form-provision">
+                                <input {...register("acceptProvision")}
+                                    className={`login-main-form-provision-check-box ${errors.acceptProvision && "login-main-form-provision-check-box-hightlight"} `}
+                                    type="checkbox" />
+                                <p className="login-main-form-provision-check-title">Tôi đồng ý với
+                                    <a href="/" className="register-main-form-group-infor-link"> điều khoản</a> của trang web</p>
+                            </div>
                             <div className="login-main-form-submit">
                                 <div className="login-main-form-submit-login">
                                     <p>Chưa có tài khoản?
-                                        <Link to="/auth/register" replace={false} className="login-main-form-submit-link">Đăng ký</Link>
+                                        <Link to="/auth/register" replace={false} className="login-main-form-submit-link"> Đăng ký</Link>
                                     </p>
                                     <p>
                                         <Link to="/auth/forgot-password" replace={false} className="login-main-form-submit-link">Quên mật khẩu</Link>
