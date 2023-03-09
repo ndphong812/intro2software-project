@@ -2,22 +2,26 @@
 @import "../../scss/breakpoint.scss";
 
 .forgot-password {
-    margin: 20px 0px;
-
-    .container {}
+    padding: 60px 0px;
+    background: linear-gradient(90deg, rgba(209, 0, 36, 1) 0%, rgba(0, 212, 255, 1) 70%, rgba(2, 0, 36, 1) 100%);
 
     &-main {
         &-form {
             width: 50%;
-            max-width: 560px;
+            max-width: 460px;
             margin: 0px auto;
+            padding: 72px 26px 40px;
+            background-color: $white;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
 
             @include tablet {
                 width: 100%;
             }
 
             &-group {
-                margin-bottom: 20px;
 
                 &-infor {
                     display: flex;
@@ -79,10 +83,8 @@
             }
 
             &-submit {
-
                 display: flex;
                 justify-content: space-between;
-                margin-bottom: 20px;
                 align-items: start;
 
                 @include tablet {

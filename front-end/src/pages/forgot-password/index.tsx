@@ -52,6 +52,7 @@ const ForgotPassword = () => {
                 <div className="container">
                     <div className="forgot-password-main">
                         <form className="forgot-password-main-form" onSubmit={onSubmit}>
+                            <h3 className="login-main-form-title">Quên mật khẩu</h3>
                             <div className="forgot-password-main-form-group">
                                 <div className="forgot-password-main-form-group-infor">
                                     <label className="forgot-password-main-form-group-infor-title" htmlFor="email">Nhập email của bạn:</label>
@@ -59,14 +60,14 @@ const ForgotPassword = () => {
                                 </div>
                                 {errors.email && <p className="forgot-password-main-form-group-error">{errors.email.message}</p>}
                             </div>
-
                             <div className="forgot-password-main-form-submit">
-                                <div className="forgot-password-main-form-submit-login">
-                                    <p>
-                                        <Link to="/auth/login" replace={false} className="forgot-password-main-form-submit-link">Quay lại đăng nhập</Link>
-                                    </p>
-                                </div>
+                                <p>Mật khẩu mới sẽ được gửi về email của bạn.</p>
                                 <button className="forgot-password-main-form-submit-button" type="submit">Gửi</button>
+                            </div>
+                            <div className="forgot-password-main-form-submit-login">
+                                <p>
+                                    <Link to="/auth/login" replace={false} className="forgot-password-main-form-submit-link">Quay lại đăng nhập</Link>
+                                </p>
                             </div>
                         </form>
                     </div>

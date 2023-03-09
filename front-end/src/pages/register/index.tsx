@@ -12,6 +12,7 @@ import { authState } from 'redux/auth/authSlice';
 import { ClipLoader } from 'react-spinners';
 import BeatLoader from 'react-spinners/BeatLoader';
 import { loadingOveride } from 'utils/loading';
+import Header from 'components/header';
 
 type RegisterValue = {
     email: String;
@@ -60,10 +61,12 @@ const Register = () => {
 
     return (
         <>
+            <Header />
             <div className="register">
                 <div className="container">
                     <div className="register-main">
                         <form className="register-main-form" onSubmit={onSubmit}>
+                            <h3 className='register-main-form-title'>Đăng ký</h3>
                             <div className="register-main-form-group">
                                 <div className="register-main-form-group-infor">
                                     <label className="register-main-form-group-infor-title" htmlFor="email">Email:</label>
