@@ -26,7 +26,7 @@
                 &-infor {
                     display: flex;
                     justify-content: space-between;
-                    align-items: start;
+                    align-items: end;
                     margin-bottom: 4px;
 
                     @include tablet {
@@ -42,6 +42,11 @@
                     &-input {
                         flex: 1;
                         padding: 6px 6px;
+                        border-top: 0;
+                        border-left: 0;
+                        border-right: 0;
+                        border-bottom: 1px solid $black-light;
+                        outline: none;
 
                         @include tablet {
                             width: 100%;
