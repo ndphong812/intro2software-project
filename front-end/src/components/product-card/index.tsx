@@ -1,7 +1,9 @@
 const ProductCard = ()=>{
     return(
         <>
-            Big Banner Component
+            <div>
+                Product Card
+            </div>
         </>
     )
 }
