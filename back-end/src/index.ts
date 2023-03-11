@@ -27,9 +27,9 @@ console.log("Before connecting...")
 createConnection({
     "type": "postgres",
     "host": "localhost",
-    "port": 5432,
+    "port": 5321,
     "username": "postgres",
-    "password": "08122002",
+    "password": "123321ok",
     "database": "Web_Ban_Hang",
     "entities": [
         User, Cart, Comment, Notification, Ordered, Product, Chat

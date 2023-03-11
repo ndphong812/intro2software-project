@@ -21,8 +21,8 @@ export const transporter = nodemailer.createTransport({
     secure: true,
     service: 'gmail',
     auth: {
-        user: process.env.EMAIL_ADDRESS || "nonamegroup.software@gmail.com",
-        pass: process.env.EMAIL_PASSWORD || "fdrhftckacntdjtb"
+        user: process.env.EMAIL_ADDRESS,
+        pass: process.env.EMAIL_PASSWORD
     }
 });
 
@@ -87,6 +87,7 @@ class AuthController {
 
         //Check if username and password is not null
         let { email, password } = req.body;
+        // console.log ("Email_Pass: ",email, password);
         if (!(email && password)) {
             return res.status(400).send({
                 status: "failed",
@@ -123,6 +124,8 @@ class AuthController {
                http://localhost:3000/verify/${token} 
                Thanks`
             };
+
+            // console.log(process.env.EMAIL_ADDRESS);
 
             transporter.sendMail(mailConfigurations, function (error, info) {
                 if (error) {
