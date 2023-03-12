@@ -43,7 +43,7 @@ export class Product {
     average_rate!: number;
 
     @Column()
-    sol_amount!: number;
+    sold_amount!: number;
 
     @Column()
     @Length(1, 10)
