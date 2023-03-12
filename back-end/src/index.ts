@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { createConnection } from "typeorm";
+import { createConnection, DatabaseType } from "typeorm";
 import express from "express";
 import * as bodyParser from "body-parser";
 import helmet from "helmet";
@@ -14,45 +14,34 @@ import { Product } from "./entities/Product";
 import { Chat } from "./entities/Chat";
 import dotenv from 'dotenv'
 
-dotenv.config()
-
-
-
-//Connects to the Database -> then starts the express
-const app = express();
-
-console.log("Before connecting...")
-
+dotenv.config({ path: './.env' });
 
 createConnection({
     "type": "postgres",
-    "host": "localhost",
-    "port": 5321,
-    "username": "postgres",
-    "password": "123321ok",
-    "database": "Web_Ban_Hang",
+    "host": process.env.DB_HOST,
+    "port": Number(process.env.DB_PORT),
+    "username": process.env.DB_USERNAME,
+    "password": process.env.DB_PASSWORD,
+    "database": process.env.DB_NAME,
     "entities": [
         User, Cart, Comment, Notification, Ordered, Product, Chat
     ],
     "synchronize": true
 })
     .then(async connection => {
-        // Create a new express application instance
         const app = express();
-
         // Call midlewares
         app.use(cors());
         app.use(helmet());
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({ extended: true }));
 
-        //Set all routes from routes folder
         app.use("/", routes);
         app.get('/', (req, res) => {
             res.send('hello from server!')
         })
         app.get('/cart', (req, res) => {
-            res.send('hello from server 2!')
+            res.send('hello from server cart!')
         })
         app.listen(5000, () => {
             console.log("Server started on port 5000!");

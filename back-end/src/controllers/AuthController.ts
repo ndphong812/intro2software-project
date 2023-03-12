@@ -6,26 +6,11 @@ import { validate } from "class-validator";
 import uniqid from 'uniqid';
 import { User } from "../entities/User";
 import config from "../config/config";
-import nodemailer from "nodemailer";
 import dotenv from 'dotenv'
+import { JwtPayload } from "./type";
+import nodemailer from "nodemailer";
+
 dotenv.config({ path: './back-end/.env' });
-
-interface JwtPayload {
-    email: string,
-    password: string
-}
-
-export const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_ADDRESS,
-        pass: process.env.EMAIL_PASSWORD
-    }
-});
-
 class AuthController {
 
     static verifyEMail = async (req: Request, res: Response) => {
@@ -66,10 +51,9 @@ class AuthController {
 
             let user: User = new User();
             const userRepository = getRepository(User);
-
             user = await userRepository.findOneOrFail({ where: { email: decoded.email } });
-            const { hashpass, user_id, ...result } = user;
 
+            const { hashpass, user_id, ...result } = user;
             return res.status(200).send({
                 status: "success",
                 user: result,
@@ -85,9 +69,9 @@ class AuthController {
 
     static register = async (req: Request, res: Response) => {
 
-        //Check if username and password is not null
         let { email, password } = req.body;
-        // console.log ("Email_Pass: ",email, password);
+
+
         if (!(email && password)) {
             return res.status(400).send({
                 status: "failed",
@@ -107,7 +91,6 @@ class AuthController {
                 });
             }
         } catch (error) {
-
             const token = jwt.sign(
                 { email, password },
                 config.ourSecretKey,
@@ -124,14 +107,23 @@ class AuthController {
                http://localhost:3000/verify/${token} 
                Thanks`
             };
+            
+            const transporter = nodemailer.createTransport({
+                host: process.env.EMAIL_HOST,
+                port: Number(process.env.EMAIL_PORT),
+                secure: Boolean(process.env.EMAIL_SECURE),
+                service: process.env.EMAIL_SERVICE,
+                auth: {
+                    user: process.env.EMAIL_ADDRESS,
+                    pass: process.env.EMAIL_PASSWORD
+                }
+            });
 
-            // console.log(process.env.EMAIL_ADDRESS);
-
-            transporter.sendMail(mailConfigurations, function (error, info) {
+            transporter.sendMail(mailConfigurations, function (error: any, info: any) {
                 if (error) {
                     return res.status(400).send({
                         status: "failed",
-                        message: "Server is error now."
+                        message: "Server is error now"
                     });
                 }
                 else {
@@ -145,8 +137,8 @@ class AuthController {
     };
 
     static login = async (req: Request, res: Response) => {
-        //Check if username and password is not null
         let { email, password } = req.body;
+
         if (!(email && password)) {
             return res.status(400).send({
                 status: "failed",
@@ -154,7 +146,6 @@ class AuthController {
             });
         }
 
-        //Get user from database
         const userRepository = getRepository(User);
         let user!: User;
         try {
@@ -165,6 +156,7 @@ class AuthController {
                 message: "Email is not correct"
             });
         }
+
         //Check if encrypted password match
         if (!user.checkIfUnencryptedPasswordIsValid(password)) {
             return res.status(401).send({
@@ -190,7 +182,6 @@ class AuthController {
 
     static fotgotPassword = async (req: Request, res: Response) => {
         let { email } = req.body;
-
         if (!(email)) {
             return res.status(400).send({
                 status: "failed",
@@ -198,7 +189,6 @@ class AuthController {
             });
         }
 
-        //Get user from database
         const userRepository = getRepository(User);
         let user!: User;
         try {
@@ -220,6 +210,17 @@ class AuthController {
             subject: 'Provide new password',
             text: `Hi, your new password is: ${newPassword}`
         };
+
+        const transporter = nodemailer.createTransport({
+            host: process.env.EMAIL_HOST,
+            port: Number(process.env.EMAIL_PORT),
+            secure: Boolean(process.env.EMAIL_SECURE),
+            service: process.env.EMAIL_SERVICE,
+            auth: {
+                user: process.env.EMAIL_ADDRESS,
+                pass: process.env.EMAIL_PASSWORD
+            }
+        });
 
         transporter.sendMail(mailConfigurations, function (error, info) {
             if (error) {
@@ -243,12 +244,9 @@ class AuthController {
         const id = res.locals.jwtPayload.userId;
         const { oldPassword, newPassword } = req.body;
 
-        //Check old password and new password are not null
         if (!(oldPassword && newPassword)) {
             res.status(400).send();
         }
-
-        //Get user from the database
         const userRepository = getRepository(User);
         // @ts-ignore
         let user: User = {} as User;
@@ -258,7 +256,6 @@ class AuthController {
             res.status(401).send();
         }
 
-        //Check if old password matchs
         if (!user.checkIfUnencryptedPasswordIsValid(oldPassword)) {
             res.status(401).send();
             return;
@@ -270,11 +267,8 @@ class AuthController {
             res.status(400).send(errors);
             return;
         }
-
-        //Hash the new password and save
         user.hashPassword();
         userRepository.save(user);
-
         res.status(204).send();
     };
 }

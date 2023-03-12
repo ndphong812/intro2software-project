@@ -45,11 +45,8 @@ class APIProduct {
 
     } catch (error) {
       return res.send(error);
-        
     }
-
     res.status(201).send("Added product.");
-
   };
 
   static test = async (req: Request, res: Response) => {
