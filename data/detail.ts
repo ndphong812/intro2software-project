@@ -1,7 +1,177 @@
 export const productDetail = [
+    // Laptop
+    {
+        name:  "Laptop Asus Zenbook Flip 13 OLED UX363EA-HP726W",
+        detail: "13.3inch Full HD/Intel Core i5-1135G7/8GB/512GB SSD/Windows 11 Home/1.3kg",
+        stock: 300,
+        originalPrice: 24990000,
+        salePrice: 18490000,
+        imageLink: "https://lh3.googleusercontent.com/cc5g1yz6Mp_pdmUoVvVIY_A-GO9m72f19iaA8_2-4bkkwmHzbdYgM0ob-hJZU1yPPaIcopc-8J9gLO2zyfkp2OGoF3GNm8xS=w1000-rw",
+        avarageRate: 5,
+        soldAmount: 50,
+        type: "laptop",
+        brand: "Asus"
+    },
+    {
+        name:  "MacBook Air 2022 13.6 inch MLY33SA/A",
+        detail: "M2/ 8GB/ SSD 256GB/ Onboard/ macOS/ 1.3kg",
+        stock: 100,
+        originalPrice: 31900000,
+        salePrice: 28890000,
+        imageLink: "https://lh3.googleusercontent.com/T4dQPx6nSJi3y147mwJH6kDJsxM6ULAAtIoZjgDDIi3yF5YpFYW7QbWh_nfT0Lhi2LxIDFuNPMamXlrBW-EcZ1NUGYBZ6VqbLw=w500-rw",
+        avarageRate: 5,
+        soldAmount: 30,
+        type: "laptop",
+        brand: "MacBook"
+    },
+    {
+        name:  "Laptop MSI GF63 Thin 11UC",
+        detail: "i7-11800H/RAM 8GB/RTX 3050/512GB SSD/ Windows 10",
+        stock: 300,
+        originalPrice: 24490000,
+        salePrice: 21300000,
+        imageLink: "https://lh3.googleusercontent.com/uT6TQtXUhjrUx0zsDhb836NTYPwxyyDxXzxKY0qM-McJOzPvmmb_-d6UL2ZsC3EUtgOyfGeGbhFRUf_wF7CX851C_yuM6f_U=w500-rw",
+        avarageRate: 4.2,
+        soldAmount: 250,
+        type: "laptop",
+        brand: "MSI"
+    },
+    {
+        name:  "Laptop Asus Vivobook 15X OLED A1503ZA-L1422W",
+        detail: "15.6Inch Full HD/Intel Core i5-12500H/8GB/512GB SSD/Windows 11 Home/1.7kg",
+        stock: 200,
+        originalPrice: 20990000,
+        salePrice: 17690000,
+        imageLink: "https://lh3.googleusercontent.com/ZPh7gfPRD6UrLh5zr6k4Zmk5NYoYC0AD_1p8gGexbKQT8W3SR1H2cCGlOTq5SVXxF28EDcIUBF9ntAB3K3XIl84RR0AeOtmy=w500-rw",
+        avarageRate: 4.4,
+        soldAmount: 120,
+        type: "laptop",
+        brand: "Asus"
+    },
+    {
+        name:  "Laptop ACER Nitro AN515-58-773Y",
+        detail: "i7-12700H/RAM 8GB/RTX 3050Ti/512GB SSD/ Windows 11",
+        stock: 150,
+        originalPrice: 33790000,
+        salePrice: 29590000,
+        imageLink: "https://lh3.googleusercontent.com/OyIhGGxumpQIsk8jL9Zv4vHiy0q-igYnY_OGg41VPOnkVgFXvOn0kfY1_C9Tzwb4bjEdFLi-WexmvOHIzTP9e6o1PPF3UqTa=w500-rw",
+        avarageRate: 4.7,
+        soldAmount: 43,
+        type: "laptop",
+        brand: "ACER"
+    },
+    {
+        name:  "Laptop ACER Aspire 3 A315-59-381E",
+        detail: "i3-1215U/RAM 8GB/512GB SSD/ Windows 11",
+        stock: 400,
+        originalPrice: 14790000,
+        salePrice: 12890000,
+        imageLink: "https://lh3.googleusercontent.com/1S6Ltn5pJWSMWh0U6V4w80Di1Lq8AVQhuDOzVHbQPmxwcztwofrF_3gyuy7Pk8AJ73MVFCYDgm4r1orx6eh88iwVj9nDyXk=w500-rw",
+        avarageRate: 4.0,
+        soldAmount: 200,
+        type: "laptop",
+        brand: "ACER"
+    },
+    {
+        name:  "Laptop Dell Inspiron 14 5420",
+        detail: "i5-1235U/RAM 8GB/512GB SSD/ Windows 11 + Office",
+        stock: 500,
+        originalPrice: 22990000,
+        salePrice: 20390000,
+        imageLink: "https://lh3.googleusercontent.com/1pScR2frEB3Idd3r7YIkQ67B3F0N0-iVx7SWStAxIU79sbdx2J_g59-O5Vlnq3lQ7D1kFAz_FNqFNawv4oycvfkLdZXf0vc9ww=w500-rw",
+        avarageRate: 4.8,
+        soldAmount: 200,
+        type: "laptop",
+        brand: "Dell"
+    },
+    {
+        name:  "Laptop Dell Gaming G15 5515",
+        detail: "Ryzen 5 6600H/RAM 8GB/NVIDIA GeForce RTX 3050/512GB SSD/ Windows 11",
+        stock: 400,
+        originalPrice: 26490000,
+        salePrice: 23990000,
+        imageLink: "https://lh3.googleusercontent.com/3u4cnDPo-P3jzbMNDp4ZTsPWjLGKgj3YKDCfIJ4XP5OJrE8_lsPO9uv_ErigpWFSZ1nVWKvslwMrFrFjFZssgdFblFZJucfo=w500-rw",
+        avarageRate: 5.0,
+        soldAmount: 40,
+        type: "laptop",
+        brand: "Dell"
+    },
+    {
+        name:  "Laptop Lenovo Yoga Slim 7 Pro 14IHU5 O ",
+        detail: "i5-11320H/RAM 16GB/512GB SSD/ Windows 11",
+        stock: 200,
+        originalPrice: 24990000,
+        salePrice: 19990000,
+        imageLink: "https://lh3.googleusercontent.com/P5RJ8aZpY1EMjshLpnErPTzNHW6WIsmrfuSVRzl9ogBWHc4oCm08vPYTGsB0d3jBhrjjGbPv6dh6iKtEF6mGMLixVrnLFyI5=w500-rw",
+        avarageRate: 4.5,
+        soldAmount: 20,
+        type: "laptop",
+        brand: "Lenovo"
+    },
+    {
+        name:  "Laptop HP Victus 16-e1107AX",
+        detail: "Ryzen 5 6600H/RAM 8GB/512GB SSD/ Windows 11",
+        stock: 100,
+        originalPrice: 25490000,
+        salePrice: 20490000,
+        imageLink: "https://lh3.googleusercontent.com/YU6oxG2QtC_1Bc9pv4ykzK_ldevPNz6YGKrNJ4KshpcG-eNURyzSqlTpzu1ZZ-Dl-8-0Dm_bq0kopcD5BMJU4X8x3MUnDt4C=w500-rw",
+        avarageRate: 3.8,
+        soldAmount: 90,
+        type: "laptop",
+        brand: "HP"
+    },
+    {
+        name:  "Laptop GIGABYTE G5 KD",
+        detail: "i5-11400H/RAM 16GB/512GB SSD/ Windows 11",
+        stock: 300,
+        originalPrice: 26990000,
+        salePrice: 24390000,
+        imageLink: "https://lh3.googleusercontent.com/K8-muTXgikgPTktDZSNcTziWvLay4e5b5eS_O2ACcNY4REDQTocX1HCbGK56R_sgIFjO2OA97c5T00fYmyfmdGB24g8JREHe4A=w500-rw",
+        avarageRate: 4.9,
+        soldAmount: 100,
+        type: "laptop",
+        brand: "GIGABYTE"
+    },
+    {
+        name:  "Laptop LG Gram 16ZD90Q",
+        detail: "i5-1240P/RAM 16GB/512GB SSD/ Free DOS",
+        stock: 500,
+        originalPrice: 39990000,
+        salePrice: 36090000,
+        imageLink: "https://lh3.googleusercontent.com/6kD3IwBUpUV2CEmshJ4jZU5WftuyTzuQguV8WURYLZFHtWw0A1ZZ44j76jfNlsJNG7SoG3cwBC1BirQhFq7Hb45NasEQ6Ah1=w500-rw",
+        avarageRate: 4.2,
+        soldAmount: 247,
+        type: "laptop",
+        brand: "LG"
+    },
+    // Phone
+    {
+        name:  "iPhone 14 Pro Max",
+        detail: "LTPO Super Retina XDR OLED - 120Hz/ Camera sau: 48MP, 2x 12MP/ Camera trước: 12MP/ CPU: A16 Bionic/  Bộ nhớ: 256GB/ RAM: 6GB/ Hệ điều hành: IOS",
+        stock: 700,
+        originalPrice: 38990000,
+        salePrice: 30790000,
+        imageLink: "https://lh3.googleusercontent.com/GYRlKNDvBi3hMxPAfX1b6qKnN7eXWUHPvjqobPzCm3vUZAWM3B2wmB_X1GRehwUje7H71iRhH-28E7tbluDtSoOez35Ozkjk=w500-rw",
+        avarageRate: 5,
+        soldAmount: 300,
+        type: "phone",
+        brand: "iphone"
+    },
+    {
+        name:  "iPhone 12",
+        detail: "6.1 OLED - Super Retina XDR/ Camera sau: 2x 12MP/ Camera trước: 12MP/  CPU: Apple A14 Bionic/ Bộ nhớ: 64GB/ RAM: 4GB/ Hệ điều hành: IOS",
+        stock: 400,
+        originalPrice: 24990000,
+        salePrice: 15990000,
+        imageLink: "https://lh3.googleusercontent.com/n2_m2bxNsT-FdBu0cCWZg5ffkiM1pxFl4-v_PD6M8-x6HNl8eL0PKG0dYnvI1Prs8HKddEBREwiWApcSlcE=w500-rw",
+        avarageRate: 4.9,
+        soldAmount: 100,
+        type: "phone",
+        brand: "iphone"
+    },
     {
         name: "Xiaomi Redmi 12C 128GB",
-        detail: "Để đáp ứng các nhu cầu cơ bản của người dùng như lướt web, xem phim hoặc chơi được nhiều tựa game cùng mức giá thành phải chăng, thì mới đây nhà Xiaomi cũng đã trình làng Xiaomi Redmi 12C - một chiếc smartphone được trang bị con chip Helio G85 với hiệu năng khá tốt trong phân khúc cũng như bộ ống kính 50 MP giúp đáp ứng tốt nhiều tác vụ.",
+        detail: "181g, 8.9mm thickness, Android 11, MIUI 12.5, 128GB storage, microSDXC",
         stock: 100,
         originalPrice: 4000000,
         salePrice: 3590000,
@@ -10,5 +180,81 @@ export const productDetail = [
         soldAmount: 92,
         type: "phone",
         brand: "xiaomi"
+    },
+    {
+        name:  "Xiaomi Redmi 9C",
+        detail: " 6.53 IPS LCD/ Camera sau: 13MP, 2x 2MP/ Camera trước: 5MP/ CPU: Mediatek Helio G35/ Bộ nhớ: 128GB/  RAM: 4GB/ Hệ điều hành: Android",
+        stock: 300,
+        originalPrice: 3990000,
+        salePrice: 3290000,
+        imageLink: "https://lh3.googleusercontent.com/16i9VnhPllXNNzjyxfhneMWoaBog0NMNk9MtplvbnISH4u4IzdGGCx__qblm5aoQ8biVjxd5RdYlLdorOaUcked4BNd2caDDgQ=w500-rw",
+        avarageRate: 4.2,
+        soldAmount: 28,
+        type: "phone",
+        brand: "xiaomi"
+    },
+    {
+        name:  "Samsung Galaxy A53 5G",
+        detail: "6.5 Super AMOLED/ Camera sau: 12MP, 64MP, 2 x 5MP/ Camera trước: 32MP/ Bộ nhớ: 128GB/ RAM: 8GB/ Hệ điều hành: Android",
+        stock: 600,
+        originalPrice: 9990000,
+        salePrice: 7790000,
+        imageLink: "https://lh3.googleusercontent.com/Oea3qRYweE0VKShlm36L8jP9yo6-pm8OzGrchG-zLLr1LvKWG_YMXiuITT1iazkaCv-cRJiKmqiJiNwbc8d1Pk_GVSC-EOU=w500-rw",
+        avarageRate: 4.4,
+        soldAmount: 263,
+        type: "phone",
+        brand: "samsung"
+    },
+    {
+        name:  "Điện thoại Samsung Galaxy S23",
+        detail: "6.1 Dynamic AMOLED 2X/ Camera sau: 50MP, 12MP, 10MP/ Camera trước: 12MP/ CPU: Snapdragon 8 Gen 2/ Bộ nhớ: 256GB/ RAM: 8GB/ Hệ điều hành: Android",
+        stock: 1000,
+        originalPrice: 24990000,
+        salePrice: 22990000,
+        imageLink: "https://lh3.googleusercontent.com/kwlxVp58YTMBQRwCkVB3_hQcXfSufP4EWAKjRQkWvqBXM07va6Q-wxJeJ0MML0nnVyc4kIBqrUfwdYpmLt5knD974PAbF5E2QQ=w500-rw",
+        avarageRate: 4.8,
+        soldAmount: 572,
+        type: "phone",
+        brand: "samsung"
+    },
+    {
+        name:  "Huawei Enjoy 50z picture",
+        detail: "188g, 8.9mm thickness/ HarmonyOS 2.0/ 128GB/256GB storage, microSDXC",
+        stock: 400,
+        originalPrice: 3545250,
+        salePrice: 3000000,
+        imageLink: "https://fdn2.mobgsm.com/vv/pics/huawei/huawei-enjoy-50z-1.jpg",
+        avarageRate: 3.5,
+        soldAmount: 372,
+        type: "phone",
+        brand: "Huawei"
+    },
+    {
+        name:  "Điện thoại OPPO Reno8 T 5G",
+        detail: "AMOLED6.7 Full HD+/ Camera sau: Chính 108 MP & Phụ 2 MP, 2 MP/ Camera trước: 32MP/ Bộ nhớ: 256GB/ RAM: 8 GB/ Hệ điều hành: Android ",
+        stock: 1500,
+        originalPrice: 13990000,
+        salePrice: 10990000,
+        imageLink: "https://cdn.tgdd.vn/Products/Images/42/301642/oppo-reno8-t-vang-5g-1.jpg",
+        avarageRate: 4.1,
+        soldAmount: 328,
+        type: "phone",
+        brand: "OPPO"
     }
+    /*
+    ,
+    {
+        name:  "",
+        detail: "",
+        stock: 0,
+        originalPrice: 0,
+        salePrice: 0,
+        imageLink: "",
+        avarageRate: 0,
+        soldAmount: 0,
+        type: "",
+        brand: ""
+    }
+    */
+
 ]
