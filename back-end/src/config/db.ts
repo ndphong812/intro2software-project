@@ -28,13 +28,26 @@ export const insertInitialDatabase = async () => {
     const userRepository = getRepository(User);
     const user1 = {
         user_id: "123456",
-        email: "ndphong812@gmail.com",
+        email: "dev@gmail.com",
         address: "",
         phone: "",
         avatar_link: "",
         fullname: "",
         hashpass: bcrypt.hashSync("123456", 8),
-        role: ""
+        role: "normal_user"
     }
+
+    const admin = {
+        user_id: "123457",
+        email: "admin@gmail.com",
+        address: "",
+        phone: "",
+        avatar_link: "",
+        fullname: "",
+        hashpass: bcrypt.hashSync("123456", 8),
+        role: "admin"
+    }
+
     userRepository.save(user1);
+    userRepository.save(admin);
 }
