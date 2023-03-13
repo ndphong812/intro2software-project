@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "app/hook";
 import axios from "axios";
 import Footer from "components/footer";
 import Header from "components/header";
+import { HeaderAuth } from "components/header-auth";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import BeatLoader from "react-spinners/BeatLoader";
@@ -36,7 +37,6 @@ const ForgotPassword = () => {
         });
     const onSubmit = handleSubmit(async (data) => {
         const response = await dispatch(forgotPassword(data.email));
-        console.log(response);
         if (response.payload && (response.payload as any).status === 200) {
             SwalAlert('Success', (response.payload as any).data.message, 'success');
         }
@@ -47,7 +47,7 @@ const ForgotPassword = () => {
 
     return (
         <>
-            <Header />
+            <HeaderAuth />
             <div className="forgot-password">
                 <div className="container">
                     <div className="forgot-password-main">

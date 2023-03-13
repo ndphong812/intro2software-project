@@ -7,11 +7,13 @@ import HomePage from 'pages/home-page';
 import "./scss/global.scss";
 import VerifyEmail from 'pages/verify-email';
 import Cart from 'pages/cart';
-import { authState } from 'redux/auth/authSlice';
 import { verifyLoginToken } from 'redux/auth/authThunk';
 import BeatLoader from 'react-spinners/BeatLoader';
 import { loadingOveride } from 'utils/loading';
 import ForgotPassword from 'pages/forgot-password';
+import AdminDashBoard from 'pages/admin';
+import { authState } from 'redux/auth/authSlice';
+import Profile from 'pages/profile';
 
 function PrivateRoute({ children, redirectTo, authRequired }: any) {
 
@@ -48,9 +50,20 @@ function PrivateRoute({ children, redirectTo, authRequired }: any) {
 }
 
 const App = () => {
+  const access_token = localStorage.getItem("access_token");
+  const dispatch = useAppDispatch();
+  const verifyAccess = async () => {
+    await dispatch(verifyLoginToken(access_token as String));
+  }
+
+  useEffect(() => {
+    verifyAccess();
+  }, []);
+
   return (
     <Routes>
       <Route path='/' element={<HomePage />} />
+      <Route path='/admin' element={<AdminDashBoard />} />
       <Route
         path="/cart"
         element={
@@ -91,6 +104,16 @@ const App = () => {
           </PrivateRoute>
         }
       />
+
+      <Route
+        path="/profile"
+        element={
+          <PrivateRoute redirectTo="/auth/login" authRequired>
+            <Profile />
+          </PrivateRoute>
+        }
+      />
+
     </Routes>
   );
 }

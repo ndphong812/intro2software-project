@@ -62,7 +62,7 @@ class AuthController {
         } catch (error) {
             return res.status(401).send({
                 status: "failed",
-                message: "Email verification failed, possibly the link is invalid or expired"
+                message: "Token is not valid or expired"
             });
         }
     }
@@ -107,7 +107,7 @@ class AuthController {
                http://localhost:3000/verify/${token} 
                Thanks`
             };
-            
+
             const transporter = nodemailer.createTransport({
                 host: process.env.EMAIL_HOST,
                 port: Number(process.env.EMAIL_PORT),
@@ -157,7 +157,6 @@ class AuthController {
             });
         }
 
-        //Check if encrypted password match
         if (!user.checkIfUnencryptedPasswordIsValid(password)) {
             return res.status(401).send({
                 status: "failed",
@@ -165,20 +164,42 @@ class AuthController {
             });
         }
 
-        //Sing JWT, valid for 1 hour
         const token = jwt.sign(
             { email: user.email },
             config.jwtSecret,
             { expiresIn: "1h" }
         );
 
-        //Send the jwt in the response
         res.status(200).send({
             status: "success",
             access_token: token
         });
     };
 
+    static checkIsAdmin = async (req: Request, res: Response, next: any) => {
+        const { token } = req.body;
+        try {
+            const decoded = jwt.verify(token, config.jwtSecret) as JwtPayload;
+            let user: User = new User();
+            const userRepository = getRepository(User);
+            user = await userRepository.findOneOrFail({ where: { email: decoded.email } });
+
+            if (user.role === 'admin') {
+                console.log("login ne")
+                return res.status(200).send();
+            }
+
+            return res.status(403).send({
+                status: "failed",
+                message: "Require Admin Role!"
+            });
+        } catch (error) {
+            return res.status(401).send({
+                status: "failed",
+                message: "Token is not valid or expired"
+            });
+        }
+    }
 
     static fotgotPassword = async (req: Request, res: Response) => {
         let { email } = req.body;

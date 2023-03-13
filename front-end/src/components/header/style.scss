@@ -52,58 +52,88 @@
                 border-bottom-right-radius: 20px;
                 color: $white;
                 cursor: pointer;
+
+                &-desktop {
+                    display: block;
+
+                    @include phone {
+                        display: none;
+                    }
+                }
+
+                &-mobile {
+                    display: none;
+
+                    @include phone {
+                        display: block;
+                    }
+                }
             }
         }
 
         &-user {
-            align-self: center;
             width: 25%;
-            display: flex;
-            justify-content: flex-end;
-            gap: 16%;
+            color: $white;
 
             @include tablet {
+                display: flex;
                 width: 100%;
+                flex-direction: column;
                 justify-content: flex-end;
                 gap: 4%;
             }
 
-            &-cart {
-                text-decoration: none;
-                color: $white;
-                text-align: center;
+            &-upper {
                 align-self: center;
+                display: flex;
+                justify-content: flex-end;
+                gap: 4%;
 
-                &-icon {
-                    position: relative;
+                @include tablet {
+                    width: 100%;
+                    justify-content: flex-end;
+                    gap: 4%;
+                }
 
-                    &-quantity {
-                        position: absolute;
-                        top: -8px;
-                        right: 0px;
-                        background-color: $red-primary;
-                        border-radius: 50%;
-                        font-size: 12px;
-                        padding: 2px 6px;
+                &-cart {
+                    text-decoration: none;
+                    color: $white;
+                    text-align: center;
+                    align-self: center;
+
+                    &-icon {
+                        position: relative;
+
+                        &-quantity {
+                            position: absolute;
+                            top: -8px;
+                            right: 0px;
+                            background-color: $red-primary;
+                            border-radius: 50%;
+                            font-size: 12px;
+                            padding: 2px 6px;
+                        }
+                    }
+
+                    &-text {
+                        font-size: 13px;
                     }
                 }
 
-                &-text {
-                    font-size: 13px;
+                &-profile {
+                    color: $white;
+                    align-self: center;
                 }
             }
 
-
-            &-profile {
-                color: $white;
-                align-self: center;
-
-                img {
-                    width: 40px;
-                    height: 40px;
-                    object-fit: fill;
-                    border-radius: 50%;
+            &-lower {
+                @include tablet {
+                    display: flex;
+                    gap: 6px;
+                    justify-content: flex-end;
                 }
+
+                text-align: right;
             }
         }
     }

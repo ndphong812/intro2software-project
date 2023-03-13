@@ -12,6 +12,7 @@ import { SwalAlert } from 'utils/sweet-alter';
 import Header from 'components/header';
 import BeatLoader from 'react-spinners/BeatLoader';
 import { loadingOveride } from 'utils/loading';
+import { HeaderAuth } from 'components/header-auth';
 type RegisterValue = {
     email: string;
     password: string;
@@ -42,18 +43,21 @@ const Login = () => {
             resolver: yupResolver(schema)
         });
     const onSubmit = handleSubmit(async (data) => {
-
         const request: AuthRequest = {
             email: data.email,
             password: data.password
         }
         const response = await dispatch(loginUser(request));
-        console.log('response', response);
         if (response.payload && (response.payload as any).status === 200) {
             const token = localStorage.getItem("access_token");
             const response = await dispatch(verifyLoginToken(token as String));
             if (response.payload && (response.payload as any).status === 200) {
-                navigate('/');
+                if ((response.payload as any).data && (response.payload as any).data.user.role === 'admin') {
+                    navigate('/admin');
+                }
+                else {
+                    navigate('/');
+                }
             }
             else {
                 SwalAlert("Failed", (response as any).error.message, "error");
@@ -66,10 +70,10 @@ const Login = () => {
 
     return (
         <>
-            <Header />
             <div className="login">
-                <div className="container">
-                    <div className="login-main">
+                <HeaderAuth />
+                <div className="login-main">
+                    <div className="container">
                         <form className="login-main-form" onSubmit={onSubmit}>
                             <h3 className="login-main-form-title">Đăng nhập</h3>
                             <div className="login-main-form-group">
