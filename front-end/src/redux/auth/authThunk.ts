@@ -83,3 +83,20 @@ export const forgotPassword = createAsyncThunk(
         }
     }
 );
+
+export const checkIsAdmin = createAsyncThunk(
+    "auth/check-admin",
+    async (token: String) => {
+        try {
+            const response = await axios.post(
+                `${REACT_APP_ROOT_API}/auth/admin`, {
+                token: token
+            }
+            );
+            return response;
+        }
+        catch (error: any) {
+            throw error.response.data;
+        }
+    }
+);

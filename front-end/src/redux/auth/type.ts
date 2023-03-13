@@ -3,7 +3,6 @@ export type AuthRequest = {
     password: String;
 }
 export type User = {
-    id: String;
     email: String;
     address: String;
     phone: String;
@@ -16,6 +15,6 @@ export type UserResponse = {
     isLoading: Boolean;
     status: String;
     access_token: String;
-    allowAccess: Boolean;
+    isLoggin: Boolean;
     user: User;
 }

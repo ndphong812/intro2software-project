@@ -1,9 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import { getRepository } from "typeorm";
+import * as jwt from "jsonwebtoken";
 
 import { User } from "../entities/User";
+import config from "../config/config";
+import { JwtPayload } from "../controllers/type";
 
-export const checkRole = (roles: Array<string>) => {
+export const checkRole =  (roles: any) => {
     return async (req: Request, res: Response, next: NextFunction) => {
         //Get the user ID from previous midleware
         const id = res.locals.jwtPayload.userId;
@@ -21,4 +24,5 @@ export const checkRole = (roles: Array<string>) => {
         if (roles.indexOf(user.role) > -1) next();
         else res.status(401).send();
     };
+
 };

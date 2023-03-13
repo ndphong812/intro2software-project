@@ -38,6 +38,7 @@
                     @include tablet {
                         flex-direction: column;
                         gap: 6px;
+                        align-items: start;
                     }
 
                     &-title {
