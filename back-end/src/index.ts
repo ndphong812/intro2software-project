@@ -13,7 +13,7 @@ import { Ordered } from "./entities/Ordered";
 import { Product } from "./entities/Product";
 import { Chat } from "./entities/Chat";
 import dotenv from 'dotenv'
-import { insertInitialDatabase } from "./config/db";
+import { insertInitialDatabase } from "./db";
 
 dotenv.config({ path: './.env' });
 
@@ -31,7 +31,7 @@ createConnection({
 })
     .then(async connection => {
         const app = express();
-        const insertDB = insertInitialDatabase();
+        insertInitialDatabase();
         // Call midlewares
         app.use(cors());
         app.use(helmet());
