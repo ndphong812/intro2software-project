@@ -10,6 +10,7 @@ router.post("/register", AuthController.register);
 router.get("/verify-email/:token", AuthController.verifyEMail);
 router.post("/verify-login-token", AuthController.verifyLoginToken);
 router.post("/forgot-password", AuthController.fotgotPassword);
+router.post("/admin", AuthController.checkIsAdmin);
 
 //Change my password
 router.post("/change-password", [checkJwt], AuthController.changePassword);

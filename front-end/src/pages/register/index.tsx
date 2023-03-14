@@ -13,6 +13,7 @@ import { ClipLoader } from 'react-spinners';
 import BeatLoader from 'react-spinners/BeatLoader';
 import { loadingOveride } from 'utils/loading';
 import Header from 'components/header';
+import { HeaderAuth } from 'components/header-auth';
 
 type RegisterValue = {
     email: String;
@@ -61,7 +62,7 @@ const Register = () => {
 
     return (
         <>
-            <Header />
+            <HeaderAuth />
             <div className="register">
                 <div className="container">
                     <div className="register-main">

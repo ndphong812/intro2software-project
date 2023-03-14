@@ -1,17 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../../app/store';
 import { User, UserResponse } from './type';
 import { forgotPassword, loginUser, registerUser, verifyEmail, verifyLoginToken } from './authThunk';
-import { SwalAlert } from 'utils/sweet-alter';
 
 const initialState: UserResponse = {
     isLoading: false,
     status: '',
     access_token: '',
-    allowAccess: false,
+    isLoggin: false,
     user: {
-        id: "",
         email: "",
         address: "",
         phone: "",
@@ -26,7 +23,8 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         logout: (state) => {
-
+            state = { ...initialState };
+            localStorage.removeItem("access_token");
         },
     },
     extraReducers: (builder) => {
@@ -67,15 +65,16 @@ export const authSlice = createSlice({
             })
         builder
             .addCase(verifyLoginToken.fulfilled, (state, action) => {
-                state.allowAccess = true;
                 state.isLoading = false;
+                state.isLoggin = true;
+                state.access_token = action.payload.data.access_token;
+                state.user = { ...action.payload.data.user };
             })
             .addCase(verifyLoginToken.pending, (state, action) => {
                 state.isLoading = true;
             })
             .addCase(verifyLoginToken.rejected, (state, action) => {
                 state.isLoading = false;
-                state.allowAccess = false;
             })
 
         builder
