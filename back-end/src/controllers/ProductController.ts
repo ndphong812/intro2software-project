@@ -68,10 +68,11 @@ class APIProduct {
     try {
       //check undefined
       if (product_id && owner_id) {
-        const product = await deleteProductRepository.findOneOrFail({
+        let product = new Product();
+        product =  await deleteProductRepository.findOneOrFail({
           where: { product_id: product_id, owner_id: owner_id },
         });
-        await deleteProductRepository.delete(product);
+        await deleteProductRepository.delete(product as any);
         return res.status(200).json({ status: "success", message: "Deleted product" })
       }
       //has an undefined attribute  
