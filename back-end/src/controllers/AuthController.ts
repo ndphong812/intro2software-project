@@ -12,20 +12,12 @@ import nodemailer from "nodemailer";
 
 dotenv.config({ path: './back-end/.env' });
 class AuthController {
-
     static verifyEMail = async (req: Request, res: Response) => {
         const { token } = req.params;
         try {
             const decoded = jwt.verify(token, config.ourSecretKey) as JwtPayload;
             let user: User = new User();
-            user.user_id = uniqid();
-            user.email = decoded.email;
-            user.hashpass = decoded.password;
-            user.address = "";
-            user.phone = "";
-            user.avatar_link = "";
-            user.fullname = "";
-            user.role = "normal_user";
+            user.init(uniqid(), decoded.email, "", "", "", "", decoded.password, "normal_user")
             user.hashPassword();
 
             const userRepository = getRepository(User);
@@ -70,8 +62,6 @@ class AuthController {
     static register = async (req: Request, res: Response) => {
 
         let { email, password } = req.body;
-
-
         if (!(email && password)) {
             return res.status(400).send({
                 status: "failed",
