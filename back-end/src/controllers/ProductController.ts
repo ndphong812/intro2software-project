@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getRepository } from "typeorm";
+import { getRepository, getManager  } from "typeorm";
 import { Product } from "../entities/Product";
 
 class APIProduct {
@@ -75,12 +75,40 @@ class APIProduct {
         await deleteProductRepository.delete(product as any);
         return res.status(200).json({ status: "success", message: "Deleted product" })
       }
-      //has an undefined attribute 
+      //has an undefined attribute  
       return res.status(401).json({ status: "failure", message: "Can not deletet." })
 
     } catch (error) {
       return res.status(401).json({ status: "failure", message: "Product is not found." });
     }
+  }
+
+  static getAll = async (req: Request, res: Response) => {
+    const entityManager = getManager();
+    const products = await entityManager.find(Product);
+
+    res.status(200).json({products});
+  }
+
+  static getByID = async (req: Request, res: Response) => {
+    //we can find id of product in params, ../product/id
+    let idProduct = req.params.idProduct;
+
+    // idProduct = +idProduct;
+
+    const productRepository = getRepository(Product);
+    try {
+          const product = await productRepository.findOne({
+      where: {
+        product_id: idProduct
+      }
+    });
+    
+    return res.status(200).json({product});
+    } catch (error) {
+      return res.status(401).json({ status: "failure", message: "ID product is wrong" });
+    }
+
   }
 }
 
