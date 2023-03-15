@@ -12,13 +12,14 @@ import "./style.scss";
 import { useAppDispatch, useAppSelector } from 'app/hook';
 import { authSlice, authState, logout } from 'redux/auth/authSlice';
 const Header = () => {
-    const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const selector = useAppSelector(authState);
     const user = selector.user;
     const isLoggin = selector.isLoggin;
+    const navigate = useNavigate();
+    const [searchValue, setSearchValue] = useState('');
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -38,6 +39,16 @@ const Header = () => {
         navigate("/profile");
     }
 
+    const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchValue(event.target.value);
+    }
+
+    const handleSubmitForm = () => {
+        navigate({
+            pathname: '/search',
+            search: `?name=${searchValue}`,
+        });
+    }
     return (
         <>
             <div className="header">
@@ -48,13 +59,17 @@ const Header = () => {
                                 <img src="https://preview.colorlib.com/theme/electro/img/logo.png" />
                             </Link>
                         </div>
-                        <div className="header-main-search">
-                            <input className="header-main-search-input" placeholder="Nhập sản phẩm cần tìm kiếm" />
-                            <button className="header-main-search-button">
+                        <form className="header-main-search">
+                            <input
+                                onChange={(e) => handleChangeSearch(e)}
+                                className="header-main-search-input" placeholder="Nhập sản phẩm cần tìm kiếm" />
+                            <button className="header-main-search-button" onClick={() => handleSubmitForm()}
+                                disabled={!searchValue}
+                            >
                                 <p className='header-main-search-button-desktop'>Tìm kiếm</p>
                                 <FontAwesomeIcon className='header-main-search-button-mobile' icon={faSearch} />
                             </button>
-                        </div>
+                        </form>
                         <div className="header-main-user">
                             <div className="header-main-user-upper">
                                 <Link to="/cart" className="header-main-user-upper-cart">
