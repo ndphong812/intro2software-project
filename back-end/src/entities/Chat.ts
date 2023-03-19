@@ -4,7 +4,9 @@ import {
     Column,
     Unique,
     ManyToMany,
-    JoinColumn
+    JoinColumn,
+    PrimaryColumn
+    
 
 } from "typeorm";
 import { Length, IsNotEmpty } from "class-validator";
@@ -13,23 +15,23 @@ import { User } from './User';
 
 @Entity()
 export class Chat {
-    @PrimaryGeneratedColumn()
+    @PrimaryColumn()
     @ManyToMany(() => User)
-    @JoinColumn({ name: 'from_id_1' })
-    from_id!: User;
+    @JoinColumn({ name: 'from_id' })
+    from_id!: string;
 
-    @Column({ name: 'from_id_1' })
-    fromId!: String;
+    // @Column({ name: 'from_id_1' })
+    // fromId!: String;
 
-    @PrimaryGeneratedColumn()
+    @PrimaryColumn()
     @ManyToMany(() => User)
-    @JoinColumn({ name: 'to_id_1' })
-    to_id!: User;
+    @JoinColumn({ name: 'to_id' })
+    to_id!: string;
 
-    @Column({ name: 'to_id_1' })
-    toId!: String;
+    // @Column({ name: 'to_id_1' })
+    // toId!: String;
 
-    @PrimaryGeneratedColumn()
+    @PrimaryColumn()
     datetime!: Date;
 
     @Column()

@@ -4,21 +4,29 @@ import {
     Column,
     Unique,
     PrimaryColumn,
+    ManyToMany,
+    JoinColumn
 } from "typeorm";
 import { Length, IsNotEmpty } from "class-validator";
+import { User } from './User';
+
 
 @Entity()
 @Unique(["product_id"])
 export class Product {
 
-    // @PrimaryGeneratedColumn()
     @PrimaryColumn()
     @Length(1, 20)
     product_id!: string;
 
     @Column()
-    @Length(1, 20)
+    @ManyToMany(() => User)
+    @JoinColumn({ name: 'owner_id' })
     owner_id!: string;
+
+    // @Column()
+    // @Length(1, 20)
+    // owner_id!: string;
 
     @Column()
     original_price!: number;

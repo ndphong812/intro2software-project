@@ -5,7 +5,8 @@ import {
     Unique,
     ManyToOne,
     ManyToMany,
-    JoinColumn
+    JoinColumn,
+    PrimaryColumn
 } from "typeorm";
 import { Length, IsNotEmpty } from "class-validator";
 
@@ -13,23 +14,23 @@ import { User } from './User';
 
 @Entity()
 export class Notification {
-    @PrimaryGeneratedColumn()
-    @JoinColumn({ name: 'from_id_3' })
+    @PrimaryColumn()
+    @JoinColumn({ name: 'from_id' })
     @ManyToMany(() => User)
-    from_id!: User;
+    from_id!: string;
 
-    @Column({ name: 'from_id_3' })
-    fromId!: String;
+    // @Column({ name: 'from_id' })
+    // fromId!: String;
 
-    @PrimaryGeneratedColumn()
+    @PrimaryColumn()
     @ManyToMany(() => User)
-    @JoinColumn({ name: 'to_id_3' })
-    to_id!: User;
+    @JoinColumn({ name: 'to_id' })
+    to_id!: string;
 
-    @Column({ name: 'to_id_3' })
-    toId!: String;
+    // @Column({ name: 'to_id' })
+    // toId!: String;
 
-    @PrimaryGeneratedColumn()
+    @PrimaryColumn()
     datetime!: Date;
 
     @Column()
