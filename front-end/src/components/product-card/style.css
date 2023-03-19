@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
+.card-container{
+   
+    display:flex;justify-content:
+    center;align-items:center}
+    
+.card{
+    height:560px;
+    width:320px;
+    background-color:#fff;
+    border-radius:12px;
+    font-family: 'Poppins', sans-serif;
+    padding:20px}
+.image{
+    display:flex;
+    justify-content:
+    center;
+    align-items:center}
+.image img{
+    margin-top:10px;
+    width:150px}
+.heart{
+    height:40px;
+    width:40px;
+    display:flex;
+    justify-content:center;
+    align-items:center;border-radius:50%;
+    background-color:#fec34a}
+.heart i{margin-top:4px;margin-left:1px;font-weight:800;cursor:pointer;transition:all 0.5s}
+.fa-heart{color:red;font-weight:800}
