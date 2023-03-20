@@ -5,18 +5,23 @@ import { Product } from 'redux/product/type';
 import "./style.scss";
 import numeral from "numeral";
 import StarRatings from 'react-star-ratings';
+import { useNavigate } from 'react-router-dom';
 type Props = {
     product: Product
 }
 
 const ProductCard: React.FC<Props> = ({ product }) => {
 
-    console.log("pro", product);
+    const navigate = useNavigate();
+    const handleGoToDetail = () => {
+        console.log("pro", product);
+        navigate(`detail/${product.product_id}`);
+    }
     return (
         <>
             {
                 Object.keys(product).length > 0 &&
-                <div className="card">
+                <div className="card" onClick={() => handleGoToDetail()}>
                     <div className="card-image">
                         <img src={product.image_link} />
                     </div>
@@ -34,7 +39,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
                         <p className="card-detail-statistic">
                             <div className="card-detail-statistic-rate">
                                 <StarRatings
-                                    starRatedColor="#D31737"
+                                    starRatedColor="#D10024"
                                     rating={product.average_rate}
                                     starDimension="20px"
                                     starSpacing="0"

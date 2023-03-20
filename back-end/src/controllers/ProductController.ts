@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getRepository, getManager  } from "typeorm";
+import { getRepository, getManager } from "typeorm";
 import { Product } from "../entities/Product";
 import { In } from "typeorm";
 
@@ -114,7 +114,7 @@ class APIProduct {
     const entityManager = getManager();
     const products = await entityManager.find(Product);
 
-    res.status(200).json({products});
+    res.status(200).json({ products });
   }
 
   static getByID = async (req: Request, res: Response) => {
@@ -125,13 +125,13 @@ class APIProduct {
 
     const productRepository = getRepository(Product);
     try {
-          const product = await productRepository.findOne({
-      where: {
-        product_id: idProduct
-      }
-    });
-    
-    return res.status(200).json({product});
+      const product = await productRepository.findOne({
+        where: {
+          product_id: idProduct
+        }
+      });
+
+      return res.status(200).json({ product });
     } catch (error) {
       return res.status(401).json({ status: "failure", message: "ID product is wrong" });
     }
