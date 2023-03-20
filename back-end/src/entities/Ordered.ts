@@ -4,7 +4,8 @@ import {
     Column,
     Unique,
     OneToOne,
-    JoinColumn
+    JoinColumn,
+    PrimaryColumn
 } from "typeorm";
 import { Length, IsNotEmpty } from "class-validator";
 
@@ -16,32 +17,19 @@ import { Product } from './Product';
 @Unique(["order_id"])
 export class Ordered {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryColumn()
     @Length(1, 20)
     order_id!: string;
 
-    // @Column()
-    // @OneToOne(() => Product)
-    // @JoinColumn({ name: 'product_id_4' })
-    // product_id!: Product;
-
-    // @Column({ name: 'product_id_4' })
-    // productId!: String;
-    
-    // @Column()
-    // @OneToOne(() => User)
-    // @JoinColumn({ name: 'user_id' })
-    // customer_id!: User;
-
-    // @Column({ name: 'user_id' }) //err do khác tên
-    // customesId!: String;
     @Column()
-    @Length(1, 20)
-    customer_id!: string;
-
-    @Column()
-    @Length(1, 20)
+    @OneToOne(() => Product)
+    @JoinColumn({ name: 'product_id' })
     product_id!: string;
+    
+    @Column()
+    @OneToOne(() => User)
+    @JoinColumn({ name: 'user_id' })
+    customer_id!: string;
 
     @Column()
     @IsNotEmpty()

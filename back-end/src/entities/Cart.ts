@@ -5,7 +5,9 @@ import {
     Unique,
     ManyToOne,
     ManyToMany,
-    JoinColumn
+    JoinColumn,
+    JoinTable,
+    PrimaryColumn 
 } from "typeorm";
 import { Length, IsNotEmpty } from "class-validator";
 
@@ -15,21 +17,15 @@ import { Product } from './Product';
 
 @Entity()
 export class Cart {
-    @PrimaryGeneratedColumn()
+    @PrimaryColumn()
     @ManyToMany(() => User)
-    @JoinColumn({ name: 'user_id_1' })
-    user_id!: User;
+    @JoinColumn({ name: 'user_id' })
+    user_id!: string;
 
-    @Column({ name: 'user_id_1' })
-    customesId!: String;
-
-    @PrimaryGeneratedColumn()
+    @PrimaryColumn()
     @ManyToMany(() => Product)
-    @JoinColumn({ name: 'product_id_1' })
-    product_id!: Product;
-
-    @Column({ name: 'product_id_1' })
-    productId!: String;
+    @JoinColumn({ name: 'product_id' })
+    product_id!: string;
 
     @Column()
     @IsNotEmpty()
