@@ -14,6 +14,7 @@ import ForgotPassword from 'pages/forgot-password';
 import AdminDashBoard from 'pages/admin';
 import { authState } from 'redux/auth/authSlice';
 import Profile from 'pages/profile';
+import SearchPage from 'pages/search';
 
 function PrivateRoute({ children, redirectTo, authRequired }: any) {
 
@@ -111,6 +112,13 @@ const App = () => {
           <PrivateRoute redirectTo="/auth/login" authRequired>
             <Profile />
           </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/search"
+        element={
+          <SearchPage />
         }
       />
 
