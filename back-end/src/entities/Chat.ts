@@ -4,7 +4,11 @@ import {
     Column,
     Unique,
     ManyToMany,
-    JoinColumn
+    ManyToOne,
+    JoinTable,
+    JoinColumn,
+    PrimaryColumn 
+    
 
 } from "typeorm";
 import { Length, IsNotEmpty } from "class-validator";
@@ -13,23 +17,18 @@ import { User } from './User';
 
 @Entity()
 export class Chat {
-    @PrimaryGeneratedColumn()
-    @ManyToMany(() => User)
-    @JoinColumn({ name: 'from_id_1' })
-    from_id!: User;
+    @PrimaryColumn()
+    @ManyToOne(() => User)
+    @JoinColumn({referencedColumnName: 'user_id'})
+    from_id!: string;
 
-    @Column({ name: 'from_id_1' })
-    fromId!: String;
+    @PrimaryColumn()
+    @ManyToOne(() => User)
+    @JoinColumn({referencedColumnName: 'user_id'})
+    to_id!: string;
 
-    @PrimaryGeneratedColumn()
-    @ManyToMany(() => User)
-    @JoinColumn({ name: 'to_id_1' })
-    to_id!: User;
 
-    @Column({ name: 'to_id_1' })
-    toId!: String;
-
-    @PrimaryGeneratedColumn()
+    @PrimaryColumn()
     datetime!: Date;
 
     @Column()

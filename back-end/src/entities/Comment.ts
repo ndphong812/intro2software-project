@@ -4,7 +4,8 @@ import {
     Column,
     Unique,
     OneToOne,
-    JoinColumn
+    JoinColumn,
+    PrimaryColumn
 } from "typeorm";
 import { Length, IsNotEmpty } from "class-validator";
 
@@ -13,21 +14,21 @@ import { Ordered } from './Ordered';
 
 @Entity()
 export class Comment {
-    @PrimaryGeneratedColumn()
+    @PrimaryColumn()
     @OneToOne(() => Ordered)
-    @JoinColumn({ name: 'order_id_2' })
-    order_id!: Ordered;
+    @JoinColumn({ name: 'order_id' })
+    order_id!: string;
 
-    @Column({ name: 'order_id_2' })
-    orderId!: String;
+    // @Column({ name: 'order_id_2' })
+    // orderId!: String;
 
-    @PrimaryGeneratedColumn()
+    @PrimaryColumn()
     @OneToOne(() => Product)
-    @JoinColumn({ name: 'product_id_2' })
-    product_id!: Product;
+    @JoinColumn({ name: 'product_id' })
+    product_id!: string;
 
-    @Column({ name: 'product_id_2' })
-    productId!: String;
+    // @Column({ name: 'product_id' })
+    // productId!: String;
 
     @Column()
     rate!: number;
