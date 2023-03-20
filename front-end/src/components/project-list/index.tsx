@@ -1,15 +1,18 @@
+import { useAppDispatch } from "app/hook";
 import axios from "axios";
 import ProductCard from "components/product-card";
 import { useEffect, useState } from "react";
+import { getAllProduct } from "redux/product/productThunk";
 import { Product } from "redux/product/type";
 import "./style.scss";
 
 const ProductList = () => {
 
+    const dispatch = useAppDispatch();
     const [productList, setProductList] = useState<Product[]>([]);
     const getProductList = async () => {
-        const response = await axios.get("http://localhost:5000/product");
-        setProductList(response.data.products)
+        const response = await dispatch(getAllProduct());
+        setProductList(response.payload.products);
     }
 
     useEffect(() => {

@@ -15,6 +15,7 @@ import AdminDashBoard from 'pages/admin';
 import { authState } from 'redux/auth/authSlice';
 import Profile from 'pages/profile';
 import SearchPage from 'pages/search';
+import DetailProductPage from 'pages/detail-product-page';
 
 function PrivateRoute({ children, redirectTo, authRequired }: any) {
 
@@ -119,6 +120,13 @@ const App = () => {
         path="/search"
         element={
           <SearchPage />
+        }
+      />
+
+      <Route
+        path="/detail/:productId"
+        element={
+          <DetailProductPage />
         }
       />
 
