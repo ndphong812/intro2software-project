@@ -18,7 +18,7 @@ class APIProduct {
       newProduct.sold_amount = 0;
     }
 
-    // console.log("NewProduct: ", newProduct);
+    console.log("NewProduct: ", newProduct);
 
     const productRepository = await getRepository(Product);
     try {

@@ -4,8 +4,10 @@ import {
     Column,
     Unique,
     ManyToMany,
+    ManyToOne,
+    JoinTable,
     JoinColumn,
-    PrimaryColumn
+    PrimaryColumn 
     
 
 } from "typeorm";
@@ -16,20 +18,15 @@ import { User } from './User';
 @Entity()
 export class Chat {
     @PrimaryColumn()
-    @ManyToMany(() => User)
-    @JoinColumn({ name: 'from_id' })
+    @ManyToOne(() => User)
+    @JoinColumn({referencedColumnName: 'user_id'})
     from_id!: string;
 
-    // @Column({ name: 'from_id_1' })
-    // fromId!: String;
-
     @PrimaryColumn()
-    @ManyToMany(() => User)
-    @JoinColumn({ name: 'to_id' })
+    @ManyToOne(() => User)
+    @JoinColumn({referencedColumnName: 'user_id'})
     to_id!: string;
 
-    // @Column({ name: 'to_id_1' })
-    // toId!: String;
 
     @PrimaryColumn()
     datetime!: Date;

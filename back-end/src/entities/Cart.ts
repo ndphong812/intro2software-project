@@ -6,6 +6,7 @@ import {
     ManyToOne,
     ManyToMany,
     JoinColumn,
+    JoinTable,
     PrimaryColumn 
 } from "typeorm";
 import { Length, IsNotEmpty } from "class-validator";

@@ -5,6 +5,7 @@ import {
     Unique,
     ManyToOne,
     ManyToMany,
+    JoinTable,
     JoinColumn,
     PrimaryColumn
 } from "typeorm";
@@ -15,8 +16,8 @@ import { User } from './User';
 @Entity()
 export class Notification {
     @PrimaryColumn()
-    @JoinColumn({ name: 'from_id' })
     @ManyToMany(() => User)
+    @JoinColumn({ name: 'from_id' })
     from_id!: string;
 
     // @Column({ name: 'from_id' })
