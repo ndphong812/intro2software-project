@@ -1,53 +1,57 @@
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
-import "./style.css"
-const ProductCard = ()=>{
-    const{useState}=React;
-const [addcart,setaddcart]=useState(1);
-const[heart,setheart]=useState(true);
-    const AddCart=()=>{
-        if(addcart<10){ setaddcart(addcart+1); } }; const DecBag=()=>{
-            if(addcart>=1){
-            setaddcart(addcart-1);
-            }
-            };
-        
-    const Heart=()=>{
-        if(heart){
-            setheart(false);
-            }
-        else{
-            setheart(true);
-            }
-            }
-    return(
-        <>
-            <div className="card-container">
-            <div className="card">
-                <i className="fa fa-long-arrow-left"></i>
-                <div className="image">
-                    <img src="https://preview.colorlib.com/theme/electro/img/product01.png" />
+import { Product } from 'redux/product/type';
+import "./style.scss";
+import numeral from "numeral";
+import StarRatings from 'react-star-ratings';
+type Props = {
+    product: Product
+}
 
-                </div>
-                <div className="text">
-                    <h5>Category</h5>
-                    <h3>PRODUCT NAME</h3>
-                    <p>32 reviews</p>
-                </div>
-                <div className="price">
-                        <h3>$15.90</h3>
-                        <div className="qty">
-                            <i onClick={AddCart} className="fa fa-plus"></i>
-                        </div>
+const ProductCard: React.FC<Props> = ({ product }) => {
+
+    console.log("pro", product);
+    return (
+        <>
+            {
+                Object.keys(product).length > 0 &&
+                <div className="card">
+                    <div className="card-image">
+                        <img src={product.image_link} />
                     </div>
-                <div className="last_section">
-                        <button onClick={AddCart}>Add to cart</button>
-                        <div className="heart">
-                            <i onClick={Heart} className={`fa ${heart ? "fa-heart-o" : "fa-heart" }`}></i>
-                        </div>
+                    <div className="card-detail">
+                        <h3 className="card-detail-name">
+                            {product.name}
+                        </h3>
+
+                        <p className="card-detail-price card-detail-price-original">
+                            {`${numeral(product.original_price).format('0,0')}đ`}
+                        </p>
+                        <p className="card-detail-price">
+                            {`${numeral(product.sale_price).format('0,0')}đ`}
+                        </p>
+                        <p className="card-detail-statistic">
+                            <div className="card-detail-statistic-rate">
+                                <StarRatings
+                                    starRatedColor="#D31737"
+                                    rating={product.average_rate}
+                                    starDimension="20px"
+                                    starSpacing="0"
+                                />
+                            </div>
+                            <p className="card-detail-statistic-soldout">
+                                {`Đã bán: ${numeral(product.sold_amount).format('0,0')}`}
+                            </p>
+                        </p>
+
+                        <p className="card-detail-address">
+                            Thành phố HCM
+                        </p>
                     </div>
-            </div>
-            </div>
-            
+                </div>
+            }
+
         </>
     )
 }
