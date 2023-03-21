@@ -19,8 +19,6 @@ class APIProduct {
       newProduct.sold_amount = 0;
     }
 
-    console.log("NewProduct: ", newProduct);
-
     const productRepository = await getRepository(Product);
     try {
       await productRepository.save(newProduct);
@@ -34,9 +32,6 @@ class APIProduct {
   static update = async (req: Request, res: Response) => {
 
     const newValues: Partial<Product> = req.body;
-
-    // console.log("newvalues: ", newValues);
-
     if (typeof newValues.available === "string") {
       newValues.available = JSON.parse(newValues.available);
     }
@@ -62,8 +57,6 @@ class APIProduct {
   static delete = async (req: Request, res: Response) => {
     let { product_id, owner_id } = req.body;
 
-    // console.log("owner_id_delete: ", owner_id);
-
     const deleteProductRepository = getRepository(Product);
 
     try {
@@ -86,12 +79,11 @@ class APIProduct {
 
   static search = async (req: Request, res: Response) => {
     const { name } = req.body;
-    console.log("name: ", name);
     const productRepository = getRepository(Product);
     try {
 
       let products: Product[];
-      products = await productRepository.find({ where: { brand: name } });
+      products = await productRepository.find({ where: { name: name } });
       if (!products.length) {
         return res.status(400).send({
           status: "failed",

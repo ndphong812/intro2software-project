@@ -175,7 +175,6 @@ class AuthController {
             user = await userRepository.findOneOrFail({ where: { email: decoded.email } });
 
             if (user.role === 'admin') {
-                console.log("login ne")
                 return res.status(200).send();
             }
 

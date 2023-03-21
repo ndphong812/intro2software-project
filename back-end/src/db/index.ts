@@ -50,9 +50,6 @@ export const insertInitialDatabase = async () => {
         item.accept = true;
         item.product_id = `product${index}`
         item.owner_id = "2kfvzy6d4lf7r5sk4";
-
-        // console.log("Product_data: ", item);
-
         try {
             return await productRepository.save(item);
         } catch (error) {

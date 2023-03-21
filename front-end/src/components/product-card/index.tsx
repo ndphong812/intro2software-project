@@ -15,7 +15,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
     const navigate = useNavigate();
     const handleGoToDetail = () => {
         console.log("pro", product);
-        navigate(`detail/${product.product_id}`);
+        navigate(`/detail/${product.product_id}`);
     }
     return (
         <>

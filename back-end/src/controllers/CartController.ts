@@ -6,9 +6,6 @@ class APICart {
   static add = async (req: Request, res: Response) => {
 
     const newCart: Partial<Cart> = req.body;
-
-    // console.log("NewCart: ", newCart);
-
     const CartRepository = await getRepository(Cart);
     try {
       await CartRepository.save(newCart);
@@ -22,10 +19,6 @@ class APICart {
   static update = async (req: Request, res: Response) => {
 
     const newValues: Partial<Cart> = req.body;
-
-    // console.log("newvalues: ", newValues);
-
-
     const updateProductRepository = await getRepository(Cart);
 
     const result = await updateProductRepository.update(
@@ -41,8 +34,6 @@ class APICart {
 
   static delete = async (req: Request, res: Response) => {
     let { product_id, user_id } = req.body;
-
-    // console.log("owner_id_delete: ", owner_id);
 
     const deleteProductRepository = getRepository(Cart);
 
