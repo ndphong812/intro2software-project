@@ -16,7 +16,6 @@ const AdminDashBoard = () => {
     const checkRole = async () => {
         const accessToken = localStorage.getItem('access_token');
         const response = await dispatch(checkIsAdmin(accessToken as String));
-        console.log("response", response);
         if (response.payload && (response.payload as any).status === 200) {
             setIsChecking(false);
             setIsAdmin(true);

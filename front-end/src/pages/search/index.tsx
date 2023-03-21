@@ -1,26 +1,42 @@
+import { useAppDispatch } from "app/hook";
 import axios from "axios";
-import { useEffect } from "react";
+import Footer from "components/footer";
+import Header from "components/header";
+import ProductList from "components/project-list";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { searchProduct } from "redux/product/productThunk";
+import { Product } from "redux/product/type";
 
 const SearchPage = () => {
 
+    const dispatch = useAppDispatch();
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [productList, setProductList] = useState<Product[]>([]);
     const [searchParams, setSearchParams] = useSearchParams();
-    console.log("search", searchParams);
-    const name = searchParams.get("name");
+    const keyword = searchParams.get("keyword");
 
-    const getSearchResponse = () => {
-        const response = axios.post("http://localhost:5000/product/search", {
-            name: name
-        })
-        console.log("response", response);
+    const getSearchResponse = async () => {
+
+        try {
+            const response = await dispatch(searchProduct(keyword as string));
+            console.log('response', response);
+            setIsLoading(false);
+            setProductList(response.payload.data);
+        } catch (error) {
+            console.log(error);
+        }
     }
+
     useEffect(() => {
         getSearchResponse();
     }, [])
     return (
-        <div>
-            Search Page
-        </div>
+        <>
+            <Header />
+            <ProductList list={productList} />
+            <Footer />
+        </>
     )
 }
 

@@ -5,7 +5,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Logout from '@mui/icons-material/Logout';
 import Store from '@mui/icons-material/Store';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faSearch } from '@fortawesome/free-solid-svg-icons';
 import "./style.scss";
@@ -20,7 +20,8 @@ const Header = () => {
     const isLoggin = selector.isLoggin;
     const navigate = useNavigate();
     const [searchValue, setSearchValue] = useState('');
-
+    const [searchParams, setSearchParams] = useSearchParams();
+    const keyword = searchParams.get("keyword");
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -44,10 +45,12 @@ const Header = () => {
     }
 
     const handleSubmitForm = () => {
-        navigate({
-            pathname: '/search',
-            search: `?name=${searchValue}`,
-        });
+        if(searchValue){
+            navigate({
+                pathname: '/search',
+                search: `?keyword=${searchValue}`,
+            });
+        }
     }
     return (
         <>
@@ -61,6 +64,7 @@ const Header = () => {
                         </div>
                         <form className="header-main-search">
                             <input
+                                defaultValue={keyword as string}
                                 onChange={(e) => handleChangeSearch(e)}
                                 className="header-main-search-input" placeholder="Nhập sản phẩm cần tìm kiếm" />
                             <button className="header-main-search-button" onClick={() => handleSubmitForm()}
