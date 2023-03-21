@@ -10,8 +10,17 @@
         justify-content: space-between;
         background-color: $white;
 
+        @include tablet {
+            flex-direction: column;
+            align-items: center;
+        }
+
         &-image {
             width: 40%;
+
+            @include tablet {
+                width: 80%;
+            }
 
             img {
                 width: 100%;
@@ -21,6 +30,12 @@
         &-infor {
             width: 55%;
             padding: 20px 0px;
+            display: flex;
+            flex-direction: column;
+
+            @include tablet {
+                width: 90%;
+            }
 
             &-title {
                 font-weight: 500;
@@ -136,12 +151,17 @@
                 margin-top: 24px;
                 display: flex;
                 gap: 14px;
+                justify-content: space-between;
 
                 button {
                     padding: 16px 18px;
                     border-radius: 4px;
                     font-size: 16px;
                     cursor: pointer;
+
+                    @include tablet {
+                        font-size: 14px;
+                    }
                 }
 
                 &-cart {
@@ -149,6 +169,12 @@
                     border: 1px solid $red-light;
                     color: $red-primary;
                     font-weight: 500;
+                    display: flex;
+
+                    @include tablet {
+                        flex-direction: column;
+                        align-items: center;
+                    }
 
                     span {
                         margin-left: 10px;
@@ -159,6 +185,10 @@
                     background-color: $red-primary;
                     color: $white;
                     border: 0;
+
+                    @include tablet {
+                        flex: 1;
+                    }
                 }
             }
         }
