@@ -151,7 +151,10 @@
                 margin-top: 24px;
                 display: flex;
                 gap: 14px;
-                justify-content: space-between;
+
+                @include tablet {
+                    justify-content: space-between;
+                }
 
                 button {
                     padding: 16px 18px;
