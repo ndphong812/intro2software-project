@@ -16,10 +16,10 @@ import Header from 'components/header';
 import { HeaderAuth } from 'components/header-auth';
 
 type RegisterValue = {
-    email: String;
-    password: String;
-    verifyPassword: String;
-    acceptProvision: Boolean;
+    email: string;
+    password: string;
+    verifyPassword: string;
+    acceptProvision: boolean;
 };
 
 const schema = yup.object().shape({

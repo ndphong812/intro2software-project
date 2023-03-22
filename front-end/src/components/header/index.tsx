@@ -11,6 +11,7 @@ import { faCartShopping, faSearch } from '@fortawesome/free-solid-svg-icons';
 import "./style.scss";
 import { useAppDispatch, useAppSelector } from 'app/hook';
 import { authSlice, authState, logout } from 'redux/auth/authSlice';
+import { logoutUser } from 'redux/auth/authThunk';
 const Header = () => {
     const dispatch = useAppDispatch();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -29,10 +30,10 @@ const Header = () => {
         setAnchorEl(null);
     };
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         handleClose();
-        dispatch(logout());
-        navigate("/auth/login");
+        const response = await dispatch(logoutUser(localStorage.getItem("access_token") as string));
+        window.location.reload();
     }
 
     const handleAccount = () => {
@@ -45,7 +46,7 @@ const Header = () => {
     }
 
     const handleSubmitForm = () => {
-        if(searchValue){
+        if (searchValue) {
             navigate({
                 pathname: '/search',
                 search: `?keyword=${searchValue}`,
