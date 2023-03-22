@@ -9,6 +9,7 @@ import config from "../config/config";
 import dotenv from 'dotenv'
 import { JwtPayload } from "./type";
 import nodemailer from "nodemailer";
+import { blockedTokens } from "../middleware/blocklist";
 
 dotenv.config({ path: './back-end/.env' });
 class AuthController {
@@ -45,7 +46,7 @@ class AuthController {
             const userRepository = getRepository(User);
             user = await userRepository.findOneOrFail({ where: { email: decoded.email } });
 
-            const { hashpass, user_id, ...result } = user;
+            const { hashpass, ...result } = user;
             return res.status(200).send({
                 status: "success",
                 user: result,
@@ -163,6 +164,15 @@ class AuthController {
         res.status(200).send({
             status: "success",
             access_token: token
+        });
+    };
+
+    static logout = async (req: Request, res: Response) => {
+        const { token } = req.body;
+        blockedTokens.add(token);
+        res.status(200).send({
+            status: "success",
+            message: "Logout was successfully"
         });
     };
 

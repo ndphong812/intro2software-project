@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { REACT_APP_ROOT_API } from "redux/api";
+import { Cart } from "./type";
 
 export const searchProduct = createAsyncThunk(
     "product/search",
@@ -40,6 +41,22 @@ export const getDetailProduct = createAsyncThunk(
         try {
             const response = await axios.get(
                 `${REACT_APP_ROOT_API}/product/${productId}`,
+            );
+            return response.data;
+        } catch (error: any) {
+            throw error.response.data;
+        }
+    }
+);
+
+export const addProductToCart = createAsyncThunk(
+    "product/add-to-cart",
+    async (newCart: Cart) => {
+        try {
+            const response = await axios.post(
+                `${REACT_APP_ROOT_API}/cart/add`,{
+                    newCart: newCart
+                }
             );
             return response.data;
         } catch (error: any) {

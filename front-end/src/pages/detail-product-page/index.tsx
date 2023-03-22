@@ -1,18 +1,22 @@
 import Header from "components/header";
 import Footer from "components/footer";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useAppDispatch } from "app/hook";
-import { getDetailProduct } from "redux/product/productThunk";
-import { Product } from "redux/product/type";
+import { useAppDispatch, useAppSelector } from "app/hook";
+import { addProductToCart, getDetailProduct } from "redux/product/productThunk";
+import { Cart, Product } from "redux/product/type";
 import "./style.scss";
 import StarRatings from "react-star-ratings";
 import numeral from "numeral";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { authState } from 'redux/auth/authSlice';
+import { toast } from "react-toastify";
 const DetailProductPage = () => {
 
     const params = useParams();
+    const navigate = useNavigate();
+    const selector = useAppSelector(authState);
     const productId = params.productId;
     const [product, setProduct] = useState<Product>({} as Product);
     const [amount, setAmount] = useState<number>(1);
@@ -30,6 +34,36 @@ const DetailProductPage = () => {
         if (amount + value >= 1) setAmount(amount + value);
     }
 
+    const handleAddCart = async () => {
+        if (!selector.isLoggin) {
+            navigate('/auth/login');
+        }
+        else {
+            const user = selector.user;
+            const newCart: Cart = {
+                user_id: user.user_id,
+                product_id: productId as string,
+                amount: amount
+            }
+            try {
+                const response = await dispatch(addProductToCart(newCart));
+                console.log('response', response);
+                toast(response.payload.message, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                })
+            }
+            catch (err) {
+                console.log("err", err);
+            }
+        }
+    }
     return (
         <>
             <Header />
@@ -96,7 +130,7 @@ const DetailProductPage = () => {
                                     </div>
                                 </div>
                                 <div className="product-detail-main-infor-action">
-                                    <button className="product-detail-main-infor-action-cart">
+                                    <button onClick={() => handleAddCart()} className="product-detail-main-infor-action-cart">
                                         <FontAwesomeIcon icon={faCartShopping} />
                                         <span>Thêm vào giỏ hàng</span>
                                     </button>

@@ -5,7 +5,8 @@ import { Cart } from "../entities/Cart";
 class APICart {
   static add = async (req: Request, res: Response) => {
 
-    const newCart: Partial<Cart> = req.body;
+    const newCart: Partial<Cart> = req.body.newCart;
+    console.log("newCart", newCart);
     const CartRepository = await getRepository(Cart);
     try {
       await CartRepository.save(newCart);

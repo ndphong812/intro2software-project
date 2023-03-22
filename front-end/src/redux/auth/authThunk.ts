@@ -35,6 +35,22 @@ export const loginUser = createAsyncThunk(
     }
 );
 
+export const logoutUser = createAsyncThunk(
+    "auth/logout",
+    async (token: string) => {
+        try {
+            const response = await axios.post(
+                `${REACT_APP_ROOT_API}/auth/logout`,
+                token
+            );
+            return response;
+        }
+        catch (error: any) {
+            throw error.response.data;
+        }
+    }
+);
+
 export const verifyEmail = createAsyncThunk(
     "auth/verify-email",
     async (token: String) => {

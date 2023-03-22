@@ -14,3 +14,9 @@ export type Product = {
     stock: number;
     type: string;
 }
+
+export type Cart = {
+    user_id: string;
+    product_id: string;
+    amount: number;
+}
