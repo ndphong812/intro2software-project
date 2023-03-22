@@ -1,24 +1,58 @@
 import { Request, Response } from "express";
-import { getRepository, getManager  } from "typeorm";
+import { type } from "os";
+import { getRepository, getManager } from "typeorm";
 import { Cart } from "../entities/Cart";
 
 class APICart {
   static add = async (req: Request, res: Response) => {
 
-    const newCart: Partial<Cart> = req.body;
+    const newValues: Partial<Cart> = req.body;
 
-    // console.log("NewCart: ", newCart);
-
-    const CartRepository = await getRepository(Cart);
+    //check product in cart
+    const productRepository = await getRepository(Cart);
     try {
-      await CartRepository.save(newCart);
-      return res.status(200).json({ status: "success", message: "Added Cart." , product: newCart});
+      const product = await productRepository.findOne({
+        where: {
+          product_id: newValues.product_id,
+          user_id: newValues.user_id
+        }
+      })
+
+      // Product is not exist cart  => add product to cart
+      if (!product) {
+        try {
+          await productRepository.save(newValues);
+          return res.status(200).json({ status: "success", message: "Added to Cart.", product: newValues });
+        } catch (error) {
+          return res.status(401).json({ status: "failure", message: error });
+        }
+
+      }
+      //else update new product to cart
+      //if amount from body is null
+      if (!newValues.amount) {
+        return res.status(401).json({ status: "failure", message: "amount can not null." });
+      }
+      // else
+      let newamout: number = newValues.amount - 1 + 1 + product.amount; // dont revise this line
+      newValues.amount = newamout;
+
+      const result = await productRepository.update(
+        { product_id: newValues.product_id, user_id: newValues.user_id },
+        newValues,
+      );
+      if (result.affected === 0) {
+        return res.status(401).json({ status: "failure", message: "product is not found." });
+      } else {
+        return res.status(200).json({ status: "success", message: "Updated product." });
+      }
     } catch (error) {
-      return res.status(401).json({ status: "failure", message: error });
+      return res.status(401).json({ status: "failure", message: "ID product or ID user is wrong" });
     }
 
   };
 
+  // user want to revise amout.
   static update = async (req: Request, res: Response) => {
 
     const newValues: Partial<Cart> = req.body;
@@ -42,16 +76,14 @@ class APICart {
   static delete = async (req: Request, res: Response) => {
     let { product_id, user_id } = req.body;
 
-    // console.log("owner_id_delete: ", owner_id);
-
     const deleteProductRepository = getRepository(Cart);
 
     try {
       //check undefined
       if (product_id && user_id) {
         let product = new Cart();
-        product =  await deleteProductRepository.findOneOrFail({
-          where: {  product_id: product_id, user_id: user_id },
+        product = await deleteProductRepository.findOneOrFail({
+          where: { product_id: product_id, user_id: user_id },
         });
         await deleteProductRepository.delete(product as any);
         return res.status(200).json({ status: "success", message: "Deleted product" })
@@ -67,11 +99,11 @@ class APICart {
     let { user_id } = req.body;
 
     const cartRepository = getRepository(Cart);
-    let products =  await cartRepository.find({
-        where: { user_id: user_id },
-      });
+    let products = await cartRepository.find({
+      where: { user_id: user_id },
+    });
 
-    res.status(200).json({products});
+    res.status(200).json({ products });
   }
 
 }
