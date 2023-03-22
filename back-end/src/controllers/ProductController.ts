@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
-import { getRepository, getManager  } from "typeorm";
+import { getRepository, getManager } from "typeorm";
 import { Product } from "../entities/Product";
+import { In } from "typeorm";
 
 class APIProduct {
   static add = async (req: Request, res: Response) => {
@@ -18,8 +19,6 @@ class APIProduct {
       newProduct.sold_amount = 0;
     }
 
-    console.log("NewProduct: ", newProduct);
-
     const productRepository = await getRepository(Product);
     try {
       await productRepository.save(newProduct);
@@ -33,9 +32,6 @@ class APIProduct {
   static update = async (req: Request, res: Response) => {
 
     const newValues: Partial<Product> = req.body;
-
-    // console.log("newvalues: ", newValues);
-
     if (typeof newValues.available === "string") {
       newValues.available = JSON.parse(newValues.available);
     }
@@ -61,15 +57,13 @@ class APIProduct {
   static delete = async (req: Request, res: Response) => {
     let { product_id, owner_id } = req.body;
 
-    // console.log("owner_id_delete: ", owner_id);
-
     const deleteProductRepository = getRepository(Product);
 
     try {
       //check undefined
       if (product_id && owner_id) {
         let product = new Product();
-        product =  await deleteProductRepository.findOneOrFail({
+        product = await deleteProductRepository.findOneOrFail({
           where: { product_id: product_id, owner_id: owner_id },
         });
         await deleteProductRepository.delete(product as any);
@@ -83,11 +77,36 @@ class APIProduct {
     }
   }
 
+  static search = async (req: Request, res: Response) => {
+    const { name } = req.body;
+    const productRepository = getRepository(Product);
+    try {
+
+      let products: Product[];
+      products = await productRepository.find({ where: { name: name } });
+      if (!products.length) {
+        return res.status(400).send({
+          status: "failed",
+          message: "There is not product existed"
+        });
+      }
+      else {
+        return res.status(200).send({
+          status: "success",
+          message: "Success",
+          data: products
+        });
+      }
+    } catch (error) {
+      return res.status(401).json({ status: "failure", message: error });
+    }
+  };
+
   static getAll = async (req: Request, res: Response) => {
     const entityManager = getManager();
     const products = await entityManager.find(Product);
 
-    res.status(200).json({products});
+    res.status(200).json({ products });
   }
 
   static getByID = async (req: Request, res: Response) => {
@@ -98,13 +117,13 @@ class APIProduct {
 
     const productRepository = getRepository(Product);
     try {
-          const product = await productRepository.findOne({
-      where: {
-        product_id: idProduct
-      }
-    });
-    
-    return res.status(200).json({product});
+      const product = await productRepository.findOne({
+        where: {
+          product_id: idProduct
+        }
+      });
+
+      return res.status(200).json({ product });
     } catch (error) {
       return res.status(401).json({ status: "failure", message: "ID product is wrong" });
     }

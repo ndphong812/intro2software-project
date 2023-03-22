@@ -14,6 +14,10 @@ import ForgotPassword from 'pages/forgot-password';
 import AdminDashBoard from 'pages/admin';
 import { authState } from 'redux/auth/authSlice';
 import Profile from 'pages/profile';
+import SearchPage from 'pages/search';
+import DetailProductPage from 'pages/detail-product-page';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function PrivateRoute({ children, redirectTo, authRequired }: any) {
 
@@ -61,60 +65,76 @@ const App = () => {
   }, []);
 
   return (
-    <Routes>
-      <Route path='/' element={<HomePage />} />
-      <Route path='/admin' element={<AdminDashBoard />} />
-      <Route
-        path="/cart"
-        element={
-          <PrivateRoute redirectTo="/auth/login" authRequired>
-            <Cart />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/auth/register"
-        element={
-          <PrivateRoute>
-            <Register />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/auth/login"
-        element={
-          <PrivateRoute>
-            <Login />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/auth/forgot-password"
-        element={
-          <PrivateRoute redirectTo="/">
-            <ForgotPassword />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/verify/:token"
-        element={
-          <PrivateRoute redirectTo="/">
-            <VerifyEmail />
-          </PrivateRoute>
-        }
-      />
+    <div>
+      <Routes>
+        <Route path='/' element={<HomePage />} />
+        <Route path='/admin' element={<AdminDashBoard />} />
+        <Route
+          path="/cart"
+          element={
+            <PrivateRoute redirectTo="/auth/login" authRequired>
+              <Cart />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/auth/register"
+          element={
+            <PrivateRoute>
+              <Register />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/auth/login"
+          element={
+            <PrivateRoute>
+              <Login />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/auth/forgot-password"
+          element={
+            <PrivateRoute redirectTo="/">
+              <ForgotPassword />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/verify/:token"
+          element={
+            <PrivateRoute redirectTo="/">
+              <VerifyEmail />
+            </PrivateRoute>
+          }
+        />
 
-      <Route
-        path="/profile"
-        element={
-          <PrivateRoute redirectTo="/auth/login" authRequired>
-            <Profile />
-          </PrivateRoute>
-        }
-      />
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute redirectTo="/auth/login" authRequired>
+              <Profile />
+            </PrivateRoute>
+          }
+        />
 
-    </Routes>
+        <Route
+          path="/search"
+          element={
+            <SearchPage />
+          }
+        />
+
+        <Route
+          path="/detail/:productId"
+          element={
+            <DetailProductPage />
+          }
+        />
+      </Routes>
+      <ToastContainer />
+    </div>
   );
 }
 

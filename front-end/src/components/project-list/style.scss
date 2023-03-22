@@ -1,3 +1,22 @@
-.product-list{
-    &-main{display:flex}
+@import "../../scss/variable.scss";
+@import "../../scss/breakpoint.scss";
+
+.product-list {
+    padding: 20px 0px;
+
+    &-main {
+        display: grid;
+        grid-template-columns: auto auto auto auto;
+        gap: 24px 24px;
+
+        @include tablet {
+            grid-template-columns: auto auto;
+            gap: 24px 24px;
+        }
+
+        @include phone {
+            grid-template-columns: auto;
+            gap: 12px 24px;
+        }
+    }
 }

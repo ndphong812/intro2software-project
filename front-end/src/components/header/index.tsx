@@ -5,21 +5,24 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Logout from '@mui/icons-material/Logout';
 import Store from '@mui/icons-material/Store';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faSearch } from '@fortawesome/free-solid-svg-icons';
 import "./style.scss";
 import { useAppDispatch, useAppSelector } from 'app/hook';
 import { authSlice, authState, logout } from 'redux/auth/authSlice';
+import { logoutUser } from 'redux/auth/authThunk';
 const Header = () => {
-    const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const selector = useAppSelector(authState);
     const user = selector.user;
     const isLoggin = selector.isLoggin;
-
+    const navigate = useNavigate();
+    const [searchValue, setSearchValue] = useState('');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const keyword = searchParams.get("keyword");
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -27,10 +30,10 @@ const Header = () => {
         setAnchorEl(null);
     };
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         handleClose();
-        dispatch(logout());
-        navigate("/auth/login");
+        const response = await dispatch(logoutUser(localStorage.getItem("access_token") as string));
+        window.location.reload();
     }
 
     const handleAccount = () => {
@@ -38,6 +41,18 @@ const Header = () => {
         navigate("/profile");
     }
 
+    const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchValue(event.target.value);
+    }
+
+    const handleSubmitForm = () => {
+        if (searchValue) {
+            navigate({
+                pathname: '/search',
+                search: `?keyword=${searchValue}`,
+            });
+        }
+    }
     return (
         <>
             <div className="header">
@@ -48,13 +63,18 @@ const Header = () => {
                                 <img src="https://preview.colorlib.com/theme/electro/img/logo.png" />
                             </Link>
                         </div>
-                        <div className="header-main-search">
-                            <input className="header-main-search-input" placeholder="Nhập sản phẩm cần tìm kiếm" />
-                            <button className="header-main-search-button">
+                        <form className="header-main-search">
+                            <input
+                                defaultValue={keyword as string}
+                                onChange={(e) => handleChangeSearch(e)}
+                                className="header-main-search-input" placeholder="Nhập sản phẩm cần tìm kiếm" />
+                            <button className="header-main-search-button" onClick={() => handleSubmitForm()}
+                                disabled={!searchValue}
+                            >
                                 <p className='header-main-search-button-desktop'>Tìm kiếm</p>
                                 <FontAwesomeIcon className='header-main-search-button-mobile' icon={faSearch} />
                             </button>
-                        </div>
+                        </form>
                         <div className="header-main-user">
                             <div className="header-main-user-upper">
                                 <Link to="/cart" className="header-main-user-upper-cart">

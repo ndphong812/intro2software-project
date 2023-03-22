@@ -1,20 +1,21 @@
 export type AuthRequest = {
-    email: String;
+    email: string;
     password: String;
 }
 export type User = {
-    email: String;
-    address: String;
-    phone: String;
-    avatar_link: String;
-    fullname: String;
-    role: String;
+    user_id: string;
+    email: string;
+    address: string;
+    phone: string;
+    avatar_link: string;
+    fullname: string;
+    role: string;
 }
 
 export type UserResponse = {
     isLoading: Boolean;
-    status: String;
-    access_token: String;
+    status: string;
+    access_token: string;
     isLoggin: Boolean;
     user: User;
 }

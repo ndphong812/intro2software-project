@@ -6,10 +6,11 @@ import { Cart } from "../entities/Cart";
 class APICart {
   static add = async (req: Request, res: Response) => {
 
-    const newValues: Partial<Cart> = req.body;
+    const newCart: Partial<Cart> = req.body;
 
-    //check product in cart
-    const productRepository = await getRepository(Cart);
+    // console.log("NewCart: ", newCart);
+
+    const CartRepository = await getRepository(Cart);
     try {
       const product = await productRepository.findOne({
         where: {
@@ -56,10 +57,6 @@ class APICart {
   static update = async (req: Request, res: Response) => {
 
     const newValues: Partial<Cart> = req.body;
-
-    // console.log("newvalues: ", newValues);
-
-
     const updateProductRepository = await getRepository(Cart);
 
     const result = await updateProductRepository.update(

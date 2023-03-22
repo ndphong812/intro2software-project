@@ -1,0 +1,78 @@
+@import "../../scss/variable.scss";
+@import "../../scss/breakpoint.scss";
+
+.card {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    font-family: 'Poppins', sans-serif;
+    border: 2px solid $grey;
+    padding: 20px 0px;
+    cursor: pointer;
+}
+
+.card:hover .card-image {
+    transform: translate(0, -20px);
+    transition: transform 0.3s;
+}
+
+.card-image {
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+.card-image img {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.card-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+
+    &-name {
+        text-align: center;
+        color: $grey-dark;
+    }
+
+    &-price {
+        color: $red-primary;
+        font-weight: 700;
+        font-size: 18px;
+
+        &-original {
+            text-decoration: line-through;
+            font-size: 14px;
+        }
+    }
+
+    &-statistic {
+        display: flex;
+        align-items: flex-start;
+        gap: 4px;
+
+        &-rate {
+            margin-top: -1px;
+
+            &-child {
+                font-size: 14px;
+                color: $red-light;
+            }
+        }
+
+        &-soldout {
+            font-size: 16px;
+        }
+
+    }
+
+    &-address {
+        font-size: 14px;
+        color: $grey-dark;
+    }
+}

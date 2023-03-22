@@ -4,6 +4,9 @@
 .header {
     background-color: $black-primary;
     padding: 12px 0px;
+    position: sticky;
+    top: 0;
+    z-index: 999;
 
     &-main {
         display: flex;
@@ -88,7 +91,6 @@
                 display: flex;
                 justify-content: flex-end;
                 gap: 4%;
-
                 @include tablet {
                     width: 100%;
                     justify-content: flex-end;
