@@ -1,14 +1,6 @@
 import React, { useState } from 'react';
 import CartItem from "components/cart-item";
 
-
-interface Product {
-quantity: number;
-  name: string;
-  price: number;
-  imgSrc: string;
-}
-
 function Cart() {
   const [cartItems, setCartItems] = useState<Product[]>([]);
 
