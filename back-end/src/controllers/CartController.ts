@@ -6,24 +6,24 @@ import { Cart } from "../entities/Cart";
 class APICart {
   static add = async (req: Request, res: Response) => {
 
-    const newCart: Partial<Cart> = req.body;
+    const newCart: Partial<Cart> = req.body.newCart;
 
     // console.log("NewCart: ", newCart);
 
     const CartRepository = await getRepository(Cart);
     try {
-      const product = await productRepository.findOne({
+      const product = await CartRepository.findOne({
         where: {
-          product_id: newValues.product_id,
-          user_id: newValues.user_id
+          product_id: newCart.product_id,
+          user_id: newCart.user_id
         }
       })
 
       // Product is not exist cart  => add product to cart
       if (!product) {
         try {
-          await productRepository.save(newValues);
-          return res.status(200).json({ status: "success", message: "Added to Cart.", product: newValues });
+          await CartRepository.save(newCart);
+          return res.status(200).json({ status: "success", message: "Added to Cart.", product: newCart });
         } catch (error) {
           return res.status(401).json({ status: "failure", message: error });
         }
@@ -31,16 +31,16 @@ class APICart {
       }
       //else update new product to cart
       //if amount from body is null
-      if (!newValues.amount) {
+      if (!newCart.amount) {
         return res.status(401).json({ status: "failure", message: "amount can not null." });
       }
       // else
-      let newamout: number = newValues.amount - 1 + 1 + product.amount; // dont revise this line
-      newValues.amount = newamout;
+      let newamout: number = newCart.amount - 1 + 1 + product.amount; // dont revise this line
+      newCart.amount = newamout;
 
-      const result = await productRepository.update(
-        { product_id: newValues.product_id, user_id: newValues.user_id },
-        newValues,
+      const result = await CartRepository.update(
+        { product_id: newCart.product_id, user_id: newCart.user_id },
+        newCart,
       );
       if (result.affected === 0) {
         return res.status(401).json({ status: "failure", message: "product is not found." });
