@@ -17,15 +17,10 @@ const SearchPage = () => {
     const keyword = searchParams.get("keyword");
 
     const getSearchResponse = async () => {
-
-        try {
-            const response = await dispatch(searchProduct(keyword as string));
-            console.log('response', response);
-            setIsLoading(false);
-            setProductList(response.payload.data);
-        } catch (error) {
-            console.log(error);
-        }
+        const response = await dispatch(searchProduct(keyword as string));
+        console.log('response', response);
+        setIsLoading(false);
+        setProductList(response.payload.data);
     }
 
     useEffect(() => {

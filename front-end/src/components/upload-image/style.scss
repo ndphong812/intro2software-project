@@ -1,0 +1,18 @@
+@import "../../scss/variable.scss";
+@import "../../scss/breakpoint.scss";
+
+.upload-img {
+    margin: 0px auto 20px;
+}
+
+.upload-img-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 16px;
+    border: 1px solid $grey-medium;
+}
+
+.upload-img-note {
+    text-align: center;
+    font-size: 14px;
+}

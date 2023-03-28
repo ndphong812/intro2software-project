@@ -1,0 +1,14 @@
+@import "../../scss/variable.scss";
+@import "../../scss/breakpoint.scss";
+
+.step-btn {
+    color: $red-primary !important;
+}
+
+.step-title>span>span:first-child svg circle {
+    color: $red-primary !important;
+}
+
+.step-title>span>span:first-child svg {
+    color: $red-primary !important;
+}
