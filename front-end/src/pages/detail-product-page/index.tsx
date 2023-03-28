@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { authState } from 'redux/auth/authSlice';
 import { toast } from "react-toastify";
+import { SwalAlert } from "utils/sweet-alter";
 const DetailProductPage = () => {
 
     const params = useParams();
@@ -36,7 +37,9 @@ const DetailProductPage = () => {
 
     const handleAddCart = async () => {
         if (!selector.isLoggin) {
-            navigate('/auth/login');
+            SwalAlert("Oops", "Bạn phải đăng nhập trước", "error").then(result => {
+                navigate('/auth/login');
+            });
         }
         else {
             const user = selector.user;
@@ -45,23 +48,18 @@ const DetailProductPage = () => {
                 product_id: productId as string,
                 amount: amount
             }
-            try {
-                const response = await dispatch(addProductToCart(newCart));
-                console.log('response', response);
-                toast(response.payload.message, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                })
-            }
-            catch (err) {
-                console.log("err", err);
-            }
+            const response = await dispatch(addProductToCart(newCart));
+            console.log('response', response);
+            toast(response.payload.message, {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            })
         }
     }
     return (
@@ -120,7 +118,7 @@ const DetailProductPage = () => {
                                         <button onClick={() => handleChangeAmount(-1)}>
                                             <FontAwesomeIcon icon={faMinus} />
                                         </button>
-                                        <input type="number" min="1" defaultValue={1} value={amount} />
+                                        <input type="number" min="1" value={amount} />
                                         <button onClick={() => handleChangeAmount(1)}>
                                             <FontAwesomeIcon icon={faPlus} />
                                         </button>

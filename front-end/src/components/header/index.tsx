@@ -37,8 +37,8 @@ const Header = () => {
     }
 
     const handleAccount = () => {
-        handleClose();
         navigate("/profile");
+        handleClose();
     }
 
     const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,6 +52,11 @@ const Header = () => {
                 search: `?keyword=${searchValue}`,
             });
         }
+    }
+
+    const handleGoToShop = () => {
+        navigate("/my-shop");
+        handleClose();
     }
     return (
         <>
@@ -150,7 +155,7 @@ const Header = () => {
                                                 isLoggin ? "Tài khoản" : "Đăng nhập"
                                             }
                                         </MenuItem>
-                                        <MenuItem onClick={handleClose}>
+                                        <MenuItem onClick={() => handleGoToShop()}>
                                             <ListItemIcon>
                                                 <Store fontSize="small" />
                                             </ListItemIcon>
