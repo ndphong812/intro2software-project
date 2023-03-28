@@ -3,7 +3,7 @@
 
 .product-detail {
     padding: 20px 0px;
-    background-color: $grey;
+    background-color: $grey-primary;
 
     &-main {
         display: flex;
@@ -118,12 +118,6 @@
 
                 &-input {
                     display: flex;
-
-                    input::-webkit-outer-spin-button,
-                    input::-webkit-inner-spin-button {
-                        -webkit-appearance: none;
-                        margin: 0;
-                    }
 
                     button {
                         background-color: $white;

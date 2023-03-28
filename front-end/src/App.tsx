@@ -18,6 +18,8 @@ import SearchPage from 'pages/search';
 import DetailProductPage from 'pages/detail-product-page';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ApplicationPage from 'pages/application-page';
+import MyShop from 'pages/my-shop';
 
 function PrivateRoute({ children, redirectTo, authRequired }: any) {
 
@@ -70,14 +72,6 @@ const App = () => {
         <Route path='/' element={<HomePage />} />
         <Route path='/admin' element={<AdminDashBoard />} />
         <Route
-          path="/cart"
-          element={
-            <PrivateRoute redirectTo="/auth/login" authRequired>
-              <Cart />
-            </PrivateRoute>
-          }
-        />
-        <Route
           path="/auth/register"
           element={
             <PrivateRoute>
@@ -111,10 +105,30 @@ const App = () => {
         />
 
         <Route
-          path="/profile"
+          path="/profile/*"
           element={
             <PrivateRoute redirectTo="/auth/login" authRequired>
               <Profile />
+            </PrivateRoute>
+          }
+        >
+          <Route path="account" element={<ApplicationPage />} />
+        </Route>
+
+        <Route
+          path="/cart"
+          element={
+            <PrivateRoute redirectTo="/auth/login" authRequired>
+              <Cart />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/my-shop"
+          element={
+            <PrivateRoute redirectTo="/auth/login" authRequired>
+              <MyShop />
             </PrivateRoute>
           }
         />

@@ -31,7 +31,7 @@ export const insertInitialDatabase = async () => {
     //users
     const userRepository = getRepository(User);
     const user1 = new User();
-    user1.init("2kfvzy6d4lf7r5sk4", "dev@gmail.com", "", "", "", "", bcrypt.hashSync("123456", 8), "normal_user");
+    user1.init("2kfvzy6d4lf7r5sk4", "dev@gmail.com", "KHTN University", "0123456789", "https://thongtinkpop.com/wp-content/uploads/2021/03/heejin-profile.jpg", "No Name Group", bcrypt.hashSync("123456", 8), "normal_user");
     userRepository.save(user1);
 
     const user2 = new User();

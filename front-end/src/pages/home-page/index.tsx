@@ -15,13 +15,9 @@ const HomePage = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [productList, setProductList] = useState<Product[]>([]);
     const getProductList = async () => {
-        try {
-            const response = await dispatch(getAllProduct());
-            setIsLoading(false);
-            setProductList(response.payload.products);
-        } catch (error) {
-            console.log(error);
-        }
+        const response = await dispatch(getAllProduct());
+        setIsLoading(false);
+        setProductList(response.payload.products);
     }
 
     useEffect(() => {

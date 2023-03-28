@@ -1,0 +1,57 @@
+@import "../../scss/variable.scss";
+@import "../../scss/breakpoint.scss";
+
+.profile-user {
+    background-color: $grey-primary;
+
+    &-main {
+        display: flex;
+        gap: 10px;
+        padding: 16px 0px;
+
+        &-sidebar {
+            width: 180px;
+
+            &-upper {
+                padding: 16px 0px;
+                border-bottom: 1px solid $grey;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+
+                &-email {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    color: $black-primary;
+                    font-weight: 600;
+                }
+            }
+
+            &-lower {
+                display: flex;
+                gap: 26px;
+                flex-direction: column;
+                padding: 26px 0px;
+
+                &-group {
+                    display: flex;
+                    gap: 12px;
+
+                    &-title {
+                        text-decoration: none;
+                        color: $grey-dark;
+                    }
+                }
+
+                &-group-active {
+                    color: $red-primary;
+
+                    a {
+                        color: $red-primary;
+                    }
+                }
+            }
+        }
+    }
+}
