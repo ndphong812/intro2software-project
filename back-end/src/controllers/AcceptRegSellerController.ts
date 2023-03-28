@@ -9,8 +9,10 @@ class AcceptSeller {
 
     //check role != admin
     if (newValues.role === "admin") {
-        return res.status(401).json({ status: "failure", message: "User can not become admin." })
+        return res.status(401).json({ status: "failure", message: "Bạn không thể trở thành admin." })
     }
+
+    newValues.role = "seller";
 
     const acceptUserRepository = await getRepository(User);
 
@@ -19,9 +21,9 @@ class AcceptSeller {
       newValues,
     );
     if (result.affected === 0) {
-      return res.status(401).json({ status: "failure", message: "User is not found." });
+      return res.status(401).json({ status: "failure", message: "Không tìm thấy người dùng này." });
     } else {
-      return res.status(200).json({ status: "success", message: "Accepted user become seller." });
+      return res.status(200).json({ status: "success", message: "Bạn dã đăng ký thành người bán hàng thành công." });
     }
 
   }
