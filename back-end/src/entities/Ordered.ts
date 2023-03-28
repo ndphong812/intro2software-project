@@ -1,11 +1,11 @@
 import {
     Entity,
-    PrimaryGeneratedColumn,
     Column,
-    Unique,
     OneToOne,
     JoinColumn,
-    PrimaryColumn
+    PrimaryColumn,
+    ManyToOne,
+    ManyToMany
 } from "typeorm";
 import { Length, IsNotEmpty } from "class-validator";
 
@@ -14,7 +14,7 @@ import { Product } from './Product';
 
 
 @Entity()
-@Unique(["order_id"])
+
 export class Ordered {
 
     @PrimaryColumn()
@@ -22,13 +22,13 @@ export class Ordered {
     order_id!: string;
 
     @Column()
-    @OneToOne(() => Product)
+    @ManyToMany(() => Product)
     @JoinColumn({ name: 'product_id' })
     product_id!: string;
     
     @Column()
-    @OneToOne(() => User)
-    @JoinColumn({ name: 'user_id' })
+    @ManyToMany(() => User)
+    @JoinColumn({ name: 'customer_id' })
     customer_id!: string;
 
     @Column()
@@ -41,5 +41,5 @@ export class Ordered {
 
     @Column()
     @Length(0, 200)
-    note!: Date;
+    note!: string;
 }

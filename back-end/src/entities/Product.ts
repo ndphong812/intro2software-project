@@ -13,7 +13,7 @@ import { User } from './User';
 
 
 @Entity()
-@Unique(["product_id"])
+// @Unique(["product_id"])
 export class Product {
 
     @PrimaryColumn()

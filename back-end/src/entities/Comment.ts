@@ -5,7 +5,8 @@ import {
     Unique,
     OneToOne,
     JoinColumn,
-    PrimaryColumn
+    PrimaryColumn,
+    ManyToMany
 } from "typeorm";
 import { Length, IsNotEmpty } from "class-validator";
 
@@ -15,7 +16,7 @@ import { Ordered } from './Ordered';
 @Entity()
 export class Comment {
     @PrimaryColumn()
-    @OneToOne(() => Ordered)
+    @ManyToMany(() => Ordered)
     @JoinColumn({ name: 'order_id' })
     order_id!: string;
 
@@ -23,7 +24,7 @@ export class Comment {
     // orderId!: String;
 
     @PrimaryColumn()
-    @OneToOne(() => Product)
+    @ManyToMany(() => Product)
     @JoinColumn({ name: 'product_id' })
     product_id!: string;
 
