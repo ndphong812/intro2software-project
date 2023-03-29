@@ -31,14 +31,14 @@ export class Comment {
     // @Column({ name: 'product_id' })
     // productId!: String;
 
-    @Column()
+    @Column({ nullable: true })
     rate!: number;
 
-    @Column()
+    @Column({ nullable: true })
     @Length(1, 200)
     sample_link!: string;
 
-    @Column()
+    @Column({ nullable: true })
     @Length(1, 1000)
     comment_content!: string;
 }

@@ -39,7 +39,7 @@ export class Ordered {
     date_time!: Date;
 
 
-    @Column()
+    @Column({ nullable: true })
     @Length(0, 200)
     note!: string;
 }

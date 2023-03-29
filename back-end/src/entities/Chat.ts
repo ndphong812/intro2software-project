@@ -31,7 +31,7 @@ export class Chat {
     @PrimaryColumn()
     datetime!: Date;
 
-    @Column()
+    @Column({ nullable: true })
     @Length(0, 1000)
     content!: string;
 }
