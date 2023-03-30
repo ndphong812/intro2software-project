@@ -31,7 +31,7 @@ class OrderListProduct {
                     order.order_id = uuidv4(); // tạo mã duy nhất
                     order.date_time = new Date();
 
-                    console.log("add order: ", order);
+                    // console.log("add order: ", order);
 
                     await transactionalEntityManager.save(order);
                 }

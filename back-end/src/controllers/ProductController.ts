@@ -123,9 +123,9 @@ class APIProduct {
         }
       });
 
-      return res.status(200).json({ product });
+      return res.status(200).json({ status: "success", product: product });
     } catch (error) {
-      return res.status(401).json({ status: "failure", message: "ID product is wrong" });
+      return res.status(401).json({ status: "failure", message: "Sản phẩm này không tồn tại." });
     }
 
   }

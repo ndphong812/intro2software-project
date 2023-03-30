@@ -7,8 +7,9 @@ class APICart {
   static add = async (req: Request, res: Response) => {
 
     const newCart: Partial<Cart> = req.body.newCart;
+    // const newCart: Partial<Cart> = req.body;
 
-    // console.log("NewCart: ", newCart);
+    // console.log("NewCart: ", typeof newCart.amount);
 
     const CartRepository = await getRepository(Cart);
     try {
@@ -19,22 +20,22 @@ class APICart {
         }
       })
 
+      //if amount from body is null or <=0
+      if (!newCart.amount || newCart.amount <= 0) {
+        return res.status(401).json({ status: "failure", message: "Số lượng cần mua không đúng." });
+      }
+
       // Product is not exist cart  => add product to cart
       if (!product) {
         try {
           await CartRepository.save(newCart);
-          return res.status(200).json({ status: "success", message: "Added to Cart.", product: newCart });
+          return res.status(200).json({ status: "success", message: "Đã thêm sản phẩm vào giỏ", product: newCart });
         } catch (error) {
           return res.status(401).json({ status: "failure", message: error });
         }
 
       }
       //else update new product to cart
-      //if amount from body is null
-      if (!newCart.amount) {
-        return res.status(401).json({ status: "failure", message: "amount can not null." });
-      }
-      // else
       let newamout: number = newCart.amount - 1 + 1 + product.amount; // dont revise this line
       newCart.amount = newamout;
 
@@ -43,12 +44,13 @@ class APICart {
         newCart,
       );
       if (result.affected === 0) {
-        return res.status(401).json({ status: "failure", message: "product is not found." });
+        return res.status(401).json({ status: "failure", message: "Không tìm thấy sản phẩm này." });
       } else {
-        return res.status(200).json({ status: "success", message: "Updated product." });
+        return res.status(200).json({ status: "success", message: "Cập nhật số lượng thành công." });
       }
     } catch (error) {
-      return res.status(401).json({ status: "failure", message: "ID product or ID user is wrong" });
+      console.log(error)
+      return res.status(401).json({ status: "failure", message: "Thất bại, sản phẩm sai." });
     }
 
   };
@@ -64,9 +66,9 @@ class APICart {
       newValues,
     );
     if (result.affected === 0) {
-      return res.status(401).json({ status: "failure", message: "product is not found." });
+      return res.status(401).json({ status: "failure", message: "Không tìm thấy sản phẩm." });
     } else {
-      return res.status(200).json({ status: "success", message: "Updated product." });
+      return res.status(200).json({ status: "success", message: "Đã cập nhật số lượng thành công." });
     }
   }
 
@@ -83,13 +85,13 @@ class APICart {
           where: { product_id: product_id, user_id: user_id },
         });
         await deleteProductRepository.delete(product as any);
-        return res.status(200).json({ status: "success", message: "Deleted product" })
+        return res.status(200).json({ status: "success", message: "Đã xóa thành công." })
       }
       //has an undefined attribute  
-      return res.status(401).json({ status: "failure", message: "Can not deletet." })
+      return res.status(401).json({ status: "failure", message: "Không thể xóa sản phẩm này." })
 
     } catch (error) {
-      return res.status(401).json({ status: "failure", message: "Product is not found." });
+      return res.status(401).json({ status: "failure", message: "Thất bại, không tìm thấy sản phẩm." });
     }
   }
   static getAll = async (req: Request, res: Response) => {
@@ -102,33 +104,18 @@ class APICart {
       .where("cart.user_id = :user_id", { user_id: user_id })
       .getMany();
 
-
       if (!products[0]) {
         // Giỏ hàng trống
         return res.status(200).json({ status: false , message: "Giỏ hàng trống" });
 
       } else {
-        console.log("getAmount: ", typeof products[0].product_id)
-        console.log("detail PRODUCT: ",  products)
-
-        
-      // const cartItemWithExtraProp = {
-      //   ...products[0].product_id,
-      //   extraProp: "extra value"
-      // };
-
         // Giỏ hàng có sản phẩm
         return res.status(200).json({ status: true, cart: products});
-
       }
 
     } catch (error) {
       return res.status(401).send("Hệ thống đang có vấn đề, vui lòng quay lại sau.");
     }
-
-
-
-
   }
 
 }

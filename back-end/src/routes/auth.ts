@@ -1,6 +1,6 @@
 import { Router } from "express";
 import AuthController from "../controllers/AuthController";
-import { checkJwt } from "../middleware/checkJwt";
+
 
 const router = Router();
 
@@ -14,6 +14,6 @@ router.post("/forgot-password", AuthController.fotgotPassword);
 router.post("/admin", AuthController.checkIsAdmin);
 
 //Change my password
-router.post("/change-password", [checkJwt], AuthController.changePassword);
+router.post("/change-password", AuthController.changePassword);
 
 export default router;
