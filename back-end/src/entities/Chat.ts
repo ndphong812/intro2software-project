@@ -18,12 +18,12 @@ import { User } from './User';
 @Entity()
 export class Chat {
     @PrimaryColumn()
-    @ManyToMany(() => User)
+    @ManyToOne(() => User)
     @JoinColumn({referencedColumnName: 'user_id'})
     from_id!: string;
 
     @PrimaryColumn()
-    @ManyToMany(() => User)
+    @ManyToOne(() => User)
     @JoinColumn({referencedColumnName: 'user_id'})
     to_id!: string;
 

@@ -18,12 +18,12 @@ import { Product } from './Product';
 @Entity()
 export class Cart {
     @PrimaryColumn()
-    @ManyToMany(() => User)
+    @ManyToOne(() => User)
     @JoinColumn({ name: 'user_id' })
     user_id!: string;
 
     @PrimaryColumn()
-    @ManyToMany(() => Product)
+    @ManyToOne(() => Product)
     @JoinColumn({ name: 'product_id' })
     product_id!: string;
 
