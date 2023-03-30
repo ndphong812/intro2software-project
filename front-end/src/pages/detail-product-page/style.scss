@@ -1,0 +1,193 @@
+@import "../../scss/variable.scss";
+@import "../../scss/breakpoint.scss";
+
+.product-detail {
+    padding: 20px 0px;
+    background-color: $grey-primary;
+
+    &-main {
+        display: flex;
+        justify-content: space-between;
+        background-color: $white;
+
+        @include tablet {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        &-image {
+            width: 40%;
+
+            @include tablet {
+                width: 80%;
+            }
+
+            img {
+                width: 100%;
+            }
+        }
+
+        &-infor {
+            width: 55%;
+            padding: 20px 0px;
+            display: flex;
+            flex-direction: column;
+
+            @include tablet {
+                width: 90%;
+            }
+
+            &-title {
+                font-weight: 500;
+                color: $grey-dark;
+                font-size: 22px;
+            }
+
+            &-statistic {
+                margin-top: 12px;
+                display: flex;
+
+                &-rating {
+                    color: $red-primary;
+                    display: flex;
+                    gap: 4px;
+                    padding: 2px 16px 2px 0px;
+                    border-right: 2px solid $grey;
+
+                    span {
+                        text-decoration: underline;
+                    }
+                }
+
+                &-judge {
+                    display: flex;
+                    gap: 4px;
+                    padding: 2px 16px 2px 16px;
+                    border-right: 2px solid $grey;
+
+                    span:nth-child(1) {
+                        text-decoration: underline;
+                    }
+
+                    span:nth-child(2) {
+                        color: $grey-medium;
+                    }
+                }
+
+                &-soldout {
+                    display: flex;
+                    gap: 4px;
+                    padding: 2px 0px 2px 16px;
+
+                    span:nth-child(2) {
+                        color: $grey-medium;
+                    }
+                }
+            }
+
+            &-price {
+                margin-top: 12px;
+                padding: 16px 12px;
+                background-color: $grey-light;
+                display: flex;
+                gap: 10px;
+                align-items: center;
+
+                &-original {
+                    color: $grey-medium;
+                    font-weight: 400;
+                    text-decoration: line-through;
+                }
+
+                &-sale {
+                    color: $red-primary;
+                    font-weight: 500;
+                    font-size: 26px;
+                }
+            }
+
+            &-stock {
+                margin-top: 12px;
+                display: flex;
+                align-items: center;
+                gap: 24px;
+
+                &-title {
+                    color: $grey-medium;
+                }
+
+                &-input {
+                    display: flex;
+
+                    button {
+                        background-color: $white;
+                        border: 1px solid $grey;
+                        padding: 12px 12px;
+                        cursor: pointer;
+                    }
+
+                    input {
+                        display: block;
+                        padding: 12px 12px;
+                        text-align: center;
+                        width: 40px;
+                        background-color: $white;
+                        border-top: 1px solid $grey;
+                        border-bottom: 1px solid $grey;
+                        border-left: 0;
+                        border-right: 0;
+                        outline: none;
+                    }
+                }
+            }
+
+            &-action {
+                margin-top: 24px;
+                display: flex;
+                gap: 14px;
+
+                @include tablet {
+                    justify-content: space-between;
+                }
+
+                button {
+                    padding: 16px 18px;
+                    border-radius: 4px;
+                    font-size: 16px;
+                    cursor: pointer;
+
+                    @include tablet {
+                        font-size: 14px;
+                    }
+                }
+
+                &-cart {
+                    background-color: $red-very-light;
+                    border: 1px solid $red-light;
+                    color: $red-primary;
+                    font-weight: 500;
+                    display: flex;
+
+                    @include tablet {
+                        flex-direction: column;
+                        align-items: center;
+                    }
+
+                    span {
+                        margin-left: 10px;
+                    }
+                }
+
+                &-order {
+                    background-color: $red-primary;
+                    color: $white;
+                    border: 0;
+
+                    @include tablet {
+                        flex: 1;
+                    }
+                }
+            }
+        }
+    }
+}

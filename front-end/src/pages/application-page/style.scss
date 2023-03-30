@@ -1,0 +1,92 @@
+@import "../../scss/variable.scss";
+@import "../../scss/breakpoint.scss";
+
+.profile-user-main-details {
+    background-color: $white;
+    flex: 1;
+    padding: 16px 26px;
+
+    &-upper {
+        border-bottom: 1px solid $grey;
+        padding-bottom: 16px;
+
+        &-title {
+            font-weight: 400;
+        }
+
+        &-detail {
+            font-size: 14px;
+            margin-top: 4px;
+        }
+    }
+
+    &-lower {
+        padding-top: 20px;
+        display: flex;
+
+        &-left {
+            width: 75%;
+            padding-right: 50px;
+
+            &-form {
+                display: flex;
+                flex-direction: column;
+                gap: 26px;
+
+                &-group {
+                    display: flex;
+                    gap: 16px;
+                    align-items: center;
+
+                    &-label {
+                        width: 138px;
+                        text-align: right;
+                        color: $grey-text-light;
+                        font-weight: 400;
+                        font-size: 15px;
+                    }
+
+                    input {
+                        padding: 12px 12px;
+                        flex: 1;
+                        outline: none;
+                        border: 1px solid $grey;
+                    }
+
+                    input[type=number] {
+
+                        input::-webkit-outer-spin-button,
+                        input::-webkit-inner-spin-button {
+                            -webkit-appearance: none;
+                            margin: 0;
+                        }
+                    }
+
+                    &-infor {
+                        display: flex;
+                        gap: 12px;
+
+                        a {
+                            color: $red-primary;
+                            font-size: 14px;
+                        }
+                    }
+                }
+
+                &-submit {
+                    background-color: $red-primary;
+                    padding: 12px 20px;
+                    display: block;
+                    border: 0;
+                    border-radius: 20px;
+                    color: $white;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        &-right {
+            width: 25%;
+        }
+    }
+}

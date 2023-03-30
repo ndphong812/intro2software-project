@@ -1,0 +1,30 @@
+{
+  "name": "intro2software-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon back-end/src/index.ts",
+    "client": "npm run start --prefix front-end",
+    "dev": "concurrently --raw \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ndphong812/intro2software-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ndphong812/intro2software-project/issues"
+  },
+  "homepage": "https://github.com/ndphong812/intro2software-project#readme",
+  "dependencies": {
+    "concurrently": "^7.6.0",
+    "typeorm": "^0.3.12"
+  },
+  "devDependencies": {
+    "react-router-dom": "^6.8.2",
+    "ts-node": "^10.9.1"
+  }
+}
