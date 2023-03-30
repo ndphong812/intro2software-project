@@ -16,7 +16,7 @@ import { User } from './User';
 @Entity()
 export class Notification {
     @PrimaryColumn()
-    @ManyToMany(() => User)
+    @ManyToOne(() => User)
     @JoinColumn({ name: 'from_id' })
     from_id!: string;
 
@@ -24,7 +24,7 @@ export class Notification {
     // fromId!: String;
 
     @PrimaryColumn()
-    @ManyToMany(() => User)
+    @ManyToOne(() => User)
     @JoinColumn({ name: 'to_id' })
     to_id!: string;
 

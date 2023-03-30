@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { type } from "os";
-import { getRepository, getManager } from "typeorm";
+import { getRepository, getManager, createQueryBuilder } from "typeorm";
 import { Cart } from "../entities/Cart";
 
 class APICart {
@@ -95,12 +95,40 @@ class APICart {
   static getAll = async (req: Request, res: Response) => {
     let { user_id } = req.body;
 
-    const cartRepository = getRepository(Cart);
-    let products = await cartRepository.find({
-      where: { user_id: user_id },
-    });
+    //use try-catch to avoid erorr about DB.
+    try {
+      const products = await createQueryBuilder(Cart, "cart")
+      .innerJoinAndSelect("cart.product_id", "product")
+      .where("cart.user_id = :user_id", { user_id: user_id })
+      .getMany();
 
-    res.status(200).json({ products });
+
+      if (!products[0]) {
+        // Giỏ hàng trống
+        return res.status(200).json({ status: false , message: "Giỏ hàng trống" });
+
+      } else {
+        console.log("getAmount: ", typeof products[0].product_id)
+        console.log("detail PRODUCT: ",  products)
+
+        
+      // const cartItemWithExtraProp = {
+      //   ...products[0].product_id,
+      //   extraProp: "extra value"
+      // };
+
+        // Giỏ hàng có sản phẩm
+        return res.status(200).json({ status: true, cart: products});
+
+      }
+
+    } catch (error) {
+      return res.status(401).send("Hệ thống đang có vấn đề, vui lòng quay lại sau.");
+    }
+
+
+
+
   }
 
 }

@@ -22,12 +22,12 @@ export class Ordered {
     order_id!: string;
 
     @Column()
-    @ManyToMany(() => Product)
+    @ManyToOne(() => Product)
     @JoinColumn({ name: 'product_id' })
     product_id!: string;
     
     @Column()
-    @ManyToMany(() => User)
+    @ManyToOne(() => User)
     @JoinColumn({ name: 'customer_id' })
     customer_id!: string;
 

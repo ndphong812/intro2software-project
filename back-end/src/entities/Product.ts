@@ -6,7 +6,8 @@ import {
     PrimaryColumn,
     ManyToMany,
     JoinTable,
-    JoinColumn
+    JoinColumn,
+    ManyToOne
 } from "typeorm";
 import { Length, IsNotEmpty } from "class-validator";
 import { User } from './User';
@@ -21,7 +22,7 @@ export class Product {
     product_id!: string;
 
     @Column()
-    @ManyToMany(() => User)
+    @ManyToOne(() => User)
     @JoinColumn({ name: 'owner_id' })
     owner_id!: string;
 
