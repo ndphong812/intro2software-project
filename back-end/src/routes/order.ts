@@ -1,9 +1,10 @@
 import { Router } from "express";
 import OrderListProduct from "../controllers/OrderController";
+import {checkUpdate} from "../middleware/checkUpdateProfile";
 
 const router = Router();
 
-router.post("/add", OrderListProduct.order);
+router.post("/add", checkUpdate, OrderListProduct.order);
 router.post("/delete", OrderListProduct.delete);
 router.post("/", OrderListProduct.getAll);
 

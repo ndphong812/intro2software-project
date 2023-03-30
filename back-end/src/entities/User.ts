@@ -21,19 +21,19 @@ export class User {
     @Length(6, 50)
     email!: string;
 
-    @Column()
+    @Column({ nullable: true })
     @Length(0, 200)
     address!: string;
 
-    @Column()
+    @Column({ nullable: true })
     @Length(0, 10)
-    phone!: string;
+    phone!: string ;
 
-    @Column()
+    @Column({ nullable: true })
     @Length(0, 200)
     avatar_link!: string;
 
-    @Column()
+    @Column({ nullable: true })
     @Length(0, 50)
     fullname!: string;
 
