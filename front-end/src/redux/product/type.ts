@@ -20,3 +20,14 @@ export type Cart = {
     product_id: string;
     amount: number;
 }
+
+export type CartRequest = {
+    product_id: string;
+    user_id: string;
+}
+
+export type UpdateCartRequest = {
+    product_id: string;
+    user_id: string;
+    amount: number;
+}
