@@ -1,4 +1,4 @@
-import { faBell, faClipboard, faShield, faUser, faUserAlt } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faCartShopping, faClipboard, faShield, faUser, faUserAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Avatar } from "@mui/material";
 import { useAppSelector } from "app/hook";
@@ -56,6 +56,16 @@ const Profile = () => {
                                                 <FontAwesomeIcon icon={faShield} />
                                                 <Link to="/profile/change-password" className="profile-user-main-sidebar-lower-group-title">
                                                     Đổi mật khẩu
+                                                </Link>
+                                            </div>
+                                            <div
+                                                className={`profile-user-main-sidebar-lower-group 
+                                        ${path == '/profile/cart' && "profile-user-main-sidebar-lower-group-active"} 
+                                        `}>
+                                                <FontAwesomeIcon
+                                                    icon={faCartShopping} />
+                                                <Link to="/profile/cart" className="profile-user-main-sidebar-lower-group-title">
+                                                    Giỏ hàng
                                                 </Link>
                                             </div>
                                             <div
