@@ -6,7 +6,6 @@ import Login from 'pages/login';
 import HomePage from 'pages/home-page';
 import "./scss/global.scss";
 import VerifyEmail from 'pages/verify-email';
-import Cart from 'pages/cart';
 import { verifyLoginToken } from 'redux/auth/authThunk';
 import BeatLoader from 'react-spinners/BeatLoader';
 import { loadingOveride } from 'utils/loading';
@@ -20,6 +19,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ApplicationPage from 'pages/application-page';
 import MyShop from 'pages/my-shop';
+import Cart from 'pages/cart-list';
+import ChangePassword from 'pages/change-password';
 
 function PrivateRoute({ children, redirectTo, authRequired }: any) {
 
@@ -113,17 +114,9 @@ const App = () => {
           }
         >
           <Route path="account" element={<ApplicationPage />} />
+          <Route path="change-password" element={<ChangePassword />} />
+          <Route path="cart" element={<Cart />} />
         </Route>
-
-        <Route
-          path="/cart"
-          element={
-            <PrivateRoute redirectTo="/auth/login" authRequired>
-              <Cart />
-            </PrivateRoute>
-          }
-        />
-
         <Route
           path="/my-shop"
           element={

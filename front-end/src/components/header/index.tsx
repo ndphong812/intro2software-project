@@ -82,7 +82,7 @@ const Header = () => {
                         </form>
                         <div className="header-main-user">
                             <div className="header-main-user-upper">
-                                <Link to="/cart" className="header-main-user-upper-cart">
+                                <Link to="/profile/cart" className="header-main-user-upper-cart">
                                     <div className="header-main-user-upper-cart-icon">
                                         <FontAwesomeIcon icon={faCartShopping} />
 

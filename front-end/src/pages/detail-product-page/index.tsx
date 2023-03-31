@@ -49,7 +49,6 @@ const DetailProductPage = () => {
                 amount: amount
             }
             const response = await dispatch(addProductToCart(newCart));
-            console.log('response', response);
             toast(response.payload.message, {
                 position: "top-right",
                 autoClose: 2000,
