@@ -1,24 +1,27 @@
 import { Router } from "express";
 import UserController from "../controllers/UserController";
 
+import {checkAdmin} from "../middleware/checkAdmin";
 
 const router = Router();
 
+// To secure, we need email, user_id of admin.
+//delete a user
+router.get("/delete/:emailAdmin/:idAdmin/:idUser", checkAdmin, UserController.deleteUser);
 
 // Get user by id
-router.get("/:id",UserController.getOneById);
-
-//Create a new user
-router.post("/add", UserController.newUser);
-
-//delete a user
-router.get("/delete/:id", UserController.deleteUser);
-
-//edit a user
-router.post("/edit", UserController.editUser);
+router.get("/:emailAdmin/:idAdmin/:idUser", checkAdmin,UserController.getOneById);
 
 //Get all users
-router.get("/", UserController.listAll);
+router.get("/:emailAdmin/:idAdmin", checkAdmin, UserController.listAll);
+
+//Create a new user
+router.post("/add", checkAdmin, UserController.newUser);
+
+//edit a user
+router.post("/edit", checkAdmin, UserController.editUser);
+
+
 
 
 export default router;

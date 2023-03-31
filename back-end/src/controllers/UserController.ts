@@ -17,7 +17,7 @@ class UserController {
     };
 
     static getOneById = async (req: Request, res: Response) => {
-        const id: any = req.params.id;
+        const id: any = req.params.idUser;
 
         const userRepository = getRepository(User);
         try {
@@ -36,18 +36,23 @@ class UserController {
     static newUser = async (req: Request, res: Response) => {
         const { email, password, role } = req.body;
         let user = new User();
-        user.email = email;
-        user.hashpass = password;
-        user.role = role;
+        user.email = email || "";
+        user.hashpass = password || "";
+        user.role = role || "";
+
+        //check email not null and contain @ char.
+        if(!user.email.includes("@")) {
+            return res.status(409).json({status: "failure", message: "Định dạng email không đúng."});
+        }
 
         //check length password >= 6 chars
-        if (password.length < 6) {
-            return res.status(409).send("Password phải ít nhất 6 kí tự.");
+        if (user.hashpass.length < 6) {
+            return res.status(409).json({status: "failure", message: "Password phải ít nhất 6 kí tự."});
         }
 
         // check role != admin 
         if (user.role === "admin") {
-            return res.status(401).send("Bạn không thể thiết lập 1 admin mới.");
+            return res.status(401).json({status: "failure", message: "Bạn không thể thiết lập 1 admin mới."});
         }
 
         user.user_id = uuidv4(); // tạo mã duy nhất
@@ -58,16 +63,20 @@ class UserController {
         try {
             await userRepository.save(user);
         } catch (err) {
-            return res.status(409).send("Email này đã được sử dụng.");
+            return res.status(409).json({status: "failure", message: "Email này đã được sử dụng."});
         }
 
         //If all ok, send 201 response
-        return res.status(201).send("Đã tạo tài khoản thành công.");
+        return res.status(201).json({status: "success", message: "Đã tạo tài khoản thành công."});
     };
 
     static editUser = async (req: Request, res: Response) => {
 
         const { user_id, email, role } = req.body;
+
+        if(!user_id) {
+            return res.status(401).json({ status: "failure", message: "Thông tin người dùng cần cập nhật không chính xác." });
+        }
 
         //check role != admin
         if (role === "admin") {
@@ -78,8 +87,11 @@ class UserController {
         let user: User = {} as User;
         try {
             user = await userRepository.findOneOrFail({
-                where: { user_id: user_id }
+                where: { user_id: user_id },
+                select: ["email", "role"]
             });
+
+            console.log("user: ", user)
         } catch (error) {
             return res.status(404).json({ status: "failure", message: "Không tìm thấy người dùng này." });
         }
@@ -97,7 +109,6 @@ class UserController {
 
         //Try to safe, if fails, that means email already in use
         try {
-            console.log("before-update")
             await userRepository.update(
                 { user_id: user.user_id }, user
             );
@@ -111,7 +122,7 @@ class UserController {
     };
 
     static deleteUser = async (req: Request, res: Response) => {
-        const user_id = req.params.id;
+        const user_id = req.params.idUser;
         const userRepository = getRepository(User);
         let user: User = {} as User;
         try {

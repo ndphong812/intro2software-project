@@ -1,32 +1,39 @@
 import { Request, Response, NextFunction } from "express";
 import { getRepository } from "typeorm";
-import * as jwt from "jsonwebtoken";
-
 import { User } from "../entities/User";
-import config from "../config/config";
-import { JwtPayload } from "../controllers/type";
 
 export const checkAdmin = async (req: Request, res: Response, next: NextFunction) => {
-    return async (req: Request, res: Response, next: NextFunction) => {
-        //Get the user ID from previous midleware
-        const user_id = res.locals.jwtPayload.user_id; // need to test again ?
 
-        //Get user role from the database
-        const userRepository = getRepository(User);
-        let user: User = {} as User;
-        try {
-            user = await userRepository.findOneOrFail({
-                where: {user_id: user_id},
-                select: ['role']
-            });
+    //get id of admin
+    const idAdmin = req.params.idAdmin || req.body.idAdmin || "";
+    const emailAdmin = req.params.emailAdmin || req.body.emailAdmin || "";
 
-            if(user.role === "admin") {
-                next();
-            }
-        } catch (error) {
-            return res.status(401).json({status: "failure", message: "Bạn không phải admin, không thể truy cập."});
+    // console.log("idAdmin: ", idAdmin)
+    // console.log("emailAdmin: ", emailAdmin)
+
+    // if url have not info
+    if(!idAdmin  || !emailAdmin) {
+        return res.status(401).json({status: "failure", message: "Bạn không phải admin, không thể truy cập."});
+    }
+
+    //Get user role from the database
+    const userRepository = getRepository(User);
+    let user: User = {} as User;
+    try {
+        user = await userRepository.findOneOrFail({
+            where: {user_id: idAdmin, email: emailAdmin},
+            select: ['role']
+        });
+
+        console.log("Role: ", user.role);
+        // you are admin
+        if(user.role === "admin") {
+            return  next();
         }
 
-    };
+        return res.status(401).json({status: "failure", message: "Bạn không phải admin, không thể truy cập."});
+    } catch (error) {
+        return res.status(401).json({status: "failure", message: "Bạn không phải admin, không thể truy cập."});
+    }
 
 };

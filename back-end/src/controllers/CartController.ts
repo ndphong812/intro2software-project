@@ -2,10 +2,12 @@ import { Request, Response } from "express";
 import { type } from "os";
 import { getRepository, getManager, createQueryBuilder } from "typeorm";
 import { Cart } from "../entities/Cart";
+const jwt = require('jsonwebtoken'); 
+
+import config from "../config/config";
 
 class APICart {
   static add = async (req: Request, res: Response) => {
-
     const newCart: Partial<Cart> = req.body.newCart;
     // const newCart: Partial<Cart> = req.body;
 
