@@ -13,7 +13,7 @@ export const checkAdmin = async (req: Request, res: Response, next: NextFunction
 
     // if url have not info
     if(!idAdmin  || !emailAdmin) {
-        return res.status(401).json({status: "failure", message: "Bạn không phải admin, không thể truy cập."});
+        return res.status(401).json({status: "failure", message: "Bạn không phải người quản trị, không thể truy cập."});
     }
 
     //Get user role from the database
@@ -31,9 +31,9 @@ export const checkAdmin = async (req: Request, res: Response, next: NextFunction
             return  next();
         }
 
-        return res.status(401).json({status: "failure", message: "Bạn không phải admin, không thể truy cập."});
+        return res.status(401).json({status: "failure", message: "Bạn không phải người quản trị, không thể truy cập."});
     } catch (error) {
-        return res.status(401).json({status: "failure", message: "Bạn không phải admin, không thể truy cập."});
+        return res.status(401).json({status: "failure", message: "Bạn không phải người quản trị, không thể truy cập."});
     }
 
 };

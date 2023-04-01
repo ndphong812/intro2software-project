@@ -1,35 +1,46 @@
 import { Request, Response } from "express";
-import { getRepository, getManager } from "typeorm";
+import { getRepository, getManager, IsNull } from "typeorm";
 import { Product } from "../entities/Product";
 import { In } from "typeorm";
+
+const { v4: uuidv4 } = require('uuid');
+
 
 class APIProduct {
   static add = async (req: Request, res: Response) => {
 
+    //example payload: { user_id, owner_id, original_price, sale_price, name, detail, stock, image_link, ?average_rate, ?sold_amount, type, brand }
+    // Note: user_id = owner_id -> seller can only add product which they own.
+
     const newProduct: Partial<Product> = req.body;
 
-    newProduct.available = true;
-    newProduct.accept = true;
+    newProduct.product_id = uuidv4(); // tạo mã duy nhất
 
-    if (typeof newProduct.average_rate !== "string") {
+
+    newProduct.available = true;
+    newProduct.accept = false;
+
+    if (!newProduct.average_rate) {
       newProduct.average_rate = 0;
     }
 
-    if (typeof newProduct.sold_amount !== "string") {
+    if (!newProduct.sold_amount) {
       newProduct.sold_amount = 0;
     }
 
     const productRepository = await getRepository(Product);
     try {
       await productRepository.save(newProduct);
-      return res.status(200).json({ status: "success", message: "Added product." });
+      return res.status(200).json({ status: "success", message: "Thêm sản phẩm thành công." });
     } catch (error) {
-      return res.status(401).json({ status: "failure", message: error });
+      return res.status(401).json({ status: "failure", message: "Thêm sản phẩm thất bại." });
     }
 
   };
 
   static update = async (req: Request, res: Response) => {
+
+    //example payload: { user_id, "owner_id", product_id, attributes need to update }
 
     const newValues: Partial<Product> = req.body;
     if (typeof newValues.available === "string") {
@@ -39,41 +50,69 @@ class APIProduct {
       newValues.accept = JSON.parse(newValues.accept);
     }
 
-    const updateProductRepository = await getRepository(Product);
-
-    const result = await updateProductRepository.update(
-      { product_id: newValues.product_id, owner_id: newValues.owner_id },
-      newValues,
-    );
-    if (result.affected === 0) {
-      return res.status(401).json({ status: "failure", message: "product is not found." });
-    } else {
-      return res.status(200).json({ status: "success", message: "Updated product." });
+    // To avoid error ->  delete attribute user_id in newValues
+    if ("user_id" in newValues) {
+      delete newValues.user_id;
     }
 
+    //seller can not update attribute accept.
+    newValues.accept = true; // true and false in this line is same
+    delete newValues.accept; // because we will delete attribute accept in this line
+
+    // console.log("NewValue-Partial: ", newValues);
+
+    try {
+      const updateProductRepository = await getRepository(Product);
+
+      await updateProductRepository.update(
+        { product_id: newValues.product_id, owner_id: newValues.owner_id },
+        newValues,
+      );
+
+      return res.status(200).json({ status: "success", message: "Cập nhật thông tin sản phẩm thành công." });
+
+    } catch (error) {
+      return res.status(401).json({ status: "failure", message: "Cập nhật thông tin sản phẩm thất bại." });
+    }
 
   }
 
   static delete = async (req: Request, res: Response) => {
+
+    //example payload: {user_id, owner_id, product_id}
+
     let { product_id, owner_id } = req.body;
 
     const deleteProductRepository = getRepository(Product);
 
+    //check undefined
+    if (!product_id) {
+      product_id = "";
+    }
+
     try {
-      //check undefined
-      if (product_id && owner_id) {
-        let product = new Product();
-        product = await deleteProductRepository.findOneOrFail({
-          where: { product_id: product_id, owner_id: owner_id },
-        });
-        await deleteProductRepository.delete(product as any);
-        return res.status(200).json({ status: "success", message: "Deleted product" })
+      let productDB = new Product();
+      productDB = await deleteProductRepository.findOneOrFail({
+        where: { product_id: product_id, owner_id: owner_id },
+      });
+      // if this product has not been approved-> seller can delete request -> delete in DB
+      if (productDB.accept == false) {
+        await deleteProductRepository.delete(productDB as any);
       }
-      //has an undefined attribute  
-      return res.status(401).json({ status: "failure", message: "Can not deletet." })
+      // else set available = false
+      else {
+        productDB.available = false;
+        await deleteProductRepository.update(
+          { product_id: productDB.product_id, owner_id: productDB.owner_id },
+          productDB,
+        );
+      }
+
+      return res.status(200).json({ status: "success", message: "Đã xóa sản phẩm thành công." })
 
     } catch (error) {
-      return res.status(401).json({ status: "failure", message: "Product is not found." });
+      //Have error  
+      return res.status(401).json({ status: "failure", message: "Không tìm thấy sản phẩm cần xóa." });
     }
   }
 
@@ -102,12 +141,66 @@ class APIProduct {
     }
   };
 
+  // all products accepted -> display for user
   static getAll = async (req: Request, res: Response) => {
-    const entityManager = getManager();
-    const products = await entityManager.find(Product);
+    const products = await getRepository(Product).find({
+      where: { accept: true, available: true }
+    });
 
     res.status(200).json({ products });
+  };
+
+  // admin accept list product of seller
+  static acceptListProduct = async (req: Request, res: Response) => {
+
+    //example payload: { idAdmin: ..., emailAdmin..., listProduct: [ {product_id:..., owner_id:...}, {...}] }
+
+    const listProduct: Partial<Product>[] = req.body.listProduct;
+
+    let listAccept: string = "Accepted : ";
+    let listError: string = "listError : ";
+
+    const acceptProductRepository = getRepository(Product);
+
+    //list product may be error
+    try {
+      //we dont need to use transaction
+      for (const pro of listProduct) {
+        try {
+          let acceptProduct = await acceptProductRepository.findOneOrFail(
+            {
+              where: { product_id: pro.product_id, owner_id: pro.owner_id, available: true, accept: false }
+            })
+
+          // update accept = true
+          acceptProduct.accept = true;
+          await acceptProductRepository.update(
+            { product_id: pro.product_id, owner_id: pro.owner_id },
+            acceptProduct,
+          );
+
+          listAccept = listAccept + "|" + pro.product_id;
+          // console.log("ListAccept: ", listAccept)
+        } catch (error) {
+          listError = listError + "|" + pro.product_id;
+        }
+      }
+    }
+    catch {
+      return res.status(401).json({ status: "failure", message: "Thông tin lỗi, không thể thực hiện được." })
+    }
+    return res.status(200).json({ listAccept: listAccept, listError: listError });
+
   }
+
+  // all products is not accepted -> display admin to accept.
+  static getProductNoAccept = async (req: Request, res: Response) => {
+    const products = await getRepository(Product).find({
+      where: { accept: false, available: true }
+    });
+
+    res.status(200).json({ products });
+  };
 
   static getByID = async (req: Request, res: Response) => {
     //we can find id of product in params, ../product/id
@@ -117,7 +210,7 @@ class APIProduct {
 
     const productRepository = getRepository(Product);
     try {
-      const product = await productRepository.findOne({
+      const product = await productRepository.findOneOrFail({
         where: {
           product_id: idProduct
         }
