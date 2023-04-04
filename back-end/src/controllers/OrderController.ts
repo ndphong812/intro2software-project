@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
-import { getRepository, getManager, EntityManager } from "typeorm";
+import { getRepository, getManager, EntityManager, In } from "typeorm";
 import { Cart } from "../entities/Cart";
+import { Product } from "../entities/Product";
 import { Ordered } from "../entities/Ordered";
 
 const { v4: uuidv4 } = require('uuid');
@@ -25,11 +26,16 @@ class OrderListProduct {
                     const order = new Ordered();
                     Object.assign(order, pro);
 
+                    //get sale_price in product
+                    let product = await transactionalEntityManager.findOneOrFail(Product, { where: { product_id: pro.product_id } });
+
                     //NOTE: if customer change amout for product=> first, we will update it in cart
                     // then, we get new amout.
                     order.amount = deleteProduct.amount;
                     order.order_id = uuidv4(); // tạo mã duy nhất
                     order.date_time = new Date();
+                    order.status = "chờ xác nhận";
+                    order.total_monney = order.amount * product.sale_price;
 
                     // console.log("add order: ", order);
 
@@ -52,7 +58,18 @@ class OrderListProduct {
 
         const orderRepository = getRepository(Ordered);
         let orders = await orderRepository.find({
-            where: { customer_id: customer_id },
+            where: { customer_id: customer_id, status: In(["chờ xác nhận", "đang giao"]) },
+        });
+
+        res.status(200).json({ orders });
+    }
+
+    static historyOrder = async (req: Request, res: Response) => {
+        let customer_id = req.body.customer_id || "";
+
+        const orderRepository = getRepository(Ordered);
+        let orders = await orderRepository.find({
+            where: { customer_id: customer_id, status: "đã giao" },
         });
 
         res.status(200).json({ orders });
@@ -85,8 +102,41 @@ class OrderListProduct {
         }
     };
 
-    // update what ?
-    static update = async (req: Request, res: Response) => {};
+    // update status 
+    static updateStatus = async (req: Request, res: Response) => {
+
+        //example payload: {order_id, product_id, customer_id, status}
+
+        let customer_id = req.body.customer_id || "";
+        let product_id = req.body.product_id || "";
+        let status = req.body.status || "";
+        let order_id = req.body.order_id || "";
+
+        if (status != "đang giao" && status != "đã giao") {
+            return res.status(401).json({ status: "failure", message: "Thông tin không chính xác, vui lòng xem lại." })
+        }
+
+        try {
+            const orderRepository = getRepository(Ordered);
+
+            let order = await orderRepository.findOneOrFail({
+                where: { customer_id: customer_id, product_id: product_id, status: In(["chờ xác nhận", "đang giao"]), order_id: order_id },
+            });
+
+            //exist order in Db => update
+            order.status = status;
+
+            await orderRepository.update(
+                { customer_id: customer_id, product_id: product_id, order_id: order_id },
+                order,
+            );
+
+            return res.status(200).json({ status: "success", message: "Cập nhật thành công!" });
+
+        } catch (error) {
+            return res.status(401).json({ status: "failure", message: "Thông tin sai, vui lòng xem lại." });
+        }
+    };
 }
 
 export default OrderListProduct;
