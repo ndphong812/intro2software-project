@@ -6,6 +6,8 @@ import cart from "./cart";
 import acceptSeller from "./acceptRegSeller";
 import order from "./order";
 
+
+
 const routes = Router();
 
 routes.use("/auth", auth);

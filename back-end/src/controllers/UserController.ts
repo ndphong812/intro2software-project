@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { validate } from "class-validator";
+const { v4: uuidv4 } = require('uuid');
 
 import { User } from "../entities/User";
 
@@ -12,99 +13,135 @@ class UserController {
             select: ["user_id", "email", "role"] // don't send password in response
         });
 
-        res.send(users);
+        return res.status(200).json({ users });
     };
 
     static getOneById = async (req: Request, res: Response) => {
-        const id: any = req.params.id;
+        const id: any = req.params.idUser;
 
         const userRepository = getRepository(User);
         try {
-            // const user = await userRepository.findOneOrFail(id, {
-            //     select: ["id", "email", "role"] //We dont want to send the password on response
-            // });
-            const user = await userRepository.findOneOrFail(id);
+            const user = await userRepository.findOneOrFail({
+                where: { user_id: id },
+                select: ['user_id', 'email', 'role']
+            });
+
+            return res.status(200).json({ status: "success", user: user });
+
         } catch (error) {
-            res.status(404).send("User not found");
+            return res.status(401).json({ status: "failure", message: "Người dùng không tồn tại." });
         }
     };
 
     static newUser = async (req: Request, res: Response) => {
-        let { email, password, role } = req.body;
+        const { email, password, role } = req.body;
         let user = new User();
-        user.email = email;
-        user.hashpass = password;
-        user.role = role;
+        user.email = email || "";
+        user.hashpass = password || "";
+        user.role = role || "";
 
-        //Validade if the parameters are ok
-        const errors = await validate(user);
-        if (errors.length > 0) {
-            res.status(400).send(errors);
-            return;
+        //check email not null and contain @ char.
+        if(!user.email.includes("@")) {
+            return res.status(409).json({status: "failure", message: "Định dạng email không đúng."});
         }
 
+        //check length password >= 6 chars
+        if (user.hashpass.length < 6) {
+            return res.status(409).json({status: "failure", message: "Password phải ít nhất 6 kí tự."});
+        }
+
+        // check role != admin 
+        if (user.role === "admin") {
+            return res.status(401).json({status: "failure", message: "Bạn không thể thiết lập 1 admin mới."});
+        }
+
+        user.user_id = uuidv4(); // tạo mã duy nhất
         user.hashPassword();
 
         //Try to save. If fails, the email is already in use
         const userRepository = getRepository(User);
         try {
             await userRepository.save(user);
-        } catch (e) {
-            res.status(409).send("email already in use");
-            return;
+        } catch (err) {
+            return res.status(409).json({status: "failure", message: "Email này đã được sử dụng."});
         }
 
         //If all ok, send 201 response
-        res.status(201).send("User created");
+        return res.status(201).json({status: "success", message: "Đã tạo tài khoản thành công."});
     };
 
     static editUser = async (req: Request, res: Response) => {
-        const id = req.params.id;
 
-        const { email, role } = req.body;
+        const { user_id, email, role } = req.body;
+
+        if(!user_id) {
+            return res.status(401).json({ status: "failure", message: "Thông tin người dùng cần cập nhật không chính xác." });
+        }
+
+        //check role != admin
+        if (role === "admin") {
+            return res.status(401).json({ status: "failure", message: "Không thể tạo ra 1 admin mới." });
+        }
 
         const userRepository = getRepository(User);
         let user: User = {} as User;
         try {
-            user = await userRepository.findOneOrFail(id as any);
+            user = await userRepository.findOneOrFail({
+                where: { user_id: user_id },
+                select: ["email", "role"]
+            });
+
+            console.log("user: ", user)
         } catch (error) {
-            res.status(404).send("User is not found");
-            return;
+            return res.status(404).json({ status: "failure", message: "Không tìm thấy người dùng này." });
+        }
+
+        //can not update for admin
+        if (user.role === "admin") {
+            return res.status(404).json({ status: "failure", message: "Không thể chỉnh sửa thông tin người dùng này." });
+
         }
 
         user.email = email;
         user.role = role;
-        const errors = await validate(user);
-        if (errors.length > 0) {
-            res.status(400).send(errors);
-            return;
-        }
+
+        // console.log("USER_EDIT: ", user);
 
         //Try to safe, if fails, that means email already in use
         try {
-            await userRepository.save(user);
-        } catch (e) {
-            res.status(409).send("email already in use");
-            return;
+            await userRepository.update(
+                { user_id: user.user_id }, user
+            );
+
+            return res.status(201).json({ status: "sucess", message: "Đã cập nhật thành công." });
+        } catch (error) {
+            return res.status(409).json({ status: "failure", message: "Email này đã được sủ dụng rồi." });
         }
-        //After all send a 204 (no content, but accepted) response
-        res.status(204).send();
+        //success
+
     };
 
     static deleteUser = async (req: Request, res: Response) => {
-        const id = req.params.id;
+        const user_id = req.params.idUser;
         const userRepository = getRepository(User);
         let user: User = {} as User;
         try {
-            user = await userRepository.findOneOrFail(id as any);
-        } catch (error) {
-            res.status(404).send("User is not found");
-            return;
-        }
-        userRepository.delete(id);
+            user = await userRepository.findOneOrFail({
+                where: { user_id: user_id }
+            });
 
-        //After all send a 204 (no content, but accepted) response
-        res.status(204).send();
+            //check user!= admin
+            if (user.role === "admin") {
+                return res.status(401).json({ status: "failure", message: "Không thể xóa người dùng này." });
+            }
+
+            userRepository.delete(user_id as any);
+
+            return res.status(200).json({ status: "success", message: "Xóa người dùng thành công." })
+
+        } catch (error) {
+            return res.status(404).json({ status: "failure", message: "Người dùng này không tồn tại." });
+        }
     };
 };
 

@@ -1,36 +1,27 @@
 import { Router } from "express";
 import UserController from "../controllers/UserController";
-import { checkJwt } from "../middleware/checkJwt";
-import { checkRole } from "../middleware/checkRole";
+
+import {checkAdmin} from "../middleware/checkAdmin";
 
 const router = Router();
 
-//Get all users
-// router.get("/", [checkJwt, checkRole(["ADMIN"])], UserController.listAll);
-router.get("/", UserController.listAll);
+// To secure, we need email, user_id of admin.
+//delete a user
+router.get("/delete/:emailAdmin/:idAdmin/:idUser", checkAdmin, UserController.deleteUser);
 
-// Get one user
-router.get(
-    "/:id([0-9]+)",
-    [checkJwt, checkRole(["ADMIN"])],
-    UserController.getOneById
-);
+// Get user by id
+router.get("/:emailAdmin/:idAdmin/:idUser", checkAdmin,UserController.getOneById);
+
+//Get all users
+router.get("/:emailAdmin/:idAdmin", checkAdmin, UserController.listAll);
 
 //Create a new user
-router.post("/", [checkJwt, checkRole(["ADMIN"])], UserController.newUser);
+router.post("/add", checkAdmin, UserController.newUser);
 
-//Edit one user
-router.patch(
-    "/:id([0-9]+)",
-    [checkJwt, checkRole(["ADMIN"])],
-    UserController.editUser
-);
+//edit a user
+router.post("/edit", checkAdmin, UserController.editUser);
 
-//Delete one user
-router.delete(
-    "/:id([0-9]+)",
-    [checkJwt, checkRole(["ADMIN"])],
-    UserController.deleteUser
-);
+
+
 
 export default router;
