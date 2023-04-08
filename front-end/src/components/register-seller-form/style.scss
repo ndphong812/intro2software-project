@@ -12,3 +12,15 @@
 .step-title>span>span:first-child svg {
     color: $red-primary !important;
 }
+
+.my-shop-step-3 {
+    text-align: center;
+
+    &-icon {
+        color: $red-primary;
+
+        path {
+            font-size: 46px;
+        }
+    }
+}

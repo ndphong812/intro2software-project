@@ -13,6 +13,7 @@ import { faCartShopping, faMinus, faPlus } from "@fortawesome/free-solid-svg-ico
 import { authState } from 'redux/auth/authSlice';
 import { toast } from "react-toastify";
 import { SwalAlert } from "utils/sweet-alter";
+import FormDialog from "components/order-form";
 const DetailProductPage = () => {
 
     const params = useParams();
@@ -22,6 +23,14 @@ const DetailProductPage = () => {
     const [product, setProduct] = useState<Product>({} as Product);
     const [amount, setAmount] = useState<number>(1);
     const dispatch = useAppDispatch();
+    const [open, setOpen] = useState(false);
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     const getDetail = async () => {
         const response = await dispatch(getDetailProduct(productId as string));
         setProduct(response.payload.product);
@@ -60,6 +69,10 @@ const DetailProductPage = () => {
                 theme: "light",
             })
         }
+    }
+
+    const handleOrder = () => {
+        handleClickOpen();
     }
     return (
         <>
@@ -131,7 +144,7 @@ const DetailProductPage = () => {
                                         <FontAwesomeIcon icon={faCartShopping} />
                                         <span>Thêm vào giỏ hàng</span>
                                     </button>
-                                    <button className="product-detail-main-infor-action-order">
+                                    <button onClick={() => handleOrder()} className="product-detail-main-infor-action-order">
                                         Mua ngay
                                     </button>
                                 </div>
@@ -140,6 +153,7 @@ const DetailProductPage = () => {
                     </div>
                 </div>
             }
+            <FormDialog isOpen={open} />
             <Footer />
         </>
     )
