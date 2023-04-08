@@ -38,8 +38,16 @@ export class Ordered {
     @Column()
     date_time!: Date;
 
-
     @Column({ nullable: true })
     @Length(0, 200)
     note!: string;
+
+    @Column()
+    @Length(1, 30)
+    @IsNotEmpty()
+    status!: string;
+
+    @Column()
+    @IsNotEmpty()
+    total_monney!: number;
 }
