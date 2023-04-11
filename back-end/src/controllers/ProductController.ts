@@ -141,9 +141,44 @@ class APIProduct {
     }
   };
 
+    // get product  of seller which is requesting
+    static productSellerRequest = async (req: Request, res: Response) => { 
+    //example payload: {user_id, owner_id, product_id}
+
+      const owner_id = req.body.owner_id;
+  
+      const products = await getRepository(Product).find({
+        where: { accept: false, available: true, owner_id:  owner_id}
+      });
+  
+      res.status(200).json({ products });
+    }
+
+  // get product accepted of seller .
+  static productSellerAccepted = async (req: Request, res: Response) => { 
+    //example payload: {user_id, owner_id, product_id}
+
+    const owner_id = req.body.owner_id;
+
+    const products = await getRepository(Product).find({
+      where: { accept: true, available: true, owner_id:  owner_id}
+    });
+
+    res.status(200).json({ products });
+  }
+
   // all products accepted -> display for user
   static getAll = async (req: Request, res: Response) => {
+    // get page
+    let page = Number(req.query.page) || 1;
+    let perpage = 8;
+
+    // console.log("page: ", page);
+    // console.log("type: ", req.query.page);
+
     const products = await getRepository(Product).find({
+      skip: (page-1)* perpage,
+      take: perpage,
       where: { accept: true, available: true }
     });
 
@@ -202,6 +237,7 @@ class APIProduct {
     res.status(200).json({ products });
   };
 
+  
   static getByID = async (req: Request, res: Response) => {
     //we can find id of product in params, ../product/id
     let idProduct = req.params.idProduct;
