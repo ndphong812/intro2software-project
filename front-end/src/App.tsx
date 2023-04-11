@@ -21,6 +21,7 @@ import ApplicationPage from 'pages/application-page';
 import MyShop from 'pages/my-shop';
 import Cart from 'pages/cart-list';
 import ChangePassword from 'pages/change-password';
+import Checkout from 'pages/checkout';
 
 function PrivateRoute({ children, redirectTo, authRequired }: any) {
 
@@ -137,6 +138,14 @@ const App = () => {
           path="/detail/:productId"
           element={
             <DetailProductPage />
+          }
+        />
+        <Route
+          path="/checkout"
+          element={
+            <PrivateRoute redirectTo="/auth/login" authRequired>
+              <Checkout />
+            </PrivateRoute>
           }
         />
       </Routes>

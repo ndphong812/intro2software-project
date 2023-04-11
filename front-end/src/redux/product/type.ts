@@ -31,3 +31,14 @@ export type UpdateCartRequest = {
     user_id: string;
     amount: number;
 }
+
+export type Ordered = {
+    order_id: string;
+    product_id: string;
+    customer_id: string;
+    amount: number;
+    date_time: Date;
+    note: string;
+    status: string;
+    total_monney: number;
+}

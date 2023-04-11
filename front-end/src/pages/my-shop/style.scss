@@ -3,4 +3,33 @@
 
 .my-shop {
     padding: 16px 0px;
+    background-color: $grey-primary;
+
+    &-main {
+        padding: 26px 26px;
+        background-color: $white;
+
+        &-title {
+            font-size: 28px;
+            font-weight: normal;
+        }
+
+        &-manage {
+            margin-top: 26px;
+
+            &-add {
+                margin-bottom: 16px;
+                background-color: rgb(189, 0, 25);
+                color: #fff;
+                border: none;
+                border-radius: 4px;
+                padding: 8px 12px;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: rgb(189, 0, 25);
+                }
+            }
+        }
+    }
 }

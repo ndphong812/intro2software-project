@@ -146,7 +146,7 @@ class APIProduct {
     //example payload: {user_id, owner_id}
 
       const owner_id = req.body.owner_id;
-  
+      console.log("owner_id", owner_id)
       const products = await getRepository(Product).find({
         where: { accept: false, available: true, owner_id:  owner_id}
       });

@@ -12,6 +12,7 @@ class OrderListProduct {
         // example payload: [{product_id, customer_id, note}, {}...]
         // we should set note = "" instead of note = null -> error
         const listProOrder: Partial<Ordered>[] = req.body;
+        console.log('listProOrder', listProOrder)
         try {
             await getManager().transaction(async (transactionalEntityManager) => {
 

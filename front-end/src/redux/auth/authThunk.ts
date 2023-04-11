@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { REACT_APP_ROOT_API } from "redux/api";
 import { SwalAlert } from "utils/sweet-alter";
-import { AuthRequest } from "./type";
+import { AuthRequest, RegisterSellerValue } from "./type";
 
 export const registerUser = createAsyncThunk(
     "auth/register",

@@ -130,3 +130,27 @@
 .total {
   text-align: right;
 }
+
+.checkout-btn {
+  display: flex;
+  justify-content: end;
+  margin-top: 16px;
+
+  button {
+    justify-self: end;
+    background-color: rgb(189, 0, 25);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgb(189, 0, 25);
+    }
+  }
+}
+
+.shopping-cart {
+  flex: 1;
+}
