@@ -10,8 +10,6 @@ router.get("/listNeedAccept/:emailAdmin/:idAdmin", checkAdmin, APIProduct.getPro
 router.post("/acceptListProduct", checkAdmin, APIProduct.acceptListProduct);
 
 //for seller
-router.post("/request", checkSeller, APIProduct.productSellerRequest);  // all product need to accept
-router.post("/seller", APIProduct.productSellerAccepted);  // all product accepted by admin
 router.post("/add", checkSeller, APIProduct.add);
 router.post("/update", checkSeller, APIProduct.update);
 router.post("/delete", checkSeller, APIProduct.delete);
