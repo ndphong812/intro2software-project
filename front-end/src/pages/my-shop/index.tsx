@@ -5,10 +5,25 @@ import HorizontalLinearStepper from "components/register-seller-form"
 import { authState } from "redux/auth/authSlice"
 import "./style.scss";
 import ProductListSeller from "components/product-list-seller"
+import axios from "axios"
+import { useEffect, useState } from "react"
 
 export const MyShop = () => {
     const selector = useAppSelector(authState);
     const user = selector.user;
+
+    const [products, setProducts] = useState([]);
+    const getData = async () => {
+        const response = await axios.post('http://localhost:5000/product/request', {
+            owner_id: user.user_id,
+            user_id: user.user_id,
+        })
+        setProducts(response.data.products);
+    }
+
+    useEffect(() => {
+        getData();
+    }, [])
     return (
         <>
             {
@@ -32,7 +47,7 @@ export const MyShop = () => {
                                         <div className="my-shop-main-manage">
                                             <button className="my-shop-main-manage-add">Thêm sản phẩm mới</button>
                                             <div className="my-shop-main-manage-list">
-                                                <ProductListSeller />
+                                                <ProductListSeller products={products} />
                                             </div>
                                         </div>
                                     </div>

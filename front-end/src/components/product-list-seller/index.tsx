@@ -27,7 +27,10 @@ const rows = [
     createData('IPhone 14 Promax', 159, 6.0, 24, 4.0, 1),
 ];
 
-const ProductListSeller = () => {
+type Props = {
+    products: any
+}
+const ProductListSeller: React.FC<Props> = ({products}) => {
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
