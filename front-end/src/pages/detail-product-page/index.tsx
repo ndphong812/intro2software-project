@@ -22,6 +22,11 @@ const DetailProductPage = () => {
     const [product, setProduct] = useState<Product>({} as Product);
     const [amount, setAmount] = useState<number>(1);
     const dispatch = useAppDispatch();
+    const [open, setOpen] = useState(false);
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
     const getDetail = async () => {
         const response = await dispatch(getDetailProduct(productId as string));
         setProduct(response.payload.product);
@@ -61,6 +66,15 @@ const DetailProductPage = () => {
             })
         }
     }
+
+    const handleOrder = () => {
+        navigate("/checkout")
+    }
+
+    const handleCloseForm = ()=>{
+        setOpen(false);
+    }
+
     return (
         <>
             <Header />
@@ -131,7 +145,7 @@ const DetailProductPage = () => {
                                         <FontAwesomeIcon icon={faCartShopping} />
                                         <span>Thêm vào giỏ hàng</span>
                                     </button>
-                                    <button className="product-detail-main-infor-action-order">
+                                    <button onClick={() => handleOrder()} className="product-detail-main-infor-action-order">
                                         Mua ngay
                                     </button>
                                 </div>

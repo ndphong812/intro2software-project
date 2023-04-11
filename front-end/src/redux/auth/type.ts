@@ -19,3 +19,10 @@ export type UserResponse = {
     isLoggin: Boolean;
     user: User;
 }
+
+export type RegisterSellerValue = {
+    user_id: string;
+    fullname: string;
+    phone: string;
+    address: boolean;
+}

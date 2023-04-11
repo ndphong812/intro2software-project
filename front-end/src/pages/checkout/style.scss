@@ -1,0 +1,67 @@
+@import "../../scss/variable.scss";
+@import "../../scss/breakpoint.scss";
+
+.checkout {
+    background-color: $grey-primary;
+    padding: 16px 0px;
+
+    &-main {
+        &-user {
+            background-color: $white;
+            padding: 26px 26px;
+
+            &-location {
+                color: $red-primary;
+
+                &-text {
+                    margin-left: 12px;
+                }
+            }
+
+            &-detail {
+                margin-top: 26px;
+                font-size: 15px;
+                display: flex;
+                gap: 26px;
+
+                &-name {
+                    font-weight: 600;
+                }
+
+                &-change {
+                    a {
+                        color: $red-primary;
+                    }
+                }
+            }
+        }
+
+        &-order {
+            padding: 26px 16px;
+            margin-top: 16px;
+            background-color: $white;
+
+            &-title {
+                padding-bottom: 16px;
+                display: flex;
+                font-weight: 500;
+
+                &-name {
+                    width: 50%;
+                }
+
+                &-price {
+                    width: 20%;
+                }
+
+                &-amount {
+                    width: 15%;
+                }
+
+                &-total {
+                    width: 15%;
+                }
+            }
+        }
+    }
+}
