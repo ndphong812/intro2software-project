@@ -13,7 +13,6 @@ import { faCartShopping, faMinus, faPlus } from "@fortawesome/free-solid-svg-ico
 import { authState } from 'redux/auth/authSlice';
 import { toast } from "react-toastify";
 import { SwalAlert } from "utils/sweet-alter";
-import FormDialog from "components/order-form";
 const DetailProductPage = () => {
 
     const params = useParams();
@@ -26,9 +25,6 @@ const DetailProductPage = () => {
     const [open, setOpen] = useState(false);
     const handleClickOpen = () => {
         setOpen(true);
-    };
-    const handleClose = () => {
-        setOpen(false);
     };
 
     const getDetail = async () => {
@@ -72,8 +68,13 @@ const DetailProductPage = () => {
     }
 
     const handleOrder = () => {
-        handleClickOpen();
+        navigate("/checkout")
     }
+
+    const handleCloseForm = ()=>{
+        setOpen(false);
+    }
+
     return (
         <>
             <Header />
@@ -153,7 +154,6 @@ const DetailProductPage = () => {
                     </div>
                 </div>
             }
-            <FormDialog isOpen={open} />
             <Footer />
         </>
     )

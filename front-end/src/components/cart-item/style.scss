@@ -2,31 +2,29 @@
 @import "../../scss/breakpoint.scss";
 
 .cart-item {
-  display: flex;
   margin-bottom: 20px;
-
-  img {
-    width: 128px;
-    height: 128px;
-    margin-right: 20px;
-  }
 
   .item-details {
     flex: 1;
     display: flex;
-    gap: 12px;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-
-    h3 {
-      width: 36%;
-      align-self: flex-start;
-    }
-
-    .quantity {
+    &-main {
       display: flex;
       align-items: center;
+      width: 50%;
+
+      img {
+        width: 128px;
+        height: 128px;
+        margin-right: 20px;
+      }
+    }
+
+    &-quantity {
+      width: 20%;
+      display: flex;
+      justify-content: space-between;
 
       input {
         margin: 0px 6px;
@@ -41,9 +39,27 @@
           box-shadow: 0 0 2px 1px rgba(0, 123, 255, 0.3);
         }
       }
+
+      button {
+        background-color: rgb(189, 0, 25);
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 8px 12px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: rgb(189, 0, 25);
+        }
+      }
     }
 
-    button {
+    &-price {
+      width: 15%;
+    }
+
+    &-btn {
+      width: 15%;
       background-color: rgb(189, 0, 25);
       color: #fff;
       border: none;

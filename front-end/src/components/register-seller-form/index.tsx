@@ -55,7 +55,9 @@ const HorizontalLinearStepper = () => {
         }
         const response = await dispatch(registerSeller(formData));
         if (response.payload) {
-            SwalAlert("success", (response.payload as any).data.message, "success");
+            SwalAlert("success", (response.payload as any).data.message, "success").then(result => {
+                window.location.reload();
+            });
         }
     });
 

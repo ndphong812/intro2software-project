@@ -6,14 +6,12 @@ import { authReducer, authState } from 'redux/auth/authSlice';
 import { getCarts, removeFromCarts, updateAmountCarts } from 'redux/product/productThunk';
 import "./style.scss";
 
-function CartItem({ product_id, name, price, imgSrc, quantity, onUpdateCart, onRemoveFromCart, setCartItems }: {
+function CartItem({ product_id, name, price, imgSrc, quantity, setCartItems }: {
   product_id: string,
   name: string,
   price: number,
   imgSrc: string,
   quantity: number,
-  onUpdateCart: any,
-  onRemoveFromCart: any,
   setCartItems: any
 }) {
 
@@ -21,13 +19,9 @@ function CartItem({ product_id, name, price, imgSrc, quantity, onUpdateCart, onR
   const dispatch = useAppDispatch();
   const selector = useAppSelector(authState);
   const user = selector.user;
-  const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onUpdateCart({ name, price, imgSrc, quantity: Number(event.target.value) });
-  };
 
   const handleRemoveFromCartClick = async () => {
     const response = await dispatch(removeFromCarts({ user_id: user.user_id, product_id: product_id }));
-    console.log('response', response)
     if (response.payload.status === "success") {
       const responseReload = await dispatch(getCarts(user.user_id));
       setCartItems(responseReload.payload.cart);
@@ -63,10 +57,12 @@ function CartItem({ product_id, name, price, imgSrc, quantity, onUpdateCart, onR
 
   return (
     <div className="cart-item">
-      <img src={imgSrc} alt={name} />
       <div className="item-details">
-        <h3>{name}</h3>
-        <div className="quantity">
+        <div className="item-details-main">
+          <img src={imgSrc} alt={name} />
+          <h3>{name}</h3>
+        </div>
+        <div className="item-details-quantity">
           <div className="product-detail-main-infor-stock-input">
             <button onClick={() => handleChangeAmountButton(-1)}>
               <FontAwesomeIcon icon={faMinus} />
@@ -79,8 +75,8 @@ function CartItem({ product_id, name, price, imgSrc, quantity, onUpdateCart, onR
             </button>
           </div>
         </div>
-        <p>{price} x {quantity} = {(price * quantity).toLocaleString()} đ</p>
-        <button onClick={handleRemoveFromCartClick}>Xóa</button>
+        <p className='item-details-price'>{price} x {quantity} = {(price * quantity).toLocaleString()} đ</p>
+        <button className='item-details-btn' onClick={handleRemoveFromCartClick}>Xóa</button>
       </div>
     </div>
   );
