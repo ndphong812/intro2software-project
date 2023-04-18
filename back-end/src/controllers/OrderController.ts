@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getRepository, getManager, EntityManager, In } from "typeorm";
+import { getRepository, getManager, EntityManager, In, createQueryBuilder } from "typeorm";
 import { Cart } from "../entities/Cart";
 import { Product } from "../entities/Product";
 import { Ordered } from "../entities/Ordered";
@@ -54,6 +54,7 @@ class OrderListProduct {
         return res.status(200).json({ status: "success", message: "Đặt hàng thành công!" });
     };
 
+    // get all order for user
     static getAll = async (req: Request, res: Response) => {
         let customer_id = req.body.customer_id || "";
 
@@ -65,6 +66,7 @@ class OrderListProduct {
         res.status(200).json({ orders });
     }
 
+    // get history order for user
     static historyOrder = async (req: Request, res: Response) => {
         let customer_id = req.body.customer_id || "";
 
@@ -103,15 +105,54 @@ class OrderListProduct {
         }
     };
 
-    // update status 
+    // get all order of each seller
+    static getAllOrderSeller = async (req: Request, res: Response) => {
+        let owner_id = req.body.owner_id || "";  // id seller
+
+        //use try-catch to avoid erorr about DB.
+    try {
+        const orders = await createQueryBuilder(Ordered, "order")
+        .innerJoinAndSelect("order.product_id", "product")
+        .where("product.owner_id = :owner_id", { owner_id: owner_id })
+        .andWhere("order.status IN (:...status)", { status: ["chờ xác nhận", "đang giao"] })
+        .getMany();
+  
+        if (!orders[0]) {
+          // empty
+          return res.status(200).json({ status: false , message: "Chưa có ai đặt hàng." });
+  
+        } else {
+          // has order
+          return res.status(200).json({ status: true, cart: orders});
+        }
+  
+      } catch (error) {
+        return res.status(401).send("Hệ thống đang có vấn đề, vui lòng quay lại sau.");
+      }
+    }
+
+    // seller update status 
     static updateStatus = async (req: Request, res: Response) => {
 
-        //example payload: {order_id, product_id, customer_id, status}
-
+        //example payload: {owner_id, user_id, order_id, product_id, customer_id, status}
+        // owner_id, user_id : id seller
         let customer_id = req.body.customer_id || "";
+        let owner_id = req.body.owner_id || "";  // id seller
         let product_id = req.body.product_id || "";
         let status = req.body.status || "";
         let order_id = req.body.order_id || "";
+
+        //check seller own this product
+        try {
+            const productRepository = getRepository(Product);
+
+            await productRepository.findOneOrFail(
+                {
+                    where: { product_id: product_id, owner_id: owner_id }
+                });
+        } catch (error) {
+            return res.status(401).json({ status: "failure", message: "Bạn không phải người bán sản phẩm này." })
+        }
 
         if (status != "đang giao" && status != "đã giao") {
             return res.status(401).json({ status: "failure", message: "Thông tin không chính xác, vui lòng xem lại." })

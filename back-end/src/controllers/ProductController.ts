@@ -143,7 +143,7 @@ class APIProduct {
 
     // get product  of seller which is requesting
     static productSellerRequest = async (req: Request, res: Response) => { 
-    //example payload: {user_id, owner_id, product_id}
+    //example payload: {user_id, owner_id}
 
       const owner_id = req.body.owner_id;
       console.log("owner_id", owner_id)
@@ -156,7 +156,7 @@ class APIProduct {
 
   // get product accepted of seller .
   static productSellerAccepted = async (req: Request, res: Response) => { 
-    //example payload: {user_id, owner_id, product_id}
+    //example payload: {user_id, owner_id}
 
     const owner_id = req.body.owner_id;
 
