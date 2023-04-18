@@ -1,16 +1,5 @@
-.cell {
-    &-image {
-        width: 80px;
-        height: 80px;
-    }
-}
-
-.manage-product-list-btns {
-    display: flex;
-    gap: 12px;
-
-    &-child {
-        display: inline;
+.manage-product {
+    &-add-btn {
         margin-bottom: 16px;
         background-color: rgb(189, 0, 25);
         color: #fff;

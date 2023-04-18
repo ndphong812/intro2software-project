@@ -22,8 +22,10 @@ import MyShop from 'pages/my-shop';
 import Cart from 'pages/cart-list';
 import ChangePassword from 'pages/change-password';
 import Checkout from 'pages/checkout';
+import ManageProduct from 'pages/manage-product';
+import OrderSeller from 'components/orders-seller';
 
-function PrivateRoute({ children, redirectTo, authRequired }: any) {
+function PrivateRoute({ children, authRequired }: any) {
 
   const [isChecking, setIsChecking] = useState<Boolean>(true);
   const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
@@ -92,7 +94,7 @@ const App = () => {
         <Route
           path="/auth/forgot-password"
           element={
-            <PrivateRoute redirectTo="/">
+            <PrivateRoute>
               <ForgotPassword />
             </PrivateRoute>
           }
@@ -100,7 +102,7 @@ const App = () => {
         <Route
           path="/verify/:token"
           element={
-            <PrivateRoute redirectTo="/">
+            <PrivateRoute>
               <VerifyEmail />
             </PrivateRoute>
           }
@@ -109,7 +111,7 @@ const App = () => {
         <Route
           path="/profile/*"
           element={
-            <PrivateRoute redirectTo="/auth/login" authRequired>
+            <PrivateRoute authRequired>
               <Profile />
             </PrivateRoute>
           }
@@ -121,11 +123,15 @@ const App = () => {
         <Route
           path="/my-shop"
           element={
-            <PrivateRoute redirectTo="/auth/login" authRequired>
+            <PrivateRoute authRequired>
               <MyShop />
             </PrivateRoute>
           }
-        />
+        >
+          <Route path="products" element={<ManageProduct />} />
+          <Route path="history" element={<ManageProduct />} />
+          <Route path="orders" element={<OrderSeller />} />
+        </Route>
 
         <Route
           path="/search"
@@ -143,7 +149,7 @@ const App = () => {
         <Route
           path="/checkout"
           element={
-            <PrivateRoute redirectTo="/auth/login" authRequired>
+            <PrivateRoute authRequired>
               <Checkout />
             </PrivateRoute>
           }

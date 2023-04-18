@@ -14,11 +14,14 @@ import "./style.scss";
 import { User } from 'redux/auth/type';
 
 type Props = {
-    user: User;
+    user?: User;
+    isAvatar?: boolean;
+    setImageLink?: (link: string) => void,
+    defaultImage?: string
 }
 
-const ImageUploader: React.FC<Props> = ({ user }: Props) => {
-    const [imageUrl, setImageUrl] = useState<string>(user.avatar_link);
+const ImageUploader: React.FC<Props> = ({ user, isAvatar, setImageLink, defaultImage }: Props) => {
+    const [imageUrl, setImageUrl] = useState<any>(user?.avatar_link || defaultImage);
     const [percent, setPercent] = useState(0);
 
     const onDrop = (acceptedFiles: File[]) => {
@@ -45,6 +48,7 @@ const ImageUploader: React.FC<Props> = ({ user }: Props) => {
                 () => {
                     getDownloadURL(uploadTask.snapshot.ref).then((url) => {
                         setImageUrl(url);
+                        setImageLink && setImageLink(url as string);
                     });
                 }
             );
@@ -56,7 +60,12 @@ const ImageUploader: React.FC<Props> = ({ user }: Props) => {
     return (
         <div {...getRootProps()}>
             <input {...getInputProps()} accept=".png,.jpg" />
-            <Avatar className='upload-img' sx={{ width: 100, height: 100 }} src={imageUrl as string} alt="Uploaded image" />
+            {
+                isAvatar ?
+                    <Avatar className='upload-img' sx={{ width: 100, height: 100 }} src={imageUrl as string} alt="Uploaded image" />
+                    :
+                    <img className='image' src={imageUrl as string} />
+            }
             {
                 percent > 0 && percent < 100 &&
                 <ProgressBar
@@ -67,7 +76,7 @@ const ImageUploader: React.FC<Props> = ({ user }: Props) => {
                     labelAlignment="center"
                 />
             }
-            <button className='upload-img-button'>Chọn ảnh</button>
+            <button className='upload-img-button' type='button'>Chọn ảnh</button>
             <p className='upload-img-note'>Định dạng: .PNG, .JPG</p>
         </div>
     );
