@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { REACT_APP_ROOT_API } from "redux/api";
 import { RegisterSellerValue } from "redux/auth/type";
 import axios from "axios";
-import { AddProductSeller, GelAllOrderSeller, GetProductSeller, RemoveProductSeller } from "./type";
+import { AddProductSeller, GelAllOrderSeller, GetProductSeller, RemoveProductSeller, UpdateStatusSeller } from "./type";
 
 export const registerSeller = createAsyncThunk(
     "auth/register-seller",
@@ -85,7 +85,22 @@ export const gelAllOrderSeller = createAsyncThunk(
     async (request: GelAllOrderSeller) => {
         try {
             const response = await axios.post(
-                `${REACT_APP_ROOT_API}/order`, request
+                `${REACT_APP_ROOT_API}/order/orderSeller`, request
+            );
+            return response.data;
+        }
+        catch (error: any) {
+            throw error.response.data;
+        }
+    }
+);
+
+export const updateStatusSeller = createAsyncThunk(
+    "order/update-status-order-seller",
+    async (request: UpdateStatusSeller) => {
+        try {
+            const response = await axios.post(
+                `${REACT_APP_ROOT_API}/order/update`, request
             );
             return response.data;
         }

@@ -26,3 +26,12 @@ export type GelAllOrderSeller = {
     user_id: string,
     owner_id: string,
 }
+
+export type UpdateStatusSeller = {
+    owner_id: string,
+    user_id: string,
+    order_id: string,
+    product_id: string,
+    customer_id: string,
+    status: string
+}
