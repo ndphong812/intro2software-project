@@ -55,7 +55,7 @@ const ApplicationPage = () => {
                             </form>
                         </div>
                         <div className="profile-user-main-details-lower-right">
-                            <ImageUploader user={user} />
+                            <ImageUploader user={user} isAvatar />
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,30 @@
+ @import "../../scss/variable.scss";
+ @import "../../scss/breakpoint.scss";
+
+ .new-product-btn {
+     margin-bottom: 16px;
+     background-color: rgb(189, 0, 25);
+     color: #fff;
+     border: none;
+     border-radius: 4px;
+     padding: 8px 12px;
+     cursor: pointer;
+
+     &:hover {
+         background-color: rgb(189, 0, 25);
+     }
+ }
+
+ .new-product-content {
+     display: flex;
+     flex-direction: column;
+     gap: 12px;
+
+     textarea,
+     input {
+         outline: none;
+         padding: 16px 8px;
+         border-radius: 4px;
+         border: 1px solid $grey;
+     }
+ }

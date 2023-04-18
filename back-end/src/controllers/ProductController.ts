@@ -15,8 +15,6 @@ class APIProduct {
     const newProduct: Partial<Product> = req.body;
 
     newProduct.product_id = uuidv4(); // tạo mã duy nhất
-
-
     newProduct.available = true;
     newProduct.accept = false;
 
@@ -145,14 +143,15 @@ class APIProduct {
     static productSellerRequest = async (req: Request, res: Response) => { 
     //example payload: {user_id, owner_id}
 
-      const owner_id = req.body.owner_id;
-      console.log("owner_id", owner_id)
-      const products = await getRepository(Product).find({
-        where: { accept: false, available: true, owner_id:  owner_id}
-      });
-  
-      res.status(200).json({ products });
-    }
+    const owner_id = req.body.owner_id;
+    console.log("owner_id", owner_id)
+    console.log("user_id", req.body.user_id)
+    const products = await getRepository(Product).find({
+      where: { accept: false, available: true, owner_id: owner_id }
+    });
+
+    res.status(200).json({ products });
+  }
 
   // get product accepted of seller .
   static productSellerAccepted = async (req: Request, res: Response) => { 
@@ -161,7 +160,7 @@ class APIProduct {
     const owner_id = req.body.owner_id;
 
     const products = await getRepository(Product).find({
-      where: { accept: true, available: true, owner_id:  owner_id}
+      where: { accept: true, available: true, owner_id: owner_id }
     });
 
     res.status(200).json({ products });
@@ -177,7 +176,7 @@ class APIProduct {
     // console.log("type: ", req.query.page);
 
     const products = await getRepository(Product).find({
-      skip: (page-1)* perpage,
+      skip: (page - 1) * perpage,
       take: perpage,
       where: { accept: true, available: true }
     });
@@ -237,7 +236,7 @@ class APIProduct {
     res.status(200).json({ products });
   };
 
-  
+
   static getByID = async (req: Request, res: Response) => {
     //we can find id of product in params, ../product/id
     let idProduct = req.params.idProduct;
