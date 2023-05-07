@@ -21,6 +21,9 @@ router.post("/add", checkAdmin, UserController.newUser);
 //edit a user
 router.post("/edit", checkAdmin, UserController.editUser);
 
+// update profile user
+router.post("/update/profile", UserController.updateProfile);
+
 
 
 
