@@ -10,19 +10,20 @@ import { loadingOveride } from "utils/loading";
 
 const HomePage = () => {
 
-
+    const [page, setPage] = useState(1);
     const dispatch = useAppDispatch();
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [productList, setProductList] = useState<Product[]>([]);
-    const getProductList = async () => {
-        const response = await dispatch(getAllProduct());
+    const getProductList = async (page: number) => {
+        const response = await dispatch(getAllProduct(page));
         setIsLoading(false);
         setProductList(response.payload.products);
     }
 
     useEffect(() => {
-        getProductList();
-    }, [])
+        console.log("useEffect")
+        getProductList(page);
+    }, [page])
 
     return (
         <div>
@@ -35,7 +36,7 @@ const HomePage = () => {
                 margin={2}
                 speedMultiplier={1}
             />
-            <ProductList list={productList} />
+            <ProductList list={productList} setPage={setPage} />
             <Footer />
         </div>
     )

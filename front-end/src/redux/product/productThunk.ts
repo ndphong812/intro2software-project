@@ -23,10 +23,10 @@ export const searchProduct = createAsyncThunk(
 
 export const getAllProduct = createAsyncThunk(
     "product/get-all",
-    async () => {
+    async (page: number) => {
         try {
             const response = await axios.get(
-                `${REACT_APP_ROOT_API}/product`,
+                `${REACT_APP_ROOT_API}/product?page=${page}`,
             );
             return response.data;
         } catch (error: any) {
