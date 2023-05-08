@@ -7,22 +7,41 @@ import { Product } from "redux/product/type";
 import "./style.scss";
 
 type Props = {
-    list: Product[]
+    list: Product[],
+    setPage?: (index: number) => void
 }
-const ProductList: React.FC<Props> = ({ list }) => {
+const ProductList: React.FC<Props> = ({ list, setPage }) => {
+
+    const handleTransferPage = (index: number) => {
+        setPage && setPage(index);
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }
 
     return (
         <div className="product-list">
             <div className="container">
-                <div className="product-list-main">
-                    {
-                        list.map((product: Product, index: number) => {
-                            return (
-                                <ProductCard key={index} product={product} />
-                            )
-                        })
-                    }
-                </div>
+                {
+                    list.length > 0 &&
+                    <>
+                        <div className="product-list-main">
+                            {
+                                list.map((product: Product, index: number) => {
+                                    return (
+                                        <ProductCard key={index} product={product} />
+                                    )
+                                })
+                            }
+                        </div>
+
+                        <div className="product-list-divide-pages">
+                            {
+                                Array.from({ length: 5 }, (_, index) =>
+                                    <button onClick={() => handleTransferPage(index + 1)} className="product-list-divide-pages-button">{index + 1}</button>
+                                )
+                            }
+                        </div>
+                    </>
+                }
             </div>
         </div>
     )
