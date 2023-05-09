@@ -139,8 +139,8 @@ class APIProduct {
     }
   };
 
-    // get product  of seller which is requesting
-    static productSellerRequest = async (req: Request, res: Response) => { 
+  // get product  of seller which is requesting
+  static productSellerRequest = async (req: Request, res: Response) => {
     //example payload: {user_id, owner_id}
 
     const owner_id = req.body.owner_id;
@@ -154,7 +154,7 @@ class APIProduct {
   }
 
   // get product accepted of seller .
-  static productSellerAccepted = async (req: Request, res: Response) => { 
+  static productSellerAccepted = async (req: Request, res: Response) => {
     //example payload: {user_id, owner_id}
 
     const owner_id = req.body.owner_id;
@@ -175,13 +175,24 @@ class APIProduct {
     // console.log("page: ", page);
     // console.log("type: ", req.query.page);
 
-    const products = await getRepository(Product).find({
-      skip: (page - 1) * perpage,
-      take: perpage,
+    // const products = await getRepository(Product).find({
+    //   skip: (page - 1) * perpage,
+    //   take: perpage,
+    //   where: { accept: true, available: true }
+    // });
+    // console.log("page: ", page);
+
+    let products = await getRepository(Product).find({
       where: { accept: true, available: true }
     });
 
-    res.status(200).json({ products });
+    var numberOfPages: number = products.length > 0 ? Math.ceil(products.length / perpage) : 0;
+
+    var result = products.slice((page - 1) * perpage, page * perpage);
+
+    // console.log("products: ", result);
+
+    res.status(200).json({ products: result, numberOfPages });
   };
 
   // admin accept list product of seller

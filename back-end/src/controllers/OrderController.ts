@@ -113,6 +113,7 @@ class OrderListProduct {
     try {
         const orders = await createQueryBuilder(Ordered, "order")
         .innerJoinAndSelect("order.product_id", "product")
+        .innerJoinAndSelect("order.customer_id", "user")
         .where("product.owner_id = :owner_id", { owner_id: owner_id })
         .andWhere("order.status IN (:...status)", { status: ["chờ xác nhận", "đang giao"] })
         .getMany();
