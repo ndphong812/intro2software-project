@@ -29,11 +29,18 @@ function Cart() {
   const handleGoToCheckout = () => {
     navigate("/checkout");
   }
+
+  console.log("cartItems", cartItems)
   return (
     <div className="shopping-cart">
-      {cartItems.length === 0 ? (
-        <p>Your cart is emty.</p>
-      ) : (
+      {
+        !cartItems &&
+        (
+          <div>Giỏ hàng của bạn đang trống</div>
+        )
+      }
+      {
+        cartItems && cartItems.length > 0 &&
         <div>
           {cartItems.map((item, index) => (
             <CartItem
@@ -56,7 +63,7 @@ function Cart() {
             </button>
           </div>
         </div>
-      )}
+      }
     </div>
   );
 }

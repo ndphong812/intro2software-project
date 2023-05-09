@@ -54,18 +54,15 @@ type Props = {
 
 const NewEditProduct: React.FC<Props> = ({ product, isOpen, handleOpen, handleClose, getData }) => {
 
-    // const [name, setName] = useState(product.name);
-    // const [detail, setDetail] = useState(product.detail);
-    // const [original_price, setOriginalPrice] = useState(product.original_price);
-    // const [sale_price, setSalePrice] = useState(product.sale_price);
-    // const [stock, setStock] = useState(product.stock);
-    // const [type, setType] = useState(product.type);
-    // const [brand, setBrand] = useState(product.brand);
-
     const selector = useAppSelector(authState);
     const user = selector.user;
     const dispatch = useAppDispatch();
     const [imageLink, setImageLink] = React.useState(product.image_link || "");
+
+    React.useEffect(() => {
+        setImageLink(product.image_link || "");
+    }, [product]);
+
     const { register, handleSubmit, formState: { errors }, watch } =
         useForm<AddProductSeller>({
             mode: 'onChange',

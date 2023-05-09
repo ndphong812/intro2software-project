@@ -24,6 +24,7 @@ import ChangePassword from 'pages/change-password';
 import Checkout from 'pages/checkout';
 import ManageProduct from 'pages/manage-product';
 import OrderSeller from 'components/orders-seller';
+import HistorySeller from 'pages/history-seller';
 
 function PrivateRoute({ children, authRequired }: any) {
 
@@ -129,7 +130,7 @@ const App = () => {
           }
         >
           <Route path="products" element={<ManageProduct />} />
-          <Route path="history" element={<ManageProduct />} />
+          <Route path="history" element={<HistorySeller />} />
           <Route path="orders" element={<OrderSeller />} />
         </Route>
 

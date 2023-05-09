@@ -5,14 +5,18 @@ import React, { useEffect, useState } from 'react';
 import { authReducer, authState } from 'redux/auth/authSlice';
 import { getCarts, removeFromCarts, updateAmountCarts } from 'redux/product/productThunk';
 import "./style.scss";
+import { TextareaAutosize } from '@mui/material';
 
-function OrderItem({ product_id, name, price, imgSrc, quantity }: {
+type Props = {
     product_id: string,
     name: string,
     price: number,
     imgSrc: string,
     quantity: number,
-}) {
+    handleChangeNote: (product_id: string, content: string) => void
+}
+
+const OrderItem: React.FC<Props> = ({ product_id, name, price, imgSrc, quantity, handleChangeNote }) => {
 
     return (
         <div className="order-item">
@@ -29,6 +33,12 @@ function OrderItem({ product_id, name, price, imgSrc, quantity }: {
                 <p className='order-item-details-price'>{price.toLocaleString()} đ</p>
                 <p className='order-item-details-total'>{(price * quantity).toLocaleString()} đ</p>
             </div>
+            <TextareaAutosize
+                onChange={(e) => handleChangeNote(product_id, e.target.value)}
+                placeholder="Ghi chú cho chủ shop"
+                style={{ width: '40%', marginTop: '10px' }}
+                minRows={2}
+            />
         </div>
     );
 }
