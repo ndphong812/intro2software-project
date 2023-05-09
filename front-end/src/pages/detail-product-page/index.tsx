@@ -68,11 +68,8 @@ const DetailProductPage = () => {
     }
 
     const handleOrder = () => {
+        handleAddCart();
         navigate("/checkout")
-    }
-
-    const handleCloseForm = ()=>{
-        setOpen(false);
     }
 
     return (

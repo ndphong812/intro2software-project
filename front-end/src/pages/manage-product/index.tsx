@@ -44,9 +44,6 @@ const ManageProduct = () => {
 
     return (
         <div className="manage-product">
-            <button className='new-product-btn' onClick={handleOpen}>
-                Thêm sản phẩm mới
-            </button>
             <NewEditProduct product={product} isOpen={open} handleOpen={handleOpen} handleClose={handleClose} getData={getData} />
             <div className="manage-product-list">
                 <ProductListSeller getData={getData} products={products} handleOpen={handleOpen} setProductEdit={setProductEdit} />

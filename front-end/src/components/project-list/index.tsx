@@ -8,9 +8,10 @@ import "./style.scss";
 
 type Props = {
     list: Product[],
-    setPage?: (index: number) => void
+    setPage?: (index: number) => void,
+    numberPages?: number
 }
-const ProductList: React.FC<Props> = ({ list, setPage }) => {
+const ProductList: React.FC<Props> = ({ list, setPage, numberPages }) => {
 
     const handleTransferPage = (index: number) => {
         setPage && setPage(index);
@@ -35,7 +36,7 @@ const ProductList: React.FC<Props> = ({ list, setPage }) => {
 
                         <div className="product-list-divide-pages">
                             {
-                                Array.from({ length: 5 }, (_, index) =>
+                                numberPages && Array.from({ length: numberPages }, (_, index) =>
                                     <button onClick={() => handleTransferPage(index + 1)} className="product-list-divide-pages-button">{index + 1}</button>
                                 )
                             }

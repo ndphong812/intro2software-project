@@ -35,6 +35,8 @@ const OrderSeller = () => {
         getData();
     }, [])
 
+    console.log("products", products)
+
     const handleUpdateStatus = async (product: any, status: string) => {
 
         if (status !== "chờ xác nhận") {
@@ -76,7 +78,7 @@ const OrderSeller = () => {
                             <TableCell sx={{ width: "30%" }}>
                                 <b>Nguyễn Đình Phong</b>
                                 <p style={{ margin: "6px 0px" }}>Khoa Công nghệ thông tin, Trường ĐH Khoa Học Tự Nhiên</p>
-                                <i>Gửi hỏa tốc giúp em, bao nhiêu tiền em chịu</i>
+                                <i>{product.note}</i>
                             </TableCell>
                             <TableCell sx={{ width: "30%" }}>{product.product_id.name}</TableCell>
                             <TableCell sx={{ width: "10%" }}>{product.amount}</TableCell>
