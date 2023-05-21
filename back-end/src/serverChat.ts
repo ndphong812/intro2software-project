@@ -40,54 +40,61 @@ var isAdmin = async (userId: string) => {
 
 
 io.on("connection", (socket) => {
+  let userId: string|null = null;
 
-  socket.on("register", async (user_id) => {
+  socket.on("register", async (user_id: string) => {
 
   //get user_id
-  let userId: string = user_id;
+  userId = user_id;
 
   console.log("user_id: ", userId);
 
   let admin = await isAdmin(userId)
 
-  console.log("admin: ", admin);
-
   if (admin) {
     // Thêm kết nối socket vào Map
-    adminSocket = socket;
-    socket.emit("isAdmin", true);
+    if(adminSocket === null) {
+      adminSocket = socket;
+      socket.emit("isAdmin", true);
+    }
   }
   else {
-    userSockets.set(userId, socket);
-    socket.emit("isAdmin", false);
+    if(!userSockets.has(userId)) {
+      // console.log("condition: ", !userSockets.has(userId))
+      userSockets.set(userId, socket);
+      socket.emit("isAdmin", false);
+    }
+
   }
     
   })
 
 
 
-  socket.on("chatMessage", ({from, to, message}) => {
+  socket.on("chatMessage", ({fullname, to, message}) => {
     if(socket === adminSocket) {
-      // send message from admin to user
       const userSocket = userSockets.get(to);
+
+      // console.log("user socket: ", userSocket);
 
       // if usersocket is in list usersockets.
       if(userSocket) {
-        userSocket.emit("chatMessage", { from, message });
+        userSocket.emit("chatMessage", { fullname, message });
       }
     } else {
       // send message from user to admin
       if(adminSocket) {
-        adminSocket.emit("chatMessage", {from, message});
+        adminSocket.emit("chatMessage", {fullname, message});
       }
     }
   });
 
-  socket.on("disconnect", (userId: string) => {
+  socket.on("disconnect", () => {
     if(socket === adminSocket) {
       adminSocket = null;
     }
     else {
+      if(userId !== null)
       userSockets.delete(userId);
     }
   });

@@ -2,13 +2,20 @@ import "./style.scss";
 import io from "socket.io-client";
 import { useEffect, useState } from "react";
 import { register } from "numeral";
+import { useAppSelector } from "app/hook";
+import {  authState } from 'redux/auth/authSlice';
+
 
 const socket = io("http://localhost:3001");
 
 function App() {
 
   var isadmin: boolean = false; 
-  var userId = "2kfvzy6qklf7r6k5f";
+  const selector = useAppSelector(authState);
+  const userId = selector.user.user_id
+  const fullname = selector.user.fullname
+
+  // console.log("fullname: ", fullname)
 
   socket.emit("register", userId);
 
@@ -17,16 +24,21 @@ function App() {
   console.log("Is admin: ", isadmin);
   })
 
-  socket.on("chatMessage", ({from, message}) => {
-    var item = document.createElement('p');
-    item.textContent = from + ": " + message;
+  socket.on("chatMessage", ({fullname, message}) => {
+    // console.log("from and message: ", message);
+    var item = document.createElement('li');
+    item.textContent = fullname + ": " + message;
+    // console.log("Data: ", fullname, message);
+    if(messagescontent) {
     messagescontent.appendChild(item);
-    window.scrollTo(0, document.body.scrollHeight);
+    // window.scrollTo(0, document.body.scrollHeight);
+    }
+
   })
 
   function sendMessage(){
     var msg = (document.getElementById("send-message") as HTMLInputElement).value;
-    var recieverId = (document.getElementById("reciever-id") as HTMLInputElement).value;
+    var recieverId = (document.getElementById("reciver-id") as HTMLInputElement).value;
 
     if(msg){
       if(isadmin) {
@@ -42,31 +54,33 @@ function App() {
  }
 
 
-var messagescontent = document.getElementById('content-message') as HTMLInputElement;
+// var messagescontent = document.getElementsByClassName('content-message') ;
+var messagescontent = document.querySelector('.content-message');
+
 
 // send message from admin to client.
 function sendMessageToUser(recieverId: string, msg: string) {
   const data = {
-    from: "admin",
+    fullname: "Admin",
     to: recieverId,
     message: msg
   }
 
-  if(msg) {
+  if(msg != null) {
     var item = document.createElement('li');
-    item.textContent = "Admin: " + msg;
-    messagescontent.appendChild(item);
-    window.scrollTo(0, document.body.scrollHeight);
+    item.textContent = "The admin: " + msg;
+    if(messagescontent) {
+      messagescontent.appendChild(item);
+      // window.scrollTo(0, document.body.scrollHeight);
+    }
 
     socket.emit("chatMessage", data);
   }
-
-
 }
 
 function sendMessageToAdmin(msg: string) {
   const data = {
-    from: userId,
+    fullname: fullname,
     to: "admin",
     message: msg
   }
@@ -74,26 +88,35 @@ function sendMessageToAdmin(msg: string) {
   if(msg){
     var item = document.createElement('li');
     item.textContent = "Me: " + msg;
-    messagescontent.appendChild(item);
-    window.scrollTo(0, document.body.scrollHeight);
+    if(messagescontent) {
+      messagescontent.appendChild(item);
+      // window.scrollTo(0, document.body.scrollHeight);
+    }
 
     socket.emit("chatMessage", data);
-  }
-
+  } 
 
 }
 
+
+
   return (
     <div className="App">
-      reciver
-      <input id="reciever-id"/>
+
+      <input id="reciver-id" />reciver
+
+
       <input id="send-message" />
       <button onClick={sendMessage}> Send Message</button>
+      <table className="content-message">
       <h1> Message:</h1>
-      <table id="content-message"></table>
+
+
+      </table>
     </div>
   );
 }
 
 export default App;
+
 

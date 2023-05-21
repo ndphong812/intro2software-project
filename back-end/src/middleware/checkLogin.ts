@@ -13,10 +13,11 @@ export const checkLogin = async (req: Request, res: Response, next: NextFunction
 
   // Lấy token từ header hoặc query string hoặc các phương thức khác
 //   const token = req.header("Authorization")?.replace("Bearer ", "");
-  const token = req.header("Authorization");
-  const tokentest = req.headers;
+  // const token = req.header("Authorization");
+  const {token} = req.body;
+  // const tokentest = req.headers;
 
-  console.log("token: ", tokentest);
+  console.log("token: ", token);
 
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });
