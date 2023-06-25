@@ -5,19 +5,19 @@ import { User } from "../entities/User";
 
 import jwt from "jsonwebtoken";
 const config = require("../config/config");
-// dotenv.config({ path: './back-end/.env' });
+// import { LocalStorage } from "node-localstorage";
+
+// const localStorage = new LocalStorage('./scratch');
 
 export const checkLogin = async (req: Request, res: Response, next: NextFunction) => {
-    console.log("checklogin")
 
-
-  // Lấy token từ header hoặc query string hoặc các phương thức khác
-//   const token = req.header("Authorization")?.replace("Bearer ", "");
-  // const token = req.header("Authorization");
   const {token} = req.body;
-  // const tokentest = req.headers;
-
-  console.log("token: ", token);
+  // const token = localStorage.getItem('access_token');
+  
+  
+  // console.log(req.headers['authorization']);
+  console.log("token: ", req.headers);
+  
 
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });

@@ -162,6 +162,8 @@ class AuthController {
             { expiresIn: "1h" }
         );
 
+        // console.log("Token_login: ", token)
+
         res.status(200).send({
             status: "success",
             access_token: token

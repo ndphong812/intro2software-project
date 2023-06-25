@@ -24,7 +24,7 @@ import ChangePassword from 'pages/change-password';
 import Checkout from 'pages/checkout';
 import ManageProduct from 'pages/manage-product';
 import OrderSeller from 'components/orders-seller';
-import Chat from './pages/chat/app';
+// import Chat from './pages/chat/app';
 
 function PrivateRoute({ children, authRequired }: any) {
 
@@ -155,12 +155,12 @@ const App = () => {
             </PrivateRoute>
           }
         />
-        <Route
+        {/* <Route
           path="/chat/userAndAdmin"
           element={
             <Chat/>
           }
-        />
+        /> */}
       </Routes>
       <ToastContainer />
     </div>
