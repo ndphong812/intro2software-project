@@ -9,7 +9,6 @@ import { Comment } from "../entities/Comment"
 import dotenv from 'dotenv'
 import * as bcrypt from "bcryptjs";
 import uniqid from "uniqid"
-import { productDetail } from "./detail"
 
 dotenv.config({ path: './back-end/.env' });
 

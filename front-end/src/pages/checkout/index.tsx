@@ -36,7 +36,7 @@ const Checkout = () => {
                 customer_id: user.user_id,
                 amount: cartItem.amount,
                 date_time: new Date(),
-                note: "",
+                note: cartItem.note,
                 status: "",
                 total_monney: 0
             }
@@ -49,6 +49,21 @@ const Checkout = () => {
             navigate("/");
         });
     }
+    const handleChangeNote = (product_id: string, content: string) => {
+        let newCartItems = cartItems.map(item => {
+            if (item.product_id.product_id === product_id) {
+                return {
+                    ...item,
+                    note: content
+                };
+            } else {
+                return item;
+            }
+        });
+        setCartItems(newCartItems);
+    }
+
+    console.log('newCartItems', cartItems)
     return (
         <>
             <Header />
@@ -70,35 +85,49 @@ const Checkout = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="checkout-main-order">
-                            <div className="checkout-main-order-title">
-                                <p className="checkout-main-order-title-name">Sản phẩm</p>
-                                <p className="checkout-main-order-title-price">Đơn giá</p>
-                                <p className="checkout-main-order-title-amount">Số lượng</p>
-                                <p className="checkout-main-order-title-total">Thành tiền</p>
-                            </div>
-                            <div>
-                                {cartItems.map((item, index) => (
-                                    <OrderItem
-                                        product_id={item.product_id.product_id}
-                                        key={index}
-                                        imgSrc={item.product_id.image_link}
-                                        name={item.product_id.name}
-                                        price={item.product_id.sale_price}
-                                        quantity={item.amount}
-                                    />
-                                ))}
-                                <p className='total'><strong>Tổng tiền: </strong>
-                                    {`${numeral(cartItems.reduce(
-                                        (acc, item) => acc + item.product_id.sale_price * item.amount, 0)).format('0,0')} đ`}
-                                </p>
-                                <div className='checkout-btn'>
-                                    <button className='checkout' onClick={() => handleConfirmOrder()}>
-                                        Đặt hàng
-                                    </button>
+
+                        {
+                            !cartItems &&
+                            (
+                                <div className="checkout-main-order">
+                                    Chưa có đơn hàng nào cần thanh toán.
+                                </div>
+                            )
+                        }
+                        {
+                            cartItems && cartItems.length > 0 &&
+                            <div className="checkout-main-order">
+                                <div className="checkout-main-order-title">
+                                    <p className="checkout-main-order-title-name">Sản phẩm</p>
+                                    <p className="checkout-main-order-title-price">Đơn giá</p>
+                                    <p className="checkout-main-order-title-amount">Số lượng</p>
+                                    <p className="checkout-main-order-title-total">Thành tiền</p>
+                                </div>
+                                <div>
+                                    {cartItems.map((item, index) => (
+                                        <OrderItem
+                                            product_id={item.product_id.product_id}
+                                            key={index}
+                                            imgSrc={item.product_id.image_link}
+                                            name={item.product_id.name}
+                                            price={item.product_id.sale_price}
+                                            quantity={item.amount}
+                                            handleChangeNote={handleChangeNote}
+                                        />
+                                    ))}
+                                    <p className='total'><strong>Tổng tiền: </strong>
+                                        {`${numeral(cartItems.reduce(
+                                            (acc, item) => acc + item.product_id.sale_price * item.amount, 0)).format('0,0')} đ`}
+                                    </p>
+                                    <div className='checkout-btn'>
+                                        <button className='checkout' onClick={() => handleConfirmOrder()}>
+                                            Đặt hàng
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        }
+
                     </div>
                 </div>
             </div>
