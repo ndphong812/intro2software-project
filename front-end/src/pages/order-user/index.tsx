@@ -20,6 +20,7 @@ function OrderUser() {
       customer_id: user.user_id,
     };
     const response = await dispatch(historyUser(request));
+    console.log("response", response);
     setCartItems(response.payload.orders);
   };
   useEffect(() => {
@@ -37,31 +38,19 @@ function OrderUser() {
       {cartItems && cartItems.length > 0 && (
         <div>
           {cartItems.map((item, index) => (
-            // <CartItem
-            //   product_id={item.product_id.product_id}
-            //   key={index}
-            //   imgSrc={item.product_id.image_link}
-            //   name={item.product_id.name}
-            //   price={item.product_id.sale_price}
-            //   quantity={item.amount}
-            //   setCartItems={setCartItems}
-            // />
-
             <div className="cart-item">
               <div className="item-details">
                 <div className="item-details-main">
-                  <img src={item.image_link} />
-                  <h3>{item.name}</h3>
+                  <img src={item.product_id.image_link} />
+                  <h3>{item.product_id.name}</h3>
                 </div>
-                {/* <p className="item-details-price">
-                  {price} x {quantity} = {(price * quantity).toLocaleString()} đ
-                </p>
-                <button
-                  className="item-details-btn"
-                  onClick={handleRemoveFromCartClick}
-                >
-                  Xóa
-                </button> */}
+              </div>
+              <div className="item-details-quantity">
+                <p>Số lượng: {item.amount}</p>
+              </div>
+              <div className="item-details-price">
+                <p style={{ marginBottom: "10px" }}>Ghi chú: {item.note}</p>
+                <strong>Trạng thái: {item.status}</strong>
               </div>
             </div>
           ))}

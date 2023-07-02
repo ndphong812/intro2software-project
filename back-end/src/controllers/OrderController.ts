@@ -103,7 +103,7 @@ class OrderListProduct {
       const orders = await createQueryBuilder(Ordered, "order")
         .innerJoinAndSelect("order.product_id", "product")
         .where("order.customer_id = :customer_id", { customer_id: customer_id })
-        .andWhere("order.status = :status", { status: "đã giao" })
+        // .andWhere("order.status = :status", { status: "đã giao" })
         .getMany();
   
       if (orders.length === 0) {
