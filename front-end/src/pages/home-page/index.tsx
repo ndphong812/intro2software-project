@@ -9,39 +9,42 @@ import { Product } from "redux/product/type";
 import { loadingOveride } from "utils/loading";
 
 const HomePage = () => {
+  const [page, setPage] = useState(1);
+  const [numberPages, setNumberPages] = useState(1);
+  const dispatch = useAppDispatch();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [productList, setProductList] = useState<Product[]>([]);
+  const getProductList = async (page: number) => {
+    const response = await dispatch(getAllProduct(page));
+    setIsLoading(false);
+    setProductList(response.payload.products);
+    setNumberPages(response.payload.numberOfPages);
+  };
 
-    const [page, setPage] = useState(1);
-    const [numberPages, setNumberPages] = useState(1);
-    const dispatch = useAppDispatch();
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [productList, setProductList] = useState<Product[]>([]);
-    const getProductList = async (page: number) => {
-        const response = await dispatch(getAllProduct(page));
-        setIsLoading(false);
-        setProductList(response.payload.products);
-        setNumberPages(response.payload.numberOfPages);
-    }
+  useEffect(() => {
+    console.log("useEffect");
+    getProductList(page);
+  }, [page]);
 
-    useEffect(() => {
-        console.log("useEffect")
-        getProductList(page);
-    }, [page])
-
-    return (
-        <div>
-            <Header />
-            <BeatLoader
-                color={"#D10024"}
-                loading={isLoading}
-                cssOverride={loadingOveride}
-                size={20}
-                margin={2}
-                speedMultiplier={1}
-            />
-            <ProductList list={productList} setPage={setPage} numberPages={numberPages} />
-            <Footer />
-        </div>
-    )
-}
+  return (
+    <div>
+      <Header />
+      <BeatLoader
+        color={"#4096FF"}
+        loading={isLoading}
+        cssOverride={loadingOveride}
+        size={20}
+        margin={2}
+        speedMultiplier={1}
+      />
+      <ProductList
+        list={productList}
+        setPage={setPage}
+        numberPages={numberPages}
+      />
+      <Footer />
+    </div>
+  );
+};
 
 export default HomePage;

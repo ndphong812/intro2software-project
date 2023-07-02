@@ -2,130 +2,124 @@
 @import "../../scss/breakpoint.scss";
 
 .footer {
+  &-upper {
+    background-color: $black-primary;
 
-    &-upper {
-        background-color: $black-primary;
+    &-main {
+      padding: 46px 0px;
+      display: flex;
+      flex-wrap: wrap;
 
-        .container {}
+      &-child {
+        width: 25%;
 
-        &-main {
-            padding: 46px 0px;
+        @include tablet {
+          width: 50%;
+        }
+
+        @include phone {
+          width: 100%;
+        }
+
+        &-title {
+          color: $white;
+          text-transform: uppercase;
+          font-size: 18px;
+        }
+
+        &-contact {
+          padding: 16px 0px;
+
+          &-list {
+            margin-top: 32px;
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
+            gap: 20px;
 
-            &-child {
-                width: 25%;
-
-                @include tablet {
-                    width: 50%;
-                }
-
-                @include phone {
-                    width: 100%;
-                }
-
-                &-title {
-                    color: $white;
-                    text-transform: uppercase;
-                    font-size: 18px;
-                }
-
-                &-contact {
-                    padding: 16px 0px;
-
-                    &-list {
-                        margin-top: 32px;
-                        display: flex;
-                        flex-direction: column;
-                        gap: 20px;
-
-                        &-title {
-                            color: $white-light;
-                            font-size: 14px;
-                            font-weight: 400;
-                        }
-
-                        &-item {
-                            a {
-                                text-decoration: none;
-                                font-weight: 500;
-                                font-size: 14px;
-                            }
-
-                            &-icon {
-                                color: $red-primary;
-                            }
-
-                            &-text {
-                                color: $white-light;
-                                margin-left: 16px;
-                            }
-                        }
-
-
-                    }
-                }
-
-                &-portfolio {
-                    padding: 16px 10px;
-
-                    @include tablet {
-                        padding: 16px 0px;
-                    }
-
-                    @include phone {
-                        padding: 16px 0px;
-                    }
-
-                    &-list {
-                        margin-top: 32px;
-                        display: flex;
-                        flex-direction: column;
-                        list-style-type: none;
-                        gap: 20px;
-
-                        &-item a {
-                            color: $white-light;
-                            text-decoration: none;
-                            font-size: 14px;
-                            font-weight: 500;
-                        }
-
-                        &-item a:hover {
-                            color: $red-primary;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-
-
-    &-lower {
-        padding: 40px 0px;
-        background-color: $black-light;
-
-        &-main {
-            &-cards {
-                margin: 0px auto;
-                padding: 0px 0px;
-                width: auto;
-                display: flex;
-                justify-content: center;
-                gap: 6px;
-
-                &-icon {
-                    font-size: 32px;
-                }
+            &-title {
+              color: $white-light;
+              font-size: 14px;
+              font-weight: 400;
             }
 
-            &-text {
+            &-item {
+              a {
+                text-decoration: none;
+                font-weight: 500;
+                font-size: 14px;
+              }
+
+              &-icon {
+                color: $red-primary;
+              }
+
+              &-text {
                 color: $white-light;
-                font-size: 12px;
-                text-align: center;
-                margin-top: 40px;
+                margin-left: 16px;
+              }
             }
+          }
         }
+
+        &-portfolio {
+          padding: 16px 10px;
+
+          @include tablet {
+            padding: 16px 0px;
+          }
+
+          @include phone {
+            padding: 16px 0px;
+          }
+
+          &-list {
+            margin-top: 32px;
+            display: flex;
+            flex-direction: column;
+            list-style-type: none;
+            gap: 20px;
+
+            &-item a {
+              color: $white-light;
+              text-decoration: none;
+              font-size: 14px;
+              font-weight: 500;
+            }
+
+            &-item a:hover {
+              color: $red-primary;
+            }
+          }
+        }
+      }
     }
+  }
+
+  &-lower {
+    padding: 40px 0px;
+    // background-color: $black-light;
+    background-color: rgba(64, 150, 255, 0.5);
+
+    &-main {
+      &-cards {
+        margin: 0px auto;
+        padding: 0px 0px;
+        width: auto;
+        display: flex;
+        justify-content: center;
+        gap: 6px;
+
+        &-icon {
+          font-size: 32px;
+        }
+      }
+
+      &-text {
+        color: $white-light;
+        font-size: 12px;
+        text-align: center;
+        margin-top: 40px;
+      }
+    }
+  }
 }

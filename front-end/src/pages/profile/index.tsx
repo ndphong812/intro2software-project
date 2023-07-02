@@ -78,7 +78,7 @@ const Profile = () => {
                                                     Đơn mua
                                                 </Link>
                                             </div>
-                                            <div
+                                            {/* <div
                                                 className={`profile-user-main-sidebar-lower-group 
                                         ${path == '/profile/notification' && "profile-user-main-sidebar-lower-group-active"} 
                                         `}>
@@ -87,7 +87,7 @@ const Profile = () => {
                                                 <Link to="/profile/notification" className="profile-user-main-sidebar-lower-group-title">
                                                     Thông báo
                                                 </Link>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                 </div>
