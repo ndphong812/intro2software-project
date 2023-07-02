@@ -6,7 +6,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Product } from "redux/product/type";
 import { useAppDispatch, useAppSelector } from "app/hook";
 import { historySeller, removeProductSeller } from "redux/seller/sellerThunk";
 import { authState } from "redux/auth/authSlice";
