@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon back-end/src/index.ts",
     "client": "npm run start --prefix front-end",
-    "dev": "concurrently --raw \"npm run server\" \"npm run client\""
+    "dev": "concurrently --raw \"npm run server\" \"npm run client\"",
+    "start": "nodemon back-end/src/serverChat.ts"
   },
   "repository": {
     "type": "git",

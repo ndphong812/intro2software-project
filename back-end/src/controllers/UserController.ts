@@ -104,15 +104,18 @@ class UserController {
 
         }
 
-        user.email = email;
-        user.role = role;
+        let user_update: User = {} as User;
 
-        // console.log("USER_EDIT: ", user);
+        user_update.email = email;
+        user_update.role = role;
+        user_update.user_id = user_id;
+
+        // console.log("USER_EDIT: ", user_update);
 
         //Try to safe, if fails, that means email already in use
         try {
             await userRepository.update(
-                { user_id: user.user_id }, user
+                { user_id: user_id }, user_update
             );
 
             return res.status(201).json({ status: "sucess", message: "Đã cập nhật thành công." });

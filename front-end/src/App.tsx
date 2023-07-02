@@ -5,26 +5,27 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "pages/login";
 import HomePage from "pages/home-page";
 import "./scss/global.scss";
-import VerifyEmail from "pages/verify-email";
-import { verifyLoginToken } from "redux/auth/authThunk";
-import BeatLoader from "react-spinners/BeatLoader";
-import { loadingOveride } from "utils/loading";
-import ForgotPassword from "pages/forgot-password";
-import AdminDashBoard from "pages/admin";
-import { authState } from "redux/auth/authSlice";
-import Profile from "pages/profile";
-import SearchPage from "pages/search";
-import DetailProductPage from "pages/detail-product-page";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import ApplicationPage from "pages/application-page";
-import MyShop from "pages/my-shop";
-import Cart from "pages/cart-list";
-import ChangePassword from "pages/change-password";
-import Checkout from "pages/checkout";
-import ManageProduct from "pages/manage-product";
-import OrderSeller from "components/orders-seller";
+import VerifyEmail from 'pages/verify-email';
+import { verifyLoginToken } from 'redux/auth/authThunk';
+import BeatLoader from 'react-spinners/BeatLoader';
+import { loadingOveride } from 'utils/loading';
+import ForgotPassword from 'pages/forgot-password';
+import AdminDashBoard from 'pages/admin';
+import { authState } from 'redux/auth/authSlice';
+import Profile from 'pages/profile';
+import SearchPage from 'pages/search';
+import DetailProductPage from 'pages/detail-product-page';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import ApplicationPage from 'pages/application-page';
+import MyShop from 'pages/my-shop';
+import Cart from 'pages/cart-list';
+import ChangePassword from 'pages/change-password';
+import Checkout from 'pages/checkout';
+import ManageProduct from 'pages/manage-product';
+import OrderSeller from 'components/orders-seller';
 import HistorySeller from "pages/history-seller";
+// import Chat from './pages/chat/app';
 
 function PrivateRoute({ children, authRequired }: any) {
   const [isChecking, setIsChecking] = useState<Boolean>(true);
@@ -159,6 +160,12 @@ const App = () => {
             </PrivateRoute>
           }
         />
+        {/* <Route
+          path="/chat/userAndAdmin"
+          element={
+            <Chat/>
+          }
+        /> */}
       </Routes>
       <ToastContainer />
     </div>

@@ -1,6 +1,8 @@
 import { Router } from "express";
 import APICart from "../controllers/CartController"
 
+import {checkLogin} from "../middleware/checkLogin";
+
 
 const router = Router();
 
