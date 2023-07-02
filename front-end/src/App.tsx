@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from './app/hook';
-import Register from './pages/register';
-import { Routes, Route, Navigate } from 'react-router-dom';
-import Login from 'pages/login';
-import HomePage from 'pages/home-page';
+import React, { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "./app/hook";
+import Register from "./pages/register";
+import { Routes, Route, Navigate } from "react-router-dom";
+import Login from "pages/login";
+import HomePage from "pages/home-page";
 import "./scss/global.scss";
 import VerifyEmail from 'pages/verify-email';
 import { verifyLoginToken } from 'redux/auth/authThunk';
@@ -24,40 +24,56 @@ import ChangePassword from 'pages/change-password';
 import Checkout from 'pages/checkout';
 import ManageProduct from 'pages/manage-product';
 import OrderSeller from 'components/orders-seller';
+import HistorySeller from "pages/history-seller";
+import OrderUser from "pages/order-user";
 // import Chat from './pages/chat/app';
 
 function PrivateRoute({ children, authRequired }: any) {
-
   const [isChecking, setIsChecking] = useState<Boolean>(true);
   const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
-  const access_token = localStorage.getItem('access_token');
+  const access_token = localStorage.getItem("access_token");
   const dispatch = useAppDispatch();
   const verifyAccess = async () => {
     const response = await dispatch(verifyLoginToken(access_token as String));
-    if (response && response.payload && (response.payload as any).data.status === 'success') {
+    if (
+      response &&
+      response.payload &&
+      (response.payload as any).data.status === "success"
+    ) {
       setIsChecking(false);
       setIsLoggedIn(true);
-    }
-    else {
+    } else {
       setIsChecking(false);
       setIsLoggedIn(false);
     }
-  }
+  };
   useEffect(() => {
     verifyAccess();
-  }, [access_token])
+  }, [access_token]);
 
-  if (isChecking) return <BeatLoader
-    color={"#D10024"}
-    loading={Boolean(isChecking)}
-    cssOverride={loadingOveride}
-    size={20}
-    margin={2}
-    speedMultiplier={1}
-  />;
+  if (isChecking)
+    return (
+      <BeatLoader
+        color={"#4096FF"}
+        loading={Boolean(isChecking)}
+        cssOverride={loadingOveride}
+        size={20}
+        margin={2}
+        speedMultiplier={1}
+      />
+    );
 
-  return (!isChecking && isLoggedIn) ? (authRequired ? children : <Navigate to="/" />) :
-    (authRequired ? <Navigate to='/auth/login' /> : children);
+  return !isChecking && isLoggedIn ? (
+    authRequired ? (
+      children
+    ) : (
+      <Navigate to="/" />
+    )
+  ) : authRequired ? (
+    <Navigate to="/auth/login" />
+  ) : (
+    children
+  );
 }
 
 const App = () => {
@@ -65,7 +81,7 @@ const App = () => {
   const dispatch = useAppDispatch();
   const verifyAccess = async () => {
     await dispatch(verifyLoginToken(access_token as String));
-  }
+  };
 
   useEffect(() => {
     verifyAccess();
@@ -74,8 +90,8 @@ const App = () => {
   return (
     <div>
       <Routes>
-        <Route path='/' element={<HomePage />} />
-        <Route path='/admin' element={<AdminDashBoard />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/admin" element={<AdminDashBoard />} />
         <Route
           path="/auth/register"
           element={
@@ -120,6 +136,7 @@ const App = () => {
           <Route path="account" element={<ApplicationPage />} />
           <Route path="change-password" element={<ChangePassword />} />
           <Route path="cart" element={<Cart />} />
+          <Route path="order" element={<OrderUser />} />
         </Route>
         <Route
           path="/my-shop"
@@ -130,23 +147,13 @@ const App = () => {
           }
         >
           <Route path="products" element={<ManageProduct />} />
-          <Route path="history" element={<ManageProduct />} />
+          <Route path="history" element={<HistorySeller />} />
           <Route path="orders" element={<OrderSeller />} />
         </Route>
 
-        <Route
-          path="/search"
-          element={
-            <SearchPage />
-          }
-        />
+        <Route path="/search" element={<SearchPage />} />
 
-        <Route
-          path="/detail/:productId"
-          element={
-            <DetailProductPage />
-          }
-        />
+        <Route path="/detail/:productId" element={<DetailProductPage />} />
         <Route
           path="/checkout"
           element={
@@ -165,6 +172,6 @@ const App = () => {
       <ToastContainer />
     </div>
   );
-}
+};
 
 export default App;
