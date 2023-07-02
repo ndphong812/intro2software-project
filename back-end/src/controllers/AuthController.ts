@@ -157,10 +157,12 @@ class AuthController {
 
         const token = jwt.sign(
             // { email: user.email },
-            { email: user.email },
+            { email: user.email, fullname: user.fullname },
             config.jwtSecret,
             { expiresIn: "1h" }
         );
+
+        // console.log("Token_login: ", token)
 
         res.status(200).send({
             status: "success",
