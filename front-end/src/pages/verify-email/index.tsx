@@ -9,41 +9,43 @@ import { loadingOveride } from "utils/loading";
 import { SwalAlert } from "utils/sweet-alter";
 
 const VerifyEmail = () => {
+  const { token } = useParams();
+  const selector = useAppSelector(authState);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const verify = async (token: String) => {
+    const response = await dispatch(verifyEmail(token));
+    if (response.payload && (response.payload as any).status === 200) {
+      SwalAlert(
+        "Success",
+        `${(response.payload as any).data.message}. Go to Login Page.`,
+        "success"
+      ).then((result) => {
+        navigate("/auth/login");
+      });
+    } else {
+      SwalAlert("Failed", (response as any).error.message, "error");
+    }
+  };
 
-   const { token } = useParams();
-   const selector = useAppSelector(authState);
-   const dispatch = useAppDispatch();
-   const navigate = useNavigate();
-   const verify = async (token: String) => {
-      const response = await dispatch(verifyEmail(token));
-      if (response.payload && (response.payload as any).status === 200) {
-         SwalAlert('Success', `${(response.payload as any).data.message}. Go to Login Page.`, 'success').then(result => {
-            navigate('/auth/login');
-         });
-      }
-      else {
-         SwalAlert("Failed", (response as any).error.message, "error");
-      }
-   }
+  useEffect(() => {
+    if (token) {
+      verify(token);
+    }
+  }, []);
 
-   useEffect(() => {
-      if (token) {
-         verify(token);
-      }
-   }, []);
-
-   return (
-      <>
-         <BeatLoader
-            color={"#D10024"}
-            loading={Boolean(selector.isLoading)}
-            cssOverride={loadingOveride}
-            size={20}
-            margin={2}
-            speedMultiplier={1}
-         />
-      </>
-   )
-}
+  return (
+    <>
+      <BeatLoader
+        color={"#4096FF"}
+        loading={Boolean(selector.isLoading)}
+        cssOverride={loadingOveride}
+        size={20}
+        margin={2}
+        speedMultiplier={1}
+      />
+    </>
+  );
+};
 
 export default VerifyEmail;

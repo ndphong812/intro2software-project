@@ -4,7 +4,6 @@ import Header from "components/header"
 import HorizontalLinearStepper from "components/register-seller-form"
 import { authState } from "redux/auth/authSlice"
 import "./style.scss";
-import ProductListSeller from "components/product-list-seller"
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
