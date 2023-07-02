@@ -47,7 +47,7 @@ io.on("connection", (socket) => {
     //get user_id
     userId = user_id;
 
-    console.log("user_id: ", userId);
+    // console.log("user_id: ", userId);
 
     let admin = await isAdmin(userId)
 
@@ -75,18 +75,18 @@ io.on("connection", (socket) => {
     console.log("message", message)
     if (socket === adminSocket) {
       const userSocket = userSockets.get(to);
-      console.log("user online: ", userSocket)
+      // console.log("user online: ", userSocket)
 
-      console.log("message1", message)
+      // console.log("message1", message)
 
       userSocket?.emit("chatMessage", { fullname, message });
   
     } else {
       // send message from user to admin
-      console.log("message11: ", message);
+      // console.log("message11: ", message);
 
         // console.log(adminSocket)
-        console.log("message1: ", message);
+        // console.log("message1: ", message);
         adminSocket?.emit("chatMessage", {from, fullname, message });
 
     }

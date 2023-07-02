@@ -74,27 +74,50 @@ class OrderListProduct {
   static getAll = async (req: Request, res: Response) => {
     let customer_id = req.body.customer_id || "";
 
-    const orderRepository = getRepository(Ordered);
-    let orders = await orderRepository.find({
-      where: {
-        customer_id: customer_id,
-        status: In(["chờ xác nhận", "đang giao"]),
-      },
-    });
-
-    res.status(200).json({ orders });
+    try {
+      const orders = await createQueryBuilder(Ordered, "order")
+        .innerJoinAndSelect("order.product_id", "product")
+        .where("order.customer_id = :customer_id", { customer_id: customer_id })
+        .andWhere("order.status IN (:...status)", {
+          status: ["chờ xác nhận", "đang giao"],
+        })
+        .getMany();
+  
+      if (orders.length === 0) {
+        return res
+          .status(200)
+          .json({ status: "failure", message: "Không có lịch sử." });
+      }
+  
+      return res.status(200).json({ orders });
+    } catch (error) {
+      return res.status(500).json({ status: "failure", message: "Lỗi server." });
+    }
   };
 
   // get history order for user
   static historyOrder = async (req: Request, res: Response) => {
     let customer_id = req.body.customer_id || "";
-
-    const orderRepository = getRepository(Ordered);
-    let orders = await orderRepository.find({
-      where: { customer_id: customer_id, status: "đã giao" },
-    });
-    res.status(200).json({ orders });
+  
+    try {
+      const orders = await createQueryBuilder(Ordered, "order")
+        .innerJoinAndSelect("order.product_id", "product")
+        .where("order.customer_id = :customer_id", { customer_id: customer_id })
+        .andWhere("order.status = :status", { status: "đã giao" })
+        .getMany();
+  
+      if (orders.length === 0) {
+        return res
+          .status(200)
+          .json({ status: "failure", message: "Không có lịch sử." });
+      }
+  
+      return res.status(200).json({ orders });
+    } catch (error) {
+      return res.status(500).json({ status: "failure", message: "Lỗi server." });
+    }
   };
+  
 
   // User can delete order before 3 days.
   static delete = async (req: Request, res: Response) => {
