@@ -36,7 +36,7 @@ const HomePage = () => {
 
   useEffect(() => {
     getProductList(page);
-  }, []);
+  }, [page]);
 
   function sendMessageToUser(recieverId: string, msg: string) {
     const data = {
@@ -99,7 +99,11 @@ const HomePage = () => {
         margin={2}
         speedMultiplier={1}
       />
-      <ProductList list={productList} />
+      <ProductList
+        list={productList}
+        numberPages={numberPages}
+        setPage={setPage}
+      />
       <Widget
         handleNewUserMessage={handleNewUserMessage}
         title="Tin nhắn nhanh"
