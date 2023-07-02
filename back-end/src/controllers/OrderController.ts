@@ -93,7 +93,6 @@ class OrderListProduct {
     let orders = await orderRepository.find({
       where: { customer_id: customer_id, status: "đã giao" },
     });
-
     res.status(200).json({ orders });
   };
 

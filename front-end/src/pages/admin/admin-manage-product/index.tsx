@@ -13,7 +13,12 @@ import { authState } from "redux/auth/authSlice";
 import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import Swal from "sweetalert2";
-import { getAllProduct, getWaitingProducts } from "redux/product/productThunk";
+import {
+  acceptProduct,
+  getAllProduct,
+  getWaitingProducts,
+} from "redux/product/productThunk";
+import { removeProductSeller } from "redux/seller/sellerThunk";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -49,7 +54,7 @@ export default function AdminManageProducts() {
     const response = await dispatch(getAllProduct(1));
     const pages = response.payload.numberOfPages;
     let products: any = [];
-    for (let i = 1; i < pages; i++) {
+    for (let i = 1; i <= pages; i++) {
       const response1 = await dispatch(getAllProduct(i));
       response1.payload.products.forEach((element: any) => {
         products.push(element);
@@ -66,7 +71,7 @@ export default function AdminManageProducts() {
     setWaitingProducts(waitingReponse.payload.products);
   };
 
-  const handleRemove = (id: string) => {
+  const handleRemove = (product: any) => {
     Swal.fire({
       title: "Xác nhận",
       text: "Xóa sản phẩm này?",
@@ -78,13 +83,43 @@ export default function AdminManageProducts() {
       cancelButtonText: "Hủy bỏ",
     }).then((result) => {
       if (result.isConfirmed) {
+        const response = dispatch(
+          removeProductSeller({
+            owner_id: product.owner_id,
+            user_id: user.user_id,
+            product_id: product.product_id,
+          })
+        );
+        Swal.fire("Hoàn thành!", "Đã xóa sản phẩm này", "success");
+        getData();
+      }
+    });
+  };
+
+  const handleAccept = (product: any) => {
+    Swal.fire({
+      title: "Xác nhận",
+      text: "Duyệt sản phẩm này",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Xác nhận",
+      cancelButtonText: "Hủy bỏ",
+    }).then((result) => {
+      if (result.isConfirmed) {
         const request = {
           emailAdmin: user.email,
           idAdmin: user.user_id,
-          idUser: id,
+          listProduct: [
+            {
+              product_id: product.product_id,
+              owner_id: product.owner_id,
+            },
+          ],
         };
-        const response = dispatch(removeUser(request));
-        Swal.fire("Hoàn thành!", "Đã xóa sản phẩm này", "success");
+        const response = dispatch(acceptProduct(request));
+        Swal.fire("Hoàn thành!", "Đã duyệt", "success");
         getData();
       }
     });
@@ -130,7 +165,7 @@ export default function AdminManageProducts() {
                     <div style={{ display: "flex", gap: "16px" }}>
                       <Button
                         variant="outlined"
-                        onClick={() => handleRemove(user.user_id)}
+                        onClick={() => handleAccept(product)}
                       >
                         Duyệt
                       </Button>
@@ -171,7 +206,7 @@ export default function AdminManageProducts() {
                   <div style={{ display: "flex", gap: "16px" }}>
                     <Button
                       variant="outlined"
-                      onClick={() => handleRemove(user.user_id)}
+                      onClick={() => handleRemove(product)}
                     >
                       Xóa
                     </Button>

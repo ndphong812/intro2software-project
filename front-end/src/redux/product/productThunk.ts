@@ -120,3 +120,48 @@ export const getWaitingProducts = createAsyncThunk(
     }
   }
 );
+
+export const acceptProduct = createAsyncThunk(
+  "product/accepts",
+  async (request: any) => {
+    try {
+      const response = await axios.post(
+        `${REACT_APP_ROOT_API}/product/acceptListProduct`,
+        request
+      );
+      return response.data;
+    } catch (error: any) {
+      throw error.response.data;
+    }
+  }
+);
+
+export const adminRemoveProduct = createAsyncThunk(
+  "product/admin-remove",
+  async (request: any) => {
+    try {
+      const response = await axios.post(
+        `${REACT_APP_ROOT_API}/product/acceptListProduct`,
+        request
+      );
+      return response.data;
+    } catch (error: any) {
+      throw error.response.data;
+    }
+  }
+);
+
+export const historyUser = createAsyncThunk(
+  "product/history-user",
+  async (request: any) => {
+    try {
+      const response = await axios.post(
+        `${REACT_APP_ROOT_API}/order/history`,
+        request
+      );
+      return response.data;
+    } catch (error: any) {
+      throw error.response.data;
+    }
+  }
+);

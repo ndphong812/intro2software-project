@@ -1,20 +1,25 @@
 import { Router } from "express";
-import APIProduct from "../controllers/ProductController"
-import {checkAdmin} from "../middleware/checkAdmin";
-import {checkSeller} from "../middleware/checkSeller";
+import APIProduct from "../controllers/ProductController";
+import { checkAdmin } from "../middleware/checkAdmin";
+import { checkSeller } from "../middleware/checkSeller";
 
 const router = Router();
 
 // for admin
-router.get("/listNeedAccept/:emailAdmin/:idAdmin", checkAdmin, APIProduct.getProductNoAccept);
+router.get(
+  "/listNeedAccept/:emailAdmin/:idAdmin",
+  checkAdmin,
+  APIProduct.getProductNoAccept
+);
 router.post("/acceptListProduct", checkAdmin, APIProduct.acceptListProduct);
 
 //for seller
-router.post("/request", checkSeller, APIProduct.productSellerRequest);  // all product need to accept
-router.post("/seller", APIProduct.productSellerAccepted);  // all product accepted by admin
+router.post("/request", checkSeller, APIProduct.productSellerRequest); // all product need to accept
+router.post("/seller", APIProduct.productSellerAccepted); // all product accepted by admin
 router.post("/add", checkSeller, APIProduct.add);
 router.post("/update", checkSeller, APIProduct.update);
-router.post("/delete", checkSeller, APIProduct.delete);
+// router.post("/delete", checkSeller, APIProduct.delete);
+router.post("/delete", APIProduct.delete);
 
 //for user
 router.post("/search", APIProduct.search);

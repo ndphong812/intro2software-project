@@ -61,6 +61,7 @@ export default function AdminManageUsers() {
 
   const [users, setUsers] = useState<any>([]);
 
+  console.log("users", users);
   const getData = async () => {
     const request = {
       emailAdmin: user.email,
@@ -228,7 +229,7 @@ export default function AdminManageUsers() {
               <StyledTableRow key={index}>
                 <StyledTableCell sx={{ width: "10%" }}>{index}</StyledTableCell>
                 <StyledTableCell>
-                  {user.name ? user.name : "Chưa cập nhật"}
+                  {user.fullname ? user.fullname : "Chưa cập nhật"}
                 </StyledTableCell>
                 <StyledTableCell>{user.email}</StyledTableCell>
                 <StyledTableCell>

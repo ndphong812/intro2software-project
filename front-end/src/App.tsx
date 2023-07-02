@@ -25,6 +25,7 @@ import Checkout from 'pages/checkout';
 import ManageProduct from 'pages/manage-product';
 import OrderSeller from 'components/orders-seller';
 import HistorySeller from "pages/history-seller";
+import OrderUser from "pages/order-user";
 // import Chat from './pages/chat/app';
 
 function PrivateRoute({ children, authRequired }: any) {
@@ -135,6 +136,7 @@ const App = () => {
           <Route path="account" element={<ApplicationPage />} />
           <Route path="change-password" element={<ChangePassword />} />
           <Route path="cart" element={<Cart />} />
+          <Route path="order" element={<OrderUser />} />
         </Route>
         <Route
           path="/my-shop"
